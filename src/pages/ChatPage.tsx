@@ -1,5 +1,11 @@
 import React from 'react';
-const ChatPage = () => {
-  return <div>로그인</div>;
+interface Props {
+  letter: string;
+}
+const ChatPage = ({ letter }: Props) => {
+  return <div>{letter}</div>;
+};
+ChatPage.defaultProps = {
+  letter: '채팅페이지'
 };
 export default ChatPage;
