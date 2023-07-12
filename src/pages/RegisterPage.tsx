@@ -2,10 +2,28 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 const StyledInput = styled.input`
-  line-height: 30px;
+  height: 30px;
+  border-color: grey;
+  border-width: 2px;
+  border-style: solid;
 `;
 const StyledLabel = styled.label`
   font-weight: bold;
+`;
+const StyledButton = styled.button`
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.25rem 1rem;
+  color: white;
+  outline: none;
+  cursor: pointer;
+
+  background-color: #5b5bfa;
+  &:hover {
+    background-color: blue;
+  }
 `;
 const RegisterPage = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
@@ -48,15 +66,13 @@ const RegisterPage = () => {
                 <input type="radio" name="gender" />
                 여자
               </StyledLabel>
-              <StyledLabel>
-                <input type="radio" name="gender" />
-                선택안함
-              </StyledLabel>
             </div>
           </div>
-          <button type="submit">가입</button>
-          <button type="reset">초기화</button>
-          <button onClick={() => modalRef?.current?.close()}>닫기</button>
+          <StyledButton type="submit">가입</StyledButton>
+          <StyledButton type="reset">초기화</StyledButton>
+          <StyledButton onClick={() => modalRef?.current?.close()}>
+            닫기
+          </StyledButton>
         </form>
       </dialog>
     </div>
