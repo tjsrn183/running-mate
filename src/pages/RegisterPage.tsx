@@ -1,67 +1,64 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 
-const StyledDialog = styled.dialog`
-  background-color: white;
-  padding: 30px;
-  width: 80%;
-  max-width: 500px;
-  margin: auto;
+const StyledInput = styled.input`
+  line-height: 30px;
+`;
+const StyledLabel = styled.label`
+  font-weight: bold;
 `;
 const RegisterPage = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
   return (
     <div>
       <button onClick={() => modalRef?.current?.showModal()}>회원가입</button>
-      <StyledDialog ref={modalRef}>
+      <dialog ref={modalRef}>
         <form>
-          <div className="field">
+          <h1>회원가입</h1>
+          <StyledLabel htmlFor="user_id">
             <p>아이디</p>
-            <span className="placehold-text">
-              <input type="text" />
-            </span>
-          </div>
-          <div className="field">
+          </StyledLabel>
+          <StyledInput type="text" id="user_id" />
+          <StyledLabel htmlFor="user_password">
             <p>비밀번호</p>
-            <input className="userpw" type="password" />
-          </div>
-          <div className="field">
-            <p>비밀번호 재확인</p>
-            <input className="userpw-confirm" type="password" />
-          </div>
-          <div className="field">
+          </StyledLabel>
+          <StyledInput type="password" />
+          <StyledLabel htmlFor="check_user_password">
+            <p>비밀번호재확인</p>
+          </StyledLabel>
+          <StyledInput type="password" id="check_user_password" />
+          <StyledLabel htmlFor="name">
             <p>이름</p>
-            <input type="text" />
-          </div>
-          <div className="field birth">
+          </StyledLabel>
+          <StyledInput type="text" id="name" />
+          <StyledLabel htmlFor="birthday">
             <p>생년월일</p>
-            <div>
-              <input type="date" placeholder="년(4자)" />
-            </div>
-          </div>
-
+          </StyledLabel>
+          <StyledInput type="date" />
           <div className="field gender">
-            <p>성별</p>
+            <StyledLabel>
+              <p>성별</p>
+            </StyledLabel>
             <div>
-              <label>
+              <StyledLabel>
                 <input type="radio" name="gender" />
                 남자
-              </label>
-              <label>
+              </StyledLabel>
+              <StyledLabel>
                 <input type="radio" name="gender" />
                 여자
-              </label>
-              <label>
+              </StyledLabel>
+              <StyledLabel>
                 <input type="radio" name="gender" />
                 선택안함
-              </label>
+              </StyledLabel>
             </div>
           </div>
           <button type="submit">가입</button>
           <button type="reset">초기화</button>
           <button onClick={() => modalRef?.current?.close()}>닫기</button>
         </form>
-      </StyledDialog>
+      </dialog>
     </div>
   );
 };
