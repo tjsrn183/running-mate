@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import ChatPage from './pages/ChatPage';
-import CommunityPage from './pages/CommunityPage';
+import ChatPage from './components/ChatPage';
+import CommunityPage from './components/CommunityPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
-import MyInfoPage from './pages/MyInfoPage';
-import NoticeCommunityPage from './pages/NoticeCommunityPage';
-import RegisterPage from './pages/RegisterPage';
-import RegisterRunPage from './pages/RegisterRunPage';
-import RunItemDetailModalPage from './pages/RunItemDetailModalPage';
+import MyInfoPage from './components/MyInfoPage';
+import NoticeCommunityPage from './components/NoticeCommunityPage';
+import RegisterPage from './components/RegisterPage';
+import RegisterRunPage from './components/RegisterRunPage';
+import RunItemDetailModalPage from './pages/RunItemDetailPage';
 import './App.css';
 
 const App = () => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import RegisterPage from './RegisterPage';
+import RegisterPage from '../components/RegisterPage';
 import styled from 'styled-components';
-import MyInfoPage from './MyInfoPage';
-import ChatPage from './ChatPage';
+import MyInfoPage from '../components/MyInfoPage';
+import ChatPage from '../components/ChatPage';
 import login from './LoginPage';
 
 const MainPage = () => {
