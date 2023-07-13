@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import kakao from '../assets/kakao';
+import kakao from '../assets/kakao/kakao_login_medium.png';
+import { Link } from 'react-router-dom';
+import RegisterPage from './RegisterPage';
 
 const StyledBackground = styled.div`
   position: absolute;
@@ -50,13 +52,10 @@ const Login = () => {
             <p>로그인</p>
           </StyledButton>
           <br />
+          <RegisterPage />
+          <p />
           <StyledNoBorderButton>
-            <p>회원가입</p>
-            <p>
-              <button>
-                <img src="kakao" alt="카카오로그인" />
-              </button>
-            </p>
+            <img src={kakao} alt="카카오로그인" />
           </StyledNoBorderButton>
         </SyledLoginDiv>
       </StyledBackground>
