@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import kakao from '../assets/kakao';
 
 const StyledBackground = styled.div`
   position: absolute;
@@ -51,6 +52,11 @@ const Login = () => {
           <br />
           <StyledNoBorderButton>
             <p>회원가입</p>
+            <p>
+              <button>
+                <img src="kakao" alt="카카오로그인" />
+              </button>
+            </p>
           </StyledNoBorderButton>
         </SyledLoginDiv>
       </StyledBackground>
