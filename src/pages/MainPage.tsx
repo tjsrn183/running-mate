@@ -4,6 +4,7 @@ import RegisterPage from './RegisterPage';
 import styled from 'styled-components';
 import MyInfoPage from './MyInfoPage';
 import ChatPage from './ChatPage';
+import login from './LoginPage';
 
 const MainPage = () => {
   return (
@@ -12,6 +13,7 @@ const MainPage = () => {
       <RegisterPage />
       <MyInfoPage />
       <ChatPage />
+      <Link to="/login">로그인</Link>
     </div>
   );
 };
