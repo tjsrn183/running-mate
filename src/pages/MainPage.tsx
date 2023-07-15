@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import RegisterPage from '../components/RegisterPage';
+import RegisterPage from './RegisterPage';
 import styled from 'styled-components';
 import MyInfoPage from '../components/MyInfoPage';
 import ChatPage from '../components/ChatPage';

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import kakao from '../assets/kakao/kakao_login_medium.png';
 import { Link } from 'react-router-dom';
-import RegisterPage from '../components/RegisterPage';
+import RegisterPage from './RegisterPage';
 
 const StyledBackground = styled.div`
   position: absolute;
