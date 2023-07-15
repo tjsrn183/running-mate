@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import kakao from '../assets/kakao/kakao_login_medium.png';
 import { Link } from 'react-router-dom';
-import RegisterPage from './RegisterPage';
 
 const StyledBackground = styled.div`
   position: absolute;
@@ -34,7 +33,8 @@ const StyledNoBorderButton = styled.button`
   border: none;
   background-color: white;
 `;
-const Login = () => {
+
+const LoginPage = () => {
   return (
     <div>
       <StyledBackground>
@@ -52,14 +52,18 @@ const Login = () => {
             <p>로그인</p>
           </StyledButton>
           <br />
-          <RegisterPage />
+          <Link to="/RegisterPage2">회원가입</Link>
           <p />
           <StyledNoBorderButton>
-            <img src={kakao} alt="카카오로그인" />
+            <img
+              src="/kakao_login_medium.png"
+              className="kakaoLogin"
+              alt="카카오로그인"
+            />
           </StyledNoBorderButton>
         </SyledLoginDiv>
       </StyledBackground>
     </div>
   );
 };
-export default Login;
+export default LoginPage;

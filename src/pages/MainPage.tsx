@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import RegisterPage from './RegisterPage';
-import styled from 'styled-components';
 import MyInfoPage from '../components/MyInfoPage';
 import ChatPage from '../components/ChatPage';
-import login from './LoginPage';
 
 const MainPage = () => {
   return (
@@ -13,7 +11,10 @@ const MainPage = () => {
       <RegisterPage />
       <MyInfoPage />
       <ChatPage />
+
       <Link to="/login">로그인</Link>
+      <p />
+      <Link to="/RegisterPage2">회원가입</Link>
     </div>
   );
 };

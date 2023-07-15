@@ -9,6 +9,7 @@ import NoticeCommunityPage from './pages/NoticeCommunityPage';
 import RegisterPage from './pages/RegisterPage';
 import RegisterRunPage from './pages/RegisterRunPage';
 import RunItemDetailModalPage from './pages/RunItemDetailPage';
+import RegisterPage2 from './pages/RegisterPage2';
 import './App.css';
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/registerRun" element={<RegisterRunPage />} />
       <Route path="/runItemDetail" element={<RunItemDetailModalPage />} />
+      <Route path="/RegisterPage2" element={<RegisterPage2 />} />
     </Routes>
   );
 };
