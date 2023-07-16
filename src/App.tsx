@@ -1,11 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ChatPage from './components/ChatPage';
-import CommunityPage from './pages/CommunityPage';
+import CommunityWritePage from './pages/CommunityPage/WritePage';
+import CommunityPostListPage from './pages/CommunityPage/PostListPage';
+import CommunityPostPage from './pages/CommunityPage/PostPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import MyInfoPage from './components/MyInfoPage';
-import NoticeCommunityPage from './pages/NoticeCommunityPage';
 import RegisterPage from './pages/RegisterPage';
 import RegisterRunPage from './pages/RegisterRunPage';
 import RunItemDetailModalPage from './pages/RunItemDetailPage';
@@ -17,10 +18,11 @@ const App = () => {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/chat" element={<ChatPage />} />
-      <Route path="/community" element={<CommunityPage />} />
+      <Route path="/communityWrite" element={<CommunityWritePage />} />
+      <Route path="/communityPostPage" element={<CommunityPostPage />} />
+      <Route path="/communityPostList" element={<CommunityPostListPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/myInfo" element={<MyInfoPage />} />
-      <Route path="/noticeCommunity" element={<NoticeCommunityPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/registerRun" element={<RegisterRunPage />} />
       <Route path="/runItemDetail" element={<RunItemDetailModalPage />} />

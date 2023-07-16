@@ -15,6 +15,9 @@ const MainPage = () => {
       <Link to="/login">로그인</Link>
       <p />
       <Link to="/RegisterPage2">회원가입</Link>
+      <p />
+      <Link to="/communityPostList">커뮤니티</Link>
+      <p />
     </div>
   );
 };
