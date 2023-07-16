@@ -32,6 +32,10 @@ const StyledButton = styled.button`
 const StyledNoBorderButton = styled.button`
   border: none;
   background-color: white;
+  &:hover {
+    filter: brightness(110%);
+    cursor: pointer;
+  }
 `;
 
 const LoginPage = () => {
@@ -56,7 +60,7 @@ const LoginPage = () => {
           <p />
           <StyledNoBorderButton>
             <img
-              src="/kakao_login_medium.png"
+              src={'/kakao_login_medium.png'}
               className="kakaoLogin"
               alt="카카오로그인"
             />
