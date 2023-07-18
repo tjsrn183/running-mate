@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const StyledMapBlock = styled.div`
@@ -35,12 +35,25 @@ const RegisterItem = styled.button`
 `;
 
 const Map = () => {
+  const [numberOfItems, setNumberOfItems] = useState(1);
+
+  const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const RegisterNumber = Number(e.target.value);
+    setNumberOfItems(RegisterNumber);
+  };
   return (
     <StyledMapBlock>
       <MapBlock />
       <Course>
         <CourseInput placeholder="출발지를 입력하세요" />
         <CourseInput placeholder="도착지를 입력하세요" />
+        <CourseInput
+          type="number"
+          min="0"
+          max="20"
+          value={numberOfItems}
+          onChange={onChangeRegister}
+        />
       </Course>
       <RegisterItem>등록하기</RegisterItem>
       <RunInfo>
