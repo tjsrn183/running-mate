@@ -2,32 +2,46 @@ import React from 'react';
 import styled from 'styled-components';
 
 const DetailItemBlock = styled.div`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(6, 1fr);
+  display: flex;
 `;
-const ItemBlock = styled.div`
-  grid-column: 5/6;
-  grid-row: 2/3;
+const SumInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 900px;
+  align-items: center;
+  justify-content: center;
 `;
-const MapBlock = styled.div`
-  grid-column: 2/4;
-  grid-row: 2/5;
-`;
-const InfoBlock = styled.div`
-  grid-column: 2/4;
-  grid-row: 4/5;
-`;
+const SmallMap = styled.div``;
+const PersonInfo = styled.div``;
 const StartChat = styled.button``;
-
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  height: 1600px;
+  align-items: center;
+`;
+const BigMap = styled.div`
+  background-color: yellow;
+  width: 500px;
+  height: 300px;
+`;
+const ItemInfo = styled.div``;
 const ItemDetail = () => {
   return (
     <DetailItemBlock>
-      <ItemBlock>
-        <MapBlock>지도 들어갈자리</MapBlock>
-        <InfoBlock>정보들어갈자리</InfoBlock>
+      <SumInfo>
+        <PersonInfo>정보들어갈자리</PersonInfo>
+        <SmallMap>작은지도 들어갈자리</SmallMap>
         <StartChat>채팅시작하기</StartChat>
-      </ItemBlock>
+      </SumInfo>
+      <Main>
+        <BigMap>큰지도 들어갈자리</BigMap>
+        <ItemInfo>
+          출발시간 : 10시 도착시간 : 11시 예상소요시간 : 30분 메모: 사랑합니다
+        </ItemInfo>
+      </Main>
     </DetailItemBlock>
   );
 };
