@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-import palette from '../lib/styles/palette';
+import palette from '../../lib/styles/palette';
 
 const StyledButton = styled.button`
   border: ${palette.orange};
@@ -22,8 +22,10 @@ interface ButtonProps {
   children?: React.ReactNode;
 }
 
-const CustomButton = ({ children, onClick }: ButtonProps) => (
-  <StyledButton onClick={onClick}>{children}</StyledButton>
+const CustomButton = ({ children, onClick, ...rest }: ButtonProps) => (
+  <StyledButton onClick={onClick} {...rest}>
+    {children}
+  </StyledButton>
 );
 
 export default CustomButton;

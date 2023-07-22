@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import palette from '../lib/styles/palette';
+import palette from '../../lib/styles/palette';
 import CustomButton from './CustomButton';
+import { Link } from 'react-router-dom';
+
 const HeaderBlock = styled.header`
   position: fixed;
   width: 100%;
@@ -31,21 +33,29 @@ const LogoLetter = styled.div`
   flex-shrink: 0;
 `;
 
-const LoginButton = styled(CustomButton)``;
+const LoginButton = styled(CustomButton)`
+  margin: 10px;
+`;
 const RegisterButton = styled(CustomButton)`
   color: ${palette.orange};
   background-color: white;
+  &:hover {
+    background-color: ${palette.hover_gray};
+  }
 `;
 
 const Category = styled.ul`
   display: flex;
   list-style: none;
+  flex-shrink: 0;
   li {
     padding: 8px;
     color: ${palette.orange};
     font-weight: bold;
     font-family: 'Noto Sans KR', sans-serif;
-    flex-shrink: 0;
+    &:hover {
+      color: ${palette.hover_orange};
+    }
   }
 `;
 const Right = styled.div`
@@ -63,11 +73,19 @@ const Header = () => {
           </LogoLetter>
           <Right>
             <Category>
-              <li>러닝등록</li>
-              <li>커뮤니티</li>
+              <li>
+                <Link to="/registerRun">러닝등록</Link>
+              </li>
+              <li>
+                <Link to="/communityPostList">커뮤니티</Link>
+              </li>
             </Category>
-            <LoginButton>로그인</LoginButton>
-            <RegisterButton>회원가입</RegisterButton>
+            <LoginButton>
+              <Link to="/login">로그인</Link>
+            </LoginButton>
+            <RegisterButton>
+              <Link to="/RegisterPage">회원가입</Link>
+            </RegisterButton>
           </Right>
         </Wrapper>
       </HeaderBlock>
