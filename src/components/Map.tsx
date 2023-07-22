@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import palette from '../styles/palette';
+
 const StyledMapBlock = styled.div`
-  background-color: ${palette.grass};
   position: absolute;
   left: 100px;
   bottom: 100px;

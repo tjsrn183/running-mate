@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import React from 'react';
+import palette from '../lib/styles/palette';
 
 const StyledButton = styled.button`
-  border: none;
+  border: ${palette.orange};
   border-radius: 4px;
   font-size: 1rem;
   font-weight: bold;
@@ -10,10 +11,10 @@ const StyledButton = styled.button`
   color: white;
   outline: none;
   cursor: pointer;
-
-  background-color: black;
+  flex-shrink: 0;
+  background-color: ${palette.orange};
   &:hover {
-    background-color: gray;
+    background-color: ${palette.hover_orange};
   }
 `;
 interface ButtonProps {
@@ -21,8 +22,8 @@ interface ButtonProps {
   children?: React.ReactNode;
 }
 
-const Button = ({ children, onClick }: ButtonProps) => (
+const CustomButton = ({ children, onClick }: ButtonProps) => (
   <StyledButton onClick={onClick}>{children}</StyledButton>
 );
 
-export default Button;
+export default CustomButton;

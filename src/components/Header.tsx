@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import palette from '../styles/palette';
-
-import button from './Button';
+import palette from '../lib/styles/palette';
+import CustomButton from './CustomButton';
 const HeaderBlock = styled.header`
-  background-color: ${palette.sky};
   position: fixed;
   width: 100%;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
@@ -15,17 +13,41 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 10px;
+  padding-left: 10px;
 `;
 
 const Space = styled.div`
   height: 4rem;
 `;
-const Logo = styled.img`
-  width: 100px;
-  height: 65px;
+const Logo = styled.i`
+  color: ${palette.orange};
+  font-size: 36px;
 `;
-const LoginButton = styled(button)``;
-const Category = styled.div``;
+const LogoLetter = styled.div`
+  color: ${palette.orange};
+  font-weight: 900;
+  font-size: 36px;
+  font-family: 'Jua', sans-serif;
+  flex-shrink: 0;
+`;
+
+const LoginButton = styled(CustomButton)``;
+const RegisterButton = styled(CustomButton)`
+  color: ${palette.orange};
+  background-color: white;
+`;
+
+const Category = styled.ul`
+  display: flex;
+  list-style: none;
+  li {
+    padding: 8px;
+    color: ${palette.orange};
+    font-weight: bold;
+    font-family: 'Noto Sans KR', sans-serif;
+    flex-shrink: 0;
+  }
+`;
 const Right = styled.div`
   display: flex;
   align-items: center;
@@ -36,10 +58,16 @@ const Header = () => {
     <>
       <HeaderBlock>
         <Wrapper>
-          <Logo src="/Daegu Run - MarkMaker Logo.png" />
+          <LogoLetter>
+            <Logo className="material-symbols-rounded">steps</Logo>대구런
+          </LogoLetter>
           <Right>
-            <Category>커뮤니티</Category>
+            <Category>
+              <li>러닝등록</li>
+              <li>커뮤니티</li>
+            </Category>
             <LoginButton>로그인</LoginButton>
+            <RegisterButton>회원가입</RegisterButton>
           </Right>
         </Wrapper>
       </HeaderBlock>

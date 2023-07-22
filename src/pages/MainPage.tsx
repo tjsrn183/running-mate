@@ -9,7 +9,6 @@ const MainPage = () => {
   return (
     <div>
       <Header />
-      <div>메인페이지</div>
 
       <ChatPage />
 
