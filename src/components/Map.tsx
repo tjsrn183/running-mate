@@ -12,7 +12,7 @@ const StyledMapBlock = styled.div`
   grid-template-rows: repeat(7, 1fr);
 `;
 const MapBlock = styled.div`
-  background-color: white;
+  background-color: black;
   grid-column: 2/6;
   grid-row: 2/7;
 `;
