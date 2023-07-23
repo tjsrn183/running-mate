@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import kakao from '../assets/kakao/kakao_login_medium.png';
 import { Link } from 'react-router-dom';
+import Header from '../components/common/Header';
 
 const StyledBackground = styled.div`
   position: absolute;
@@ -9,7 +9,7 @@ const StyledBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: black;
+  background: url(./login_background.jpg) no-repeat center;
 `;
 const SyledLoginDiv = styled.div`
   position: absolute;
@@ -42,6 +42,7 @@ const LoginPage = () => {
   return (
     <div>
       <StyledBackground>
+        <Header />
         <SyledLoginDiv>
           <h1>Login</h1>
           <StyledInput type="text" id="user_id" placeholder="아이디" />
