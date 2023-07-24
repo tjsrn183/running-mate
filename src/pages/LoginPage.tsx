@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Header from '../components/common/Header';
+import palette from '../lib/styles/palette';
 
 const StyledBackground = styled.div`
   position: absolute;
@@ -10,6 +11,9 @@ const StyledBackground = styled.div`
   width: 100%;
   height: 100%;
   background: url(./login_background.jpg) no-repeat center;
+  h1 {
+    color: white;
+  }
 `;
 const SyledLoginDiv = styled.div`
   position: absolute;
@@ -20,6 +24,7 @@ const SyledLoginDiv = styled.div`
   border: none;
   text-align: center;
   transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.6);
 `;
 const StyledInput = styled.input`
   width: 300px;
@@ -31,6 +36,10 @@ const StyledButton = styled.button`
 `;
 const StyledNoBorderButton = styled.button`
   border: none;
+
+  padding: 0;
+  border-radius: 12px;
+
   background-color: white;
   &:hover {
     filter: brightness(110%);
@@ -44,7 +53,7 @@ const LoginPage = () => {
       <StyledBackground>
         <Header />
         <SyledLoginDiv>
-          <h1>Login</h1>
+          <h1>로그인</h1>
           <StyledInput type="text" id="user_id" placeholder="아이디" />
           <p />
           <StyledInput

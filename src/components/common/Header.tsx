@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 const HeaderBlock = styled.header`
   position: fixed;
   width: 100%;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  background-color: white;
 `;
 const Wrapper = styled.div`
   height: 2rem;
@@ -18,9 +20,6 @@ const Wrapper = styled.div`
   padding-left: 10px;
 `;
 
-const Space = styled.div`
-  height: 4rem;
-`;
 const Logo = styled.i`
   color: ${palette.orange};
   font-size: 36px;
@@ -89,7 +88,6 @@ const Header = () => {
           </Right>
         </Wrapper>
       </HeaderBlock>
-      <Space />
     </>
   );
 };
