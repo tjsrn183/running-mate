@@ -68,7 +68,9 @@ const Header = () => {
       <HeaderBlock>
         <Wrapper>
           <LogoLetter>
-            <Logo className="material-symbols-rounded">steps</Logo>대구런
+            <Link to="/">
+              <Logo className="material-symbols-rounded">steps</Logo>대구런
+            </Link>
           </LogoLetter>
           <Right>
             <Category>
