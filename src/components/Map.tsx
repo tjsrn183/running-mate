@@ -16,7 +16,7 @@ const StyledMapBlock = styled.div`
 const MapBlock = styled.div`
   background-color: black;
   grid-column: 2/5;
-  grid-row: 1/6;
+  grid-row: 1/7;
 `;
 const EditorBlock = styled.div`
   height: 500px;
@@ -35,6 +35,15 @@ const Course = styled.div`
   grid-row: 1/2;
   padding: 0px 16px 0px 9px;
 `;
+const StartBlock = styled.div`
+  margin: 0 0 0 10px;
+`;
+const StartDateTime = styled.input`
+  border-radius: 4px;
+  height: 30px;
+
+  grid-row: 2/3;
+`;
 const CourseInput = styled.input`
   width: 100%;
   height: 30px;
@@ -44,8 +53,8 @@ const DistanceItem = styled(CustomButton)`
   color: ${palette.orange};
   background-color: ${palette.back_ground_orange};
   padding: 10px 100px;
-  margin: 10px 10px;
-  grid-row: 2/3;
+  margin: 10px 10px 3px 10px;
+  grid-row: 3/4;
   &:hover {
     background-color: ${palette.hover_gray};
   }
@@ -57,7 +66,7 @@ const RunInfo = styled.div`
   background-color: ${palette.back_ground_orange};
   padding: 20px;
   border-radius: 10px;
-  grid-row: 3/4;
+  grid-row: 4/5;
   h3 {
     color: black;
   }
@@ -88,7 +97,7 @@ const Map = () => {
           <br />
           <CourseInput placeholder="도착지를 입력하세요" />
           <br />
-          참여인원
+          <p>참여인원</p>
           <CourseInput
             type="number"
             min="0"
@@ -97,11 +106,14 @@ const Map = () => {
             onChange={onChangeRegister}
           />
         </Course>
+        <StartBlock>
+          <p>출발시간</p>
+          <StartDateTime type="datetime-local" />
+        </StartBlock>
 
         <DistanceItem>거리보기</DistanceItem>
         <br />
         <RegisterItem>등록하기</RegisterItem>
-
         <RunInfo>
           <p>
             거리<h3>8km</h3>

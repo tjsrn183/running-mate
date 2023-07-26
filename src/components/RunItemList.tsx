@@ -4,6 +4,14 @@ import styled from 'styled-components';
 
 const StyledItemBlock = styled.div`
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.5);
+  }
 `;
 const StyledListBlock = styled.div`
   display: grid;
