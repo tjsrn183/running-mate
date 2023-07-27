@@ -8,12 +8,11 @@ const Container = styled.div``;
 const AsideBlock = styled.aside`
   position: fixed;
   top: 90px;
-  right: 500px;
+  right: calc((100% - 900px) / 2);
   width: 300px;
   height: 450px;
   background-color: ${palette.back_ground_orange};
   display: flex;
-
   flex-direction: column;
   h4 {
     color: ${palette.orange};
