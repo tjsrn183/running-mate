@@ -13,7 +13,6 @@ const AsideBlock = styled.aside`
   height: 450px;
   background-color: ${palette.back_ground_orange};
   display: flex;
-  max-height: calc(100vh - 90px);
 
   flex-direction: column;
   h4 {
@@ -87,6 +86,7 @@ const ItemDetail = () => {
         </UserInfo>
         <ClientWriting />
       </Main>
+
       <AsideBlock>
         <div className="itemInfo">
           <h4>출발시간</h4>
