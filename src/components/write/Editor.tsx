@@ -1,6 +1,6 @@
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const TitleInput = styled.input`
@@ -12,9 +12,14 @@ const TitleInput = styled.input`
   margin-bottom: 2rem;
   width: 100%;
 `;
-
-const Wrapper = styled.div`
+interface WrapperProps {
+  height?: string;
+  width?: string;
+}
+const Wrapper = styled.div<WrapperProps>`
   padding-left: 10px;
+  height: ${(props) => props.height};
+  width: ${(props) => props.width};
 
   .ql-toolbar {
     background-color: #fffbdb;
@@ -26,8 +31,11 @@ const Wrapper = styled.div`
     line-height: 1.5;
   }
 `;
-
-const Editor = () => {
+interface EditorProps {
+  height?: string;
+  width?: string;
+}
+const Editor: React.FC<EditorProps> = ({ height, width }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
 
@@ -47,12 +55,10 @@ const Editor = () => {
   }, []);
 
   return (
-    <form>
-      <Wrapper>
-        <TitleInput placeholder="제목을 입력하세요.." />
-        <div ref={quillElement} />
-      </Wrapper>
-    </form>
+    <Wrapper height={height} width={width}>
+      <TitleInput placeholder="제목을 입력하세요.." />
+      <div ref={quillElement} />
+    </Wrapper>
   );
 };
 export default Editor;
