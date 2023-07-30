@@ -1,6 +1,6 @@
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 const TitleInput = styled.input`
@@ -12,12 +12,13 @@ const TitleInput = styled.input`
   margin-bottom: 2rem;
   width: 100%;
 `;
-interface WrapperProps {
-  height?: string;
-}
-const Wrapper = styled.div<WrapperProps>`
+
+const Wrapper = styled.div`
   padding-left: 10px;
-  height: ${(props) => props.height};
+
+  .ql-toolbar {
+    background-color: #fffbdb;
+  }
   .ql-editor {
     padding: 0;
     min-height: 320px;
@@ -25,25 +26,33 @@ const Wrapper = styled.div<WrapperProps>`
     line-height: 1.5;
   }
 `;
-interface EditorProps {
-  height?: string;
-}
-const Editor: React.FC<EditorProps> = ({ height }) => {
+
+const Editor = () => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
 
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
       theme: 'snow',
-      placeholder: '내용을 작성하세요..'
+      placeholder: '내용을 작성하세요..',
+      modules: {
+        toolbar: [
+          [{ header: '1' }, { header: '2' }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['blockquote', 'code-block', 'link', 'image']
+        ]
+      }
     });
   }, []);
 
   return (
-    <Wrapper height={height}>
-      <TitleInput placeholder="제목을 입력하세요.." />
-      <div ref={quillElement} />
-    </Wrapper>
+    <form>
+      <Wrapper>
+        <TitleInput placeholder="제목을 입력하세요.." />
+        <div ref={quillElement} />
+      </Wrapper>
+    </form>
   );
 };
 export default Editor;

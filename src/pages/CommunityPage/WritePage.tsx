@@ -1,9 +1,10 @@
 import React from 'react';
 import Editor from '../../components/write/Editor';
+import Header from '../../components/common/Header';
 const CommunityWritePage = () => {
   return (
     <div>
-      커뮤니티페이지
+      <Header />
       <Editor />
     </div>
   );

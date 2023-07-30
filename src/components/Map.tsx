@@ -10,7 +10,7 @@ const StyledMapBlock = styled.div`
   width: 100%;
   height: 700px;
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(7, 1fr);
 `;
 const MapBlock = styled.div`
@@ -19,14 +19,14 @@ const MapBlock = styled.div`
   grid-row: 1/7;
 `;
 const EditorBlock = styled.div`
-  height: 500px;
-  grid-column: 5/7;
+  grid-column: 5/8;
   grid-row: 1/6;
 `;
+
 const CourseBlock = styled.div`
   border-radius: 4px;
   margin-left: 10px;
-  grid-column: 7/9;
+  grid-column: 8/10;
   grid-row: 1/6;
   display: grid;
   grid-template-rows: repeat(5, 1fr);
@@ -80,7 +80,7 @@ const RegisterItem = styled(CustomButton)`
 
 const Map = () => {
   const [numberOfItems, setNumberOfItems] = useState(1);
-  const editorHeight = '380px';
+
   const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
     const RegisterNumber = Number(e.target.value);
     setNumberOfItems(RegisterNumber);
@@ -89,7 +89,7 @@ const Map = () => {
     <StyledMapBlock>
       <MapBlock />
       <EditorBlock>
-        <Editor height={editorHeight} />
+        <Editor />
       </EditorBlock>
       <CourseBlock>
         <Course>

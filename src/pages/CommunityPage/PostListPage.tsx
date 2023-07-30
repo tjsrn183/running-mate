@@ -1,10 +1,11 @@
 import React from 'react';
 import PostList from '../../components/post/PostList';
+import Header from '../../components/common/Header';
 
 const PostListPage = () => {
   return (
     <div>
-      포스트리스트페이지
+      <Header />
       <PostList />
     </div>
   );

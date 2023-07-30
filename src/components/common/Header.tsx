@@ -61,7 +61,9 @@ const Right = styled.div`
   display: flex;
   align-items: center;
 `;
-
+const Spacer = styled.div`
+  height: 4rem;
+`;
 const Header = () => {
   return (
     <>
@@ -90,6 +92,7 @@ const Header = () => {
           </Right>
         </Wrapper>
       </HeaderBlock>
+      <Spacer />
     </>
   );
 };

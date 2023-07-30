@@ -31,7 +31,7 @@ const Main = styled.div`
   flex-direction: column;
   width: 650px;
   margin: 0 auto;
-  padding-top: 90px;
+  padding-top: 30px;
   transform: translate(-200px);
 `;
 const BigMap = styled.div`

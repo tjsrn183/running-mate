@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Header from '../components/common/Header';
 import palette from '../lib/styles/palette';
+import CustomButton from '../components/common/CustomButton';
 
 const StyledBackground = styled.div`
   position: absolute;
@@ -30,8 +31,8 @@ const StyledInput = styled.input`
   width: 300px;
   height: 40px;
 `;
-const StyledButton = styled.button`
-  width: 300px;
+const StyledButton = styled(CustomButton)`
+  width: 100%;
   height: 50px;
 `;
 const StyledNoBorderButton = styled.button`
@@ -62,11 +63,9 @@ const LoginPage = () => {
             placeholder="비밀번호"
           />
           <p />
-          <StyledButton>
-            <p>로그인</p>
-          </StyledButton>
+          <StyledButton>로그인</StyledButton>
           <br />
-          <Link to="/RegisterPage2">회원가입</Link>
+          <Link to="/RegisterPage">회원가입</Link>
           <p />
           <StyledNoBorderButton>
             <img
