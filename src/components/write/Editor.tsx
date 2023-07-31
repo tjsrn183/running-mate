@@ -1,6 +1,6 @@
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 const TitleInput = styled.input`

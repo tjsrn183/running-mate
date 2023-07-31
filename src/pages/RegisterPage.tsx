@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 import Header from '../components/common/Header';
 import CustomButton from '../components/common/CustomButton';
-import palette from '../lib/styles/palette';
+
 const EntireDiv = styled.div`
   position: absolute;
   top: 0;
@@ -64,6 +64,12 @@ const RegisterPage = () => {
           이름
           <br />
           <StyledInput placeholder="이름" />
+        </label>
+        <p />
+        <label>
+          전화번호
+          <br />
+          <StyledInput type="tel" placeholder="전화번호" />
         </label>
         <p />
         <label>

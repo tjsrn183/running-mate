@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Header from '../components/common/Header';
-import palette from '../lib/styles/palette';
+
 import CustomButton from '../components/common/CustomButton';
 
 const StyledBackground = styled.div`
