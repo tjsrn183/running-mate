@@ -12,13 +12,13 @@ const EntireDiv = styled.div`
   background: url(./login_background.jpg) no-repeat center;
 `;
 const FormField = styled.form`
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(0, 0, 0, 0.6);
   position: absolute;
   top: 50%;
   left: 50%;
   border: none;
   transform: translate(-50%, -50%);
-
+  padding: 0 50px 20px 40px;
   color: white;
   h1 {
     text-align: center;
@@ -34,8 +34,10 @@ const StyledInput = styled.input`
   border: rgba(255, 255, 255, 0);
   width: 400px;
   height: 45px;
-  opacity: 0.5;
+
   border-radius: 4px;
+
+  font-size: medium;
 `;
 const SubmitButton = styled(CustomButton)`
   width: 100%;

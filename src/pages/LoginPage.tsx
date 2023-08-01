@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/common/Header';
 
 import CustomButton from '../components/common/CustomButton';
+import palette from '../lib/styles/palette';
 
 const StyledBackground = styled.div`
   position: absolute;
@@ -47,6 +48,14 @@ const StyledNoBorderButton = styled.button`
     cursor: pointer;
   }
 `;
+const Footer = styled.div`
+  text-align: right;
+  color: ${palette.orange};
+  text-decoration: underline;
+  &:hover {
+    color: ${palette.hover_orange};
+  }
+`;
 
 const LoginPage = () => {
   return (
@@ -64,8 +73,6 @@ const LoginPage = () => {
           />
           <p />
           <StyledButton>로그인</StyledButton>
-          <br />
-          <Link to="/RegisterPage">회원가입</Link>
           <p />
           <StyledNoBorderButton>
             <img
@@ -74,6 +81,10 @@ const LoginPage = () => {
               alt="카카오로그인"
             />
           </StyledNoBorderButton>
+          <br />
+          <Footer>
+            <Link to="/RegisterPage">회원가입</Link>
+          </Footer>
         </SyledLoginDiv>
       </StyledBackground>
     </div>
