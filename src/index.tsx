@@ -4,12 +4,9 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import { HelmetProvider } from 'react-helmet-async';
-import rootReducer from './modules';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import store from './redux/store';
 
-const store = createStore(rootReducer, composeWithDevTools());
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

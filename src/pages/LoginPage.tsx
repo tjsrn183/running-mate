@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Header from '../components/common/Header';
-
 import CustomButton from '../components/common/CustomButton';
 import palette from '../lib/styles/palette';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { changeField, initializeForm, AuthFormKey } from '../redux/authSlice';
 
 const StyledBackground = styled.div`
   position: absolute;
@@ -57,7 +58,30 @@ const Footer = styled.div`
   }
 `;
 
+//로그인페이지
 const LoginPage = () => {
+  const dispatch = useAppDispatch();
+  const { form } = useAppSelector(({ auth }) => ({
+    form: auth.login
+  }));
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+
+    dispatch(
+      changeField({
+        form: 'login',
+        key: name as AuthFormKey,
+        value
+      })
+    );
+  };
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+  useEffect(() => {
+    dispatch(initializeForm('login'));
+  }, [dispatch]);
   return (
     <div>
       <StyledBackground>
