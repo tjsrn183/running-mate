@@ -18,7 +18,7 @@ const StyledBackground = styled.div`
     color: white;
   }
 `;
-const SyledLoginDiv = styled.div`
+const SyledLoginForm = styled.form`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -58,7 +58,6 @@ const Footer = styled.div`
   }
 `;
 
-//로그인페이지
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const { form } = useAppSelector(({ auth }) => ({
@@ -67,7 +66,6 @@ const LoginPage = () => {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-
     dispatch(
       changeField({
         form: 'login',
@@ -86,14 +84,24 @@ const LoginPage = () => {
     <div>
       <StyledBackground>
         <Header />
-        <SyledLoginDiv>
+        <SyledLoginForm onSubmit={onSubmit}>
           <h1>로그인</h1>
-          <StyledInput type="text" id="user_id" placeholder="아이디" />
+          <StyledInput
+            type="text"
+            id="user_id"
+            placeholder="아이디"
+            name="id"
+            onChange={onChange}
+            value={form.id}
+          />
           <p />
           <StyledInput
             type="password"
             id="user_password"
             placeholder="비밀번호"
+            name="password"
+            onChange={onChange}
+            value={form.password}
           />
           <p />
           <StyledButton>로그인</StyledButton>
@@ -109,7 +117,7 @@ const LoginPage = () => {
           <Footer>
             <Link to="/RegisterPage">회원가입</Link>
           </Footer>
-        </SyledLoginDiv>
+        </SyledLoginForm>
       </StyledBackground>
     </div>
   );
