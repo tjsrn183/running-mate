@@ -88,7 +88,6 @@ const LoginPage = () => {
           <h1>로그인</h1>
           <StyledInput
             type="text"
-            id="user_id"
             placeholder="아이디"
             name="id"
             onChange={onChange}
@@ -97,7 +96,6 @@ const LoginPage = () => {
           <p />
           <StyledInput
             type="password"
-            id="user_password"
             placeholder="비밀번호"
             name="password"
             onChange={onChange}

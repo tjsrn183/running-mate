@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/common/Header';
 import CustomButton from '../components/common/CustomButton';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { changeField, initializeForm, AuthFormKey } from '../redux/authSlice';
 
 const EntireDiv = styled.div`
   position: absolute;
@@ -34,9 +36,7 @@ const StyledInput = styled.input`
   border: rgba(255, 255, 255, 0);
   width: 400px;
   height: 45px;
-
   border-radius: 4px;
-
   font-size: medium;
 `;
 const SubmitButton = styled(CustomButton)`
@@ -44,46 +44,101 @@ const SubmitButton = styled(CustomButton)`
   height: 50px;
 `;
 const RegisterPage = () => {
+  const dispatch = useAppDispatch();
+  const { form } = useAppSelector(({ auth }) => ({
+    form: auth.register
+  }));
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    dispatch(
+      changeField({
+        form: 'register',
+        key: name as AuthFormKey,
+        value
+      })
+    );
+  };
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+  useEffect(() => {
+    dispatch(initializeForm('register'));
+  }, [dispatch]);
   return (
     <EntireDiv>
       <Header />
-      <FormField>
+      <FormField onSubmit={onSubmit}>
         <h1>회원가입</h1>
         <label>
           아이디
           <br />
-          <StyledInput placeholder="아이디" />
+          <StyledInput
+            placeholder="아이디"
+            name="id"
+            onChange={onChange}
+            value={form.id}
+          />
         </label>
 
         <p />
         <label>
           비밀번호
           <br />
-          <StyledInput placeholder="비밀번호" />
+          <StyledInput
+            placeholder="비밀번호"
+            type="password"
+            name="password"
+            onChange={onChange}
+            value={form.password}
+          />
         </label>
         <p />
         <label>
           이름
           <br />
-          <StyledInput placeholder="이름" />
+          <StyledInput
+            placeholder="이름"
+            type="text"
+            name="name"
+            onChange={onChange}
+            value={form.name}
+          />
         </label>
         <p />
         <label>
           전화번호
           <br />
-          <StyledInput type="tel" placeholder="전화번호" />
+          <StyledInput
+            type="tel"
+            placeholder="전화번호"
+            name="phoneNumber"
+            onChange={onChange}
+            value={form.phoneNumber}
+          />
         </label>
         <p />
         <label>
           닉네임
           <br />
-          <StyledInput placeholder="닉네임" />
+          <StyledInput
+            placeholder="닉네임"
+            type="text"
+            name="nickname"
+            onChange={onChange}
+            value={form.nickname}
+          />
         </label>
         <p />
         <label>
           생년월일
           <br />
-          <StyledInput placeholder="생년월일" type="date" />
+          <StyledInput
+            placeholder="생년월일"
+            type="date"
+            name="birthday"
+            onChange={onChange}
+            value={form.birthday}
+          />
         </label>
         <p />
 
@@ -91,12 +146,24 @@ const RegisterPage = () => {
           <p>성별</p>
         </label>
         <label>
-          <input type="radio" name="gender" />
+          <input
+            type="radio"
+            name="sex"
+            onChange={onChange}
+            value="male"
+            checked={form.sex === 'male'}
+          />
           남자
         </label>
 
         <label>
-          <input type="radio" name="gender" />
+          <input
+            type="radio"
+            name="sex"
+            onChange={onChange}
+            value="female"
+            checked={form.sex === 'female'}
+          />
           여자
         </label>
         <p />
