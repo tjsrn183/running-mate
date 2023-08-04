@@ -5,7 +5,11 @@ import Header from '../components/common/Header';
 import CustomButton from '../components/common/CustomButton';
 import palette from '../lib/styles/palette';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { changeField, initializeForm, AuthFormKey } from '../redux/authSlice';
+import {
+  changeAuthField,
+  initializeForm,
+  AuthFormKey
+} from '../redux/authSlice';
 
 const StyledBackground = styled.div`
   position: absolute;
@@ -67,7 +71,7 @@ const LoginPage = () => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     dispatch(
-      changeField({
+      changeAuthField({
         form: 'login',
         key: name as AuthFormKey,
         value

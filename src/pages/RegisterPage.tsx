@@ -3,7 +3,11 @@ import React, { useEffect } from 'react';
 import Header from '../components/common/Header';
 import CustomButton from '../components/common/CustomButton';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { changeField, initializeForm, AuthFormKey } from '../redux/authSlice';
+import {
+  changeAuthField,
+  initializeForm,
+  AuthFormKey
+} from '../redux/authSlice';
 
 const EntireDiv = styled.div`
   position: absolute;
@@ -51,7 +55,7 @@ const RegisterPage = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     dispatch(
-      changeField({
+      changeAuthField({
         form: 'register',
         key: name as AuthFormKey,
         value

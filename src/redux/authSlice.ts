@@ -45,7 +45,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    changeField: (
+    changeAuthField: (
       state: AuthState,
       action: PayloadAction<ChangeFieldPayload>
     ) => {
@@ -71,5 +71,5 @@ const authSlice = createSlice({
   }
 });
 
-export const { changeField, initializeForm } = authSlice.actions;
+export const { changeAuthField, initializeForm } = authSlice.actions;
 export default authSlice;
