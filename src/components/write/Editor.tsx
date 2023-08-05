@@ -2,6 +2,8 @@ import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { ChangeFieldWritePayload } from '../../redux/writeSlice';
+
 
 const TitleInput = styled.input`
   font-size: 2rem;
@@ -32,10 +34,13 @@ const Wrapper = styled.div<WrapperProps>`
   }
 `;
 interface EditorProps {
-  height?: string;
-  width?: string;
+  height: string;
+  width: string;
+  title?: string;
+  body?: string;
+  onChangeField?: (payload: ChangeFieldWritePayload) => void;
 }
-const Editor: React.FC<EditorProps> = ({ height, width }) => {
+const Editor: React.FC<EditorProps> = ({ height, width,title,body,onChangeField }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
 
@@ -53,7 +58,15 @@ const Editor: React.FC<EditorProps> = ({ height, width }) => {
       }
     });
   }, []);
-
+const quill=quillInstance.current;
+quill.on('text-change',(delta,oldDelta,source)=>{
+  if(source==='user'){
+    onChangeField({
+      key:'body',
+      value:quill.root.innerHTML
+    })
+  }
+ , [onChangeField])
   return (
     <Wrapper height={height} width={width}>
       <TitleInput placeholder="제목을 입력하세요.." />

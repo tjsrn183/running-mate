@@ -19,7 +19,7 @@ interface AuthState {
   };
 }
 
-interface ChangeFieldPayload {
+interface ChangeFieldAuthPayload {
   form: 'register' | 'login';
   key: AuthFormKey;
   value: string;
@@ -47,7 +47,7 @@ const authSlice = createSlice({
   reducers: {
     changeAuthField: (
       state: AuthState,
-      action: PayloadAction<ChangeFieldPayload>
+      action: PayloadAction<ChangeFieldAuthPayload>
     ) => {
       const { form, key, value } = action.payload;
       return {

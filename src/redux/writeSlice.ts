@@ -6,8 +6,8 @@ interface WriteState {
   [state: string]: any;
 }
 
-interface ChangeFieldPayload {
-  key: string;
+export interface ChangeFieldWritePayload {
+  key: 'title' | 'body';
   value: string;
 }
 const initialState: WriteState = {
@@ -21,13 +21,14 @@ const writeSlice = createSlice({
   reducers: {
     changeWriteField: (
       state: WriteState,
-      action: PayloadAction<ChangeFieldPayload>
+      action: PayloadAction<ChangeFieldWritePayload>
     ) => {
       const { key, value } = action.payload;
       state[key] = value;
-    }
+    },
+    initiallize: () => initialState
   }
 });
 
-export const { changeWriteField } = writeSlice.actions;
+export const { changeWriteField, initiallize } = writeSlice.actions;
 export default writeSlice;

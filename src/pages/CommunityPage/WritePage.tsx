@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Editor from '../../components/write/Editor';
 import Header from '../../components/common/Header';
 import { styled } from 'styled-components';
 import CustomButton from '../../components/common/CustomButton';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+  ChangeFieldWritePayload,
+  changeWriteField,
+  initiallize
+} from '../../redux/writeSlice';
 const ComunityWriteBlock = styled.div`
   position: relative;
   height: 100vh;
@@ -21,12 +27,32 @@ const RegisterButton = styled(CustomButton)`
   height: 50px;
   margin-bottom: 0;
 `;
+type OnChangeFieldFunction = (payload: ChangeFieldWritePayload) => void;
 const CommunityWritePage = () => {
+  const dispatch = useAppDispatch();
+  const { title, body } = useAppSelector(({ write }) => ({
+    title: write.title,
+    body: write.body
+  }));
+  const onChangeField: OnChangeFieldFunction = (payload) =>
+    dispatch(changeWriteField(payload));
+
+  useEffect(() => {
+    return () => {
+      dispatch(initiallize());
+    };
+  });
   return (
     <ComunityWriteBlock>
       <Header />
       <EditorBlock>
-        <Editor width="840px" height="500px" />
+        <Editor
+          width="840px"
+          height="500px"
+          onChangeField={onChangeField}
+          title={title}
+          body={body}
+        />
       </EditorBlock>
       <RegisterButton>등록하기</RegisterButton>
     </ComunityWriteBlock>
