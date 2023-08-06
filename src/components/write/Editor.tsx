@@ -39,9 +39,9 @@ interface EditorProps {
     body?: string;
     onChangeField?: (payload: ChangeFieldWritePayload) => void;
 }
-const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeField }) => {
+type quilltype = typeof Quill;
+const Editor: React.FC<EditorProps> = ({ height, width, title, onChangeField }) => {
     const quillElement = useRef<HTMLDivElement>(null);
-    type quilltype = typeof Quill;
     const quillInstance = useRef<quilltype | null>(null);
 
     useEffect(() => {
@@ -62,13 +62,11 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
     if (quill) {
         quill.on(
             'text-change',
-            (source: string) => {
-                if (source === 'user') {
-                    onChangeField?.({
-                        key: 'body',
-                        value: quill.root.innerHTML
-                    });
-                }
+            () => {
+                onChangeField?.({
+                    key: 'body',
+                    value: quill.root.innerHTML
+                });
             },
             [onChangeField]
         );

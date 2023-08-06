@@ -26,9 +26,8 @@ const RegisterButton = styled(CustomButton)`
 type OnChangeFieldFunction = (payload: ChangeFieldWritePayload) => void;
 const CommunityWritePage = () => {
     const dispatch = useAppDispatch();
-    const { title, body } = useAppSelector(({ write }) => ({
-        title: write.title,
-        body: write.body
+    const { title } = useAppSelector(({ write }) => ({
+        title: write.title
     }));
     const onChangeField: OnChangeFieldFunction = (payload) => dispatch(changeWriteField(payload));
 
@@ -36,12 +35,12 @@ const CommunityWritePage = () => {
         return () => {
             dispatch(initiallize());
         };
-    });
+    }, [dispatch]);
     return (
         <ComunityWriteBlock>
             <Header />
             <EditorBlock>
-                <Editor width="840px" height="500px" onChangeField={onChangeField} title={title} body={body} />
+                <Editor width="840px" height="500px" onChangeField={onChangeField} title={title} />
             </EditorBlock>
             <RegisterButton>등록하기</RegisterButton>
         </ComunityWriteBlock>
