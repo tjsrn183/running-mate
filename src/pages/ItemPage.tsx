@@ -5,11 +5,11 @@ import Header from '../components/common/Header';
 
 const ItemPageBlock = styled.div``;
 const ItemPage = () => {
-  return (
-    <ItemPageBlock>
-      <Header />
-      <ItemDetail />
-    </ItemPageBlock>
-  );
+    return (
+        <ItemPageBlock>
+            <Header />
+            <ItemDetail />
+        </ItemPageBlock>
+    );
 };
 export default ItemPage;

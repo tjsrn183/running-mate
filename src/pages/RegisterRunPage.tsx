@@ -6,16 +6,15 @@ import styled from 'styled-components';
 const MainPointBlock = styled.div``;
 
 const RegisterRunPage = () => {
-  return (
-    <div>
-      <Header />
-
-      <div>
-        <MainPointBlock>
-          <Map />
-        </MainPointBlock>
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <Header />
+            <div>
+                <MainPointBlock>
+                    <Map />
+                </MainPointBlock>
+            </div>
+        </div>
+    );
 };
 export default RegisterRunPage;

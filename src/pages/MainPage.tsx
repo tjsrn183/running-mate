@@ -7,15 +7,15 @@ import Header from '../components/common/Header';
 import MainTop from '../components/MainTop';
 
 const MainPage = () => {
-  return (
-    <div>
-      <Header />
-      <MainTop />
-      <ChatPage />
-      <p />
-      <Link to="/myInfo">내 정보로이동</Link>
-      <RunItemList />
-    </div>
-  );
+    return (
+        <div>
+            <Header />
+            <MainTop />
+            <ChatPage />
+            <p />
+            <Link to="/myInfo">내 정보로이동</Link>
+            <RunItemList />
+        </div>
+    );
 };
 export default MainPage;

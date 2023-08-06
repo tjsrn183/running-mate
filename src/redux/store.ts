@@ -3,10 +3,10 @@ import authSlice from './authSlice';
 import writeSlice from './writeSlice';
 
 const store = configureStore({
-  reducer: {
-    auth: authSlice.reducer,
-    write: writeSlice.reducer
-  }
+    reducer: {
+        auth: authSlice.reducer,
+        write: writeSlice.reducer
+    }
 });
 
 export default store;
