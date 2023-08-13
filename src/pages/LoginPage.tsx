@@ -59,6 +59,10 @@ const Footer = styled.div`
 `;
 
 const LoginPage = () => {
+    const handleKakaoLogin = () => {
+        window.location.href = 'http://localhost:8000/auth/kakao';
+    };
+
     const dispatch = useAppDispatch();
     const { form } = useAppSelector(({ auth }) => ({
         form: auth.login
@@ -80,6 +84,7 @@ const LoginPage = () => {
     useEffect(() => {
         dispatch(initializeForm('login'));
     }, [dispatch]);
+
     return (
         <div>
             <StyledBackground>
@@ -99,7 +104,15 @@ const LoginPage = () => {
                     <StyledButton>로그인</StyledButton>
                     <p />
                     <StyledNoBorderButton>
-                        <img src={'/kakao_login_medium.png'} className="kakaoLogin" alt="카카오로그인" />
+                        <img
+                            src={'/kakao_login_medium.png'}
+                            onClick={handleKakaoLogin}
+                            title="kakaoLogin"
+                            width="100px"
+                            height="50px"
+                            className="kakaoLogin"
+                            alt="카카오로그인"
+                        />
                     </StyledNoBorderButton>
                     <br />
                     <Footer>
