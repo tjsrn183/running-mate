@@ -91,7 +91,7 @@ const LoginPage = () => {
                 <Header />
                 <SyledLoginForm onSubmit={onSubmit}>
                     <h1>로그인</h1>
-                    <StyledInput type="text" placeholder="아이디" name="id" onChange={onChange} value={form.id} />
+                    <StyledInput type="text" placeholder="아이디" name="id" onChange={onChange} value={form.user_id} />
                     <p />
                     <StyledInput
                         type="password"

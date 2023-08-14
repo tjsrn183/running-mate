@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type AuthFormKey = 'id' | 'password' | 'name' | 'phoneNumber' | 'nickname' | 'birthday' | 'sex';
+export type AuthFormKey = 'user_id' | 'password' | 'name' | 'phoneNumber' | 'nickname' | 'birthday' | 'sex';
 
 interface AuthState {
     register: {
         [key in AuthFormKey]: string;
     };
     login: {
-        id: string;
+        user_id: string;
         password: string;
     };
 }
@@ -20,7 +20,7 @@ interface ChangeFieldAuthPayload {
 
 const initialState: AuthState = {
     register: {
-        id: '',
+        user_id: '',
         password: '',
         name: '',
         phoneNumber: '',
@@ -29,7 +29,7 @@ const initialState: AuthState = {
         sex: ''
     },
     login: {
-        id: '',
+        user_id: '',
         password: ''
     }
 };

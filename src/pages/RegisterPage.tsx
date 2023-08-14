@@ -4,7 +4,7 @@ import Header from '../components/common/Header';
 import CustomButton from '../components/common/CustomButton';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { changeAuthField, initializeForm, AuthFormKey } from '../redux/authSlice';
-
+import axios from 'axios';
 const EntireDiv = styled.div`
     position: absolute;
     top: 0;
@@ -58,8 +58,23 @@ const RegisterPage = () => {
             })
         );
     };
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8000/auth/join', {
+                id: form.user_id,
+                password: form.password,
+                name: form.name,
+                phoneNumber: form.phoneNumber,
+                nickname: form.nickname,
+                birthday: form.birthday,
+                sex: form.sex
+            });
+
+            console.log('서버 응답:', response.data);
+        } catch (error) {
+            console.error('오류:', error);
+        }
     };
     useEffect(() => {
         dispatch(initializeForm('register'));
@@ -72,7 +87,7 @@ const RegisterPage = () => {
                 <label>
                     아이디
                     <br />
-                    <StyledInput placeholder="아이디" name="id" onChange={onChange} value={form.id} />
+                    <StyledInput placeholder="아이디" name="user_id" onChange={onChange} value={form.user_id} />
                 </label>
 
                 <p />
