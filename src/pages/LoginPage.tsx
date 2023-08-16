@@ -39,10 +39,8 @@ const StyledButton = styled(CustomButton)`
 `;
 const StyledNoBorderButton = styled.button`
     border: none;
-
     padding: 0;
     border-radius: 12px;
-
     background-color: white;
     &:hover {
         filter: brightness(110%);

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import CustomButton from './CustomButton';
 import { Link } from 'react-router-dom';
+import { useGetUserInfoQuery } from '../../api/queries';
 
 const HeaderBlock = styled.header`
     position: fixed;
@@ -65,6 +66,9 @@ const Spacer = styled.div`
     height: 4rem;
 `;
 const Header = () => {
+    const { data, isLoading, isError } = useGetUserInfoQuery('userinfo');
+    console.log(data);
+
     return (
         <>
             <HeaderBlock>
@@ -84,12 +88,18 @@ const Header = () => {
                                 <Link to="/communityPostList">커뮤니티</Link>
                             </li>
                         </Category>
-                        <LoginButton>
-                            <Link to="/login">로그인</Link>
-                        </LoginButton>
-                        <RegisterButton>
-                            <Link to="/RegisterPage">회원가입</Link>
-                        </RegisterButton>
+                        {data ? (
+                            <div>{data.nick}</div>
+                        ) : (
+                            <div>
+                                <LoginButton>
+                                    <Link to="/login">로그인</Link>
+                                </LoginButton>
+                                <RegisterButton>
+                                    <Link to="/RegisterPage">회원가입</Link>
+                                </RegisterButton>
+                            </div>
+                        )}
                     </Right>
                 </Wrapper>
             </HeaderBlock>
