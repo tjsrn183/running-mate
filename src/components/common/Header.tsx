@@ -67,7 +67,6 @@ const Spacer = styled.div`
 `;
 const Header = () => {
     const data = useGetUserInfoQuery();
-    console.log(data);
 
     return (
         <>
