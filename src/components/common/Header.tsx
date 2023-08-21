@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import CustomButton from './CustomButton';
@@ -66,7 +66,7 @@ const Spacer = styled.div`
     height: 4rem;
 `;
 const Header = () => {
-    const { data, isLoading, isError } = useGetUserInfoQuery('userinfo');
+    const data = useGetUserInfoQuery();
     console.log(data);
 
     return (
@@ -88,18 +88,15 @@ const Header = () => {
                                 <Link to="/communityPostList">커뮤니티</Link>
                             </li>
                         </Category>
-                        {data ? (
-                            <div>{data.nick}</div>
-                        ) : (
-                            <div>
-                                <LoginButton>
-                                    <Link to="/login">로그인</Link>
-                                </LoginButton>
-                                <RegisterButton>
-                                    <Link to="/RegisterPage">회원가입</Link>
-                                </RegisterButton>
-                            </div>
-                        )}
+
+                        <div>
+                            <LoginButton>
+                                <Link to="/login">로그인</Link>
+                            </LoginButton>
+                            <RegisterButton>
+                                <Link to="/RegisterPage">회원가입</Link>
+                            </RegisterButton>
+                        </div>
                     </Right>
                 </Wrapper>
             </HeaderBlock>

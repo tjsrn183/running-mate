@@ -5,9 +5,9 @@ export const api = createApi({
     tagTypes: ['UserInfo'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000' }),
     endpoints: (builder) => ({
-        getUserInfo: builder.query({
+        getUserInfo: builder.query<any, void>({
             query: () => 'auth/userinfo',
-            providesTags: (result, error, arg) => [{ type: 'UserInfo', id: arg.id }]
+            providesTags: (result, error, arg) => [{ type: 'UserInfo' }]
         })
     })
 });
