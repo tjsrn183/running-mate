@@ -62,12 +62,25 @@ const Right = styled.div`
     display: flex;
     align-items: center;
 `;
+const UserBox = styled.div`
+    flex-direction: row-reverse;
+    width: 200px;
+    text-align: center;
+    font-weight: bold;
+`;
 const Spacer = styled.div`
     height: 4rem;
 `;
+const LogoutIcon = styled.i`
+    color: white;
+`;
 const Header = () => {
-    const data = useGetUserInfoQuery();
-
+    const userInfo = useGetUserInfoQuery();
+    if (userInfo.data) {
+        console.log('userInfo.data', userInfo.data);
+        console.log('userInfo.data.user', userInfo.data.user);
+        console.log('userInfo.data.User', userInfo.data.User);
+    }
     return (
         <>
             <HeaderBlock>
@@ -88,14 +101,21 @@ const Header = () => {
                             </li>
                         </Category>
 
-                        <div>
-                            <LoginButton>
-                                <Link to="/login">로그인</Link>
-                            </LoginButton>
-                            <RegisterButton>
-                                <Link to="/RegisterPage">회원가입</Link>
-                            </RegisterButton>
-                        </div>
+                        {userInfo.data ? (
+                            <UserBox>
+                                <Link to="/myInfo">{userInfo.data.user.nick}님!</Link>
+                                <LogoutIcon className="material-symbols-outlined" />
+                            </UserBox>
+                        ) : (
+                            <UserBox>
+                                <LoginButton>
+                                    <Link to="/login">로그인</Link>
+                                </LoginButton>
+                                <RegisterButton>
+                                    <Link to="/RegisterPage">회원가입</Link>
+                                </RegisterButton>
+                            </UserBox>
+                        )}
                     </Right>
                 </Wrapper>
             </HeaderBlock>
