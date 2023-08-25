@@ -8,8 +8,11 @@ export const api = createApi({
         getUserInfo: builder.query<any, void>({
             query: () => 'auth/userinfo',
             providesTags: (result, error, arg) => [{ type: 'UserInfo' }]
+        }),
+        kakaoLogout: builder.query<any, boolean>({
+            query: () => 'auth/kakao/logout'
         })
     })
 });
 
-export const { useGetUserInfoQuery } = api;
+export const { useGetUserInfoQuery, useKakaoLogoutQuery } = api;

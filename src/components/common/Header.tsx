@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import CustomButton from './CustomButton';
 import { Link } from 'react-router-dom';
-import { useGetUserInfoQuery } from '../../api/queries';
+import { useGetUserInfoQuery, useKakaoLogoutQuery } from '../../api/queries';
+import axios from 'axios';
 
 const HeaderBlock = styled.header`
     position: fixed;
@@ -65,22 +66,32 @@ const Right = styled.div`
 const UserBox = styled.div`
     flex-direction: row-reverse;
     width: 200px;
-    text-align: center;
-    font-weight: bold;
 `;
 const Spacer = styled.div`
     height: 4rem;
 `;
-const LogoutIcon = styled.i`
+const LogoutIcon = styled.span`
     color: white;
+    background-color: ${palette.orange};
+    border-radius: 20%;
+    padding: 7px;
+    margin-left: 40px;
+`;
+const UserName = styled.span`
+    color: ${palette.user_name};
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 3px;
+    border-bottom: 2px solid ${palette.orange};
+    font-size: 19px;
+    padding: 0 10px;
 `;
 const Header = () => {
     const userInfo = useGetUserInfoQuery();
-    if (userInfo.data) {
-        console.log('userInfo.data', userInfo.data);
-        console.log('userInfo.data.user', userInfo.data.user);
-        console.log('userInfo.data.User', userInfo.data.User);
-    }
+
+    const kakaoLogoutfunc = async () => {
+        axios.get('http://localhost:8080/auth/kakao/logout');
+    };
     return (
         <>
             <HeaderBlock>
@@ -101,10 +112,14 @@ const Header = () => {
                             </li>
                         </Category>
 
-                        {userInfo.data ? (
+                        {userInfo.data?.user ? (
                             <UserBox>
-                                <Link to="/myInfo">{userInfo.data.user.nick}님!</Link>
-                                <LogoutIcon className="material-symbols-outlined" />
+                                <Link to="/myInfo">
+                                    <UserName>{userInfo.data.user.nick}님!</UserName>
+                                </Link>
+                                <LogoutIcon className="material-symbols-outlined" onClick={kakaoLogoutfunc}>
+                                    logout
+                                </LogoutIcon>
                             </UserBox>
                         ) : (
                             <UserBox>
