@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import CustomButton from './CustomButton';
 import { Link } from 'react-router-dom';
-import { useGetUserInfoQuery, useKakaoLogoutQuery } from '../../api/queries';
+import { useGetUserInfoQuery } from '../../api/queries';
 import axios from 'axios';
 
 const HeaderBlock = styled.header`
