@@ -7,7 +7,7 @@ export const api = createApi({
     endpoints: (builder) => ({
         getUserInfo: builder.query<any, void>({
             query: () => 'auth/userinfo',
-            providesTags: (result, error, arg) => [{ type: 'UserInfo' }]
+            providesTags: ['UserInfo']
         })
     })
 });

@@ -88,9 +88,12 @@ const UserName = styled.span`
 `;
 const Header = () => {
     const userInfo = useGetUserInfoQuery();
-
+    if (userInfo) {
+        console.log(userInfo.data.user);
+    }
     const kakaoLogoutfunc = async () => {
-        axios.get('http://localhost:8080/auth/kakao/logout');
+        const logout = await axios.get('http://localhost:8080/auth/kakao/logout');
+        console.log(logout);
     };
     return (
         <>
