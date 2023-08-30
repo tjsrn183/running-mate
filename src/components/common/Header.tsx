@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import CustomButton from './CustomButton';
@@ -76,6 +76,7 @@ const LogoutIcon = styled.span`
     border-radius: 20%;
     padding: 7px;
     margin-left: 40px;
+    cursor: pointer;
 `;
 const UserName = styled.span`
     color: ${palette.user_name};
@@ -88,12 +89,18 @@ const UserName = styled.span`
 `;
 const Header = () => {
     const userInfo = useGetUserInfoQuery();
-    if (userInfo) {
-        console.log(userInfo.data.user);
-    }
+    const [loginState, setLoginState] = useState<boolean>(true);
+    useEffect(() => {
+        if (userInfo.data?.user?.user?.nick) {
+            setLoginState(true);
+        }
+    }, []);
+
     const kakaoLogoutfunc = async () => {
-        const logout = await axios.get('http://localhost:8080/auth/kakao/logout');
-        console.log(logout);
+        const logout = await axios.post('http://localhost:8000/auth/kakao/logout').then(() => {
+            setLoginState(false);
+            location.reload();
+        });
     };
     return (
         <>
@@ -115,10 +122,10 @@ const Header = () => {
                             </li>
                         </Category>
 
-                        {userInfo.data?.user ? (
+                        {userInfo.data?.user?.user?.nick ? (
                             <UserBox>
                                 <Link to="/myInfo">
-                                    <UserName>{userInfo.data.user.nick}님!</UserName>
+                                    <UserName>{userInfo.data.user.user.nick}님!</UserName>
                                 </Link>
                                 <LogoutIcon className="material-symbols-outlined" onClick={kakaoLogoutfunc}>
                                     logout
