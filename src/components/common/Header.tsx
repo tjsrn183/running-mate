@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import CustomButton from './CustomButton';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGetUserInfoQuery } from '../../api/queries';
 import axios from 'axios';
 
@@ -89,19 +89,23 @@ const UserName = styled.span`
 `;
 const Header = () => {
     const userInfo = useGetUserInfoQuery();
-    const [loginState, setLoginState] = useState<boolean>(true);
+    const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
-        if (userInfo.data?.user?.user?.nick) {
-            setLoginState(true);
-        }
-    }, []);
+        setIsLoggedIn(!!userInfo.data?.user?.user?.nick);
+    }, [userInfo.data?.user?.user?.nick]);
 
     const kakaoLogoutfunc = async () => {
-        const logout = await axios.post('http://localhost:8000/auth/kakao/logout').then(() => {
-            setLoginState(false);
-            location.reload();
-        });
+        try {
+            await axios.post('http://localhost:8000/auth/kakao/logout', {}, { withCredentials: true });
+            setIsLoggedIn(false);
+            navigate('/');
+            window.location.reload();
+        } catch (error) {
+            console.error('로그아웃 중 오류 발생:', error);
+        }
     };
+
     return (
         <>
             <HeaderBlock>
