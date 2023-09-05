@@ -5,7 +5,9 @@ import { styled } from 'styled-components';
 import CustomButton from '../../components/common/CustomButton';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ChangeFieldWritePayload, changeWriteField, initiallize } from '../../redux/writeSlice';
-import { useWriteCummunityMutation,useGetUserInfoQuery} from '../../api/queries';
+import { useWriteCummunityMutation, useGetUserInfoQuery } from '../../api/queries';
+
+import { useNavigate } from 'react-router-dom';
 const ComunityWriteBlock = styled.div`
     position: relative;
     height: 100vh;
@@ -26,20 +28,24 @@ const RegisterButton = styled(CustomButton)`
 `;
 type OnChangeFieldFunction = (payload: ChangeFieldWritePayload) => void;
 const CommunityWritePage = () => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const letterMutation=useWriteCummunityMutation();
-    const setLetter=letterMutation[0];
+    const letterMutation = useWriteCummunityMutation();
+    const setLetter = letterMutation[0];
     const userInfo = useGetUserInfoQuery();
-    
-    const { title,body} = useAppSelector(({ write }) => ({
+
+    const { title, body } = useAppSelector(({ write }) => ({
         title: write.title,
-        body:write.body
+        body: write.body
     }));
-    
+
     const onChangeField: OnChangeFieldFunction = (payload) => dispatch(changeWriteField(payload));
 
-    const registerLetter=(userInfo.data.user.user.nick,title,body)=>setLetter({nick:userInfo.data.user.user.nick,title,body})
-   
+    const registerLetter = (): void => {
+        setLetter({ nick: userInfo.data.user.user.nick, title, body });
+        console.log('프론트 registerLetter에서 찍', userInfo.data.user.user.nick, title, body);
+        navigate('/');
+    };
 
     useEffect(() => {
         return () => {
