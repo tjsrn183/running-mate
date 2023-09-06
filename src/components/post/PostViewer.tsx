@@ -1,5 +1,7 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useGetPostItemQuery } from '../../api/queries';
 
 const PostViewerBlock = styled.div`
     display: flex;
@@ -22,6 +24,10 @@ const PostTitle = styled.div`
 const PostContent = styled.div``;
 
 const PostViewer = () => {
+    const { postId } = useParams();
+    const postIdNum: number = parseInt(postId!);
+    const postItem = useGetPostItemQuery(postIdNum);
+    console.log('PostViewer에서 찍어본 postItem', postItem);
     return (
         <PostViewerBlock>
             <Main>

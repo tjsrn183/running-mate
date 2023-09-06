@@ -23,9 +23,11 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<MainPage />} />
                 <Route path="/chat" element={<ChatPage />} />
-                <Route path="/communityWrite" element={<CommunityWritePage />} />
-                <Route path="/communityPostPage" element={<CommunityPostPage />} />
-                <Route path="/communityPostList" element={<CommunityPostListPage />} />
+                <Route path="/community">
+                    <Route index element={<CommunityPostListPage />} />
+                    <Route path=":postId" element={<CommunityPostPage />} />
+                    <Route path="write" element={<CommunityWritePage />} />
+                </Route>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/myInfo" element={<MyInfoPage />} />
                 <Route path="/ItemPage" element={<ItemPage />} />

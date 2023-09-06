@@ -46,7 +46,7 @@ const PostList = () => {
     return (
         <PostListBlock>
             <Main>
-                <StyledLink to="/communityWrite">글 작성하기</StyledLink>
+                <StyledLink to="/community/write">글 작성하기</StyledLink>
                 <ListBlock>
                     <PostItem />
                     <PostItem />

@@ -122,7 +122,7 @@ const Header = () => {
                                 <Link to="/registerRun">러닝등록</Link>
                             </li>
                             <li>
-                                <Link to="/communityPostList">커뮤니티</Link>
+                                <Link to="/community">커뮤니티</Link>
                             </li>
                         </Category>
 

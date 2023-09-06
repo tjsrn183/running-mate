@@ -41,10 +41,10 @@ const CommunityWritePage = () => {
 
     const onChangeField: OnChangeFieldFunction = (payload) => dispatch(changeWriteField(payload));
 
-    const registerLetter = (): void => {
-        setLetter({ nick: userInfo.data.user.user.nick, title, body });
-        console.log('프론트 registerLetter에서 찍', userInfo.data.user.user.nick, title, body);
-        navigate('/');
+    const registerLetter = async () => {
+        const resultSetLetter = await setLetter({ nick: userInfo.data.user.user.nick, title, body }).unwrap();
+        console.log('프론트 resultSetLetter', resultSetLetter);
+        navigate(`/community/${resultSetLetter}`);
     };
 
     useEffect(() => {
