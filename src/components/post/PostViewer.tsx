@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useGetPostItemQuery } from '../../api/queries';
+import { type } from 'os';
 
 const PostViewerBlock = styled.div`
     display: flex;
@@ -26,6 +27,7 @@ const PostContent = styled.div``;
 const PostViewer = () => {
     const { postId } = useParams();
     const postIdNum: number = parseInt(postId!);
+    console.log('PpostId의 타입', typeof postIdNum);
     const postItem = useGetPostItemQuery(postIdNum);
     console.log('PostViewer에서 찍어본 postItem', postItem);
     return (
