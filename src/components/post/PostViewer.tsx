@@ -27,21 +27,22 @@ const PostContent = styled.div``;
 const PostViewer = () => {
     const { postId } = useParams();
     const postIdNum: number = parseInt(postId!);
-    console.log('PpostId의 타입', typeof postIdNum);
     const postItem = useGetPostItemQuery(postIdNum);
+    console.log('PpostId의 타입', typeof postIdNum);
+    console.log('PostViewer에 postIdNum', postIdNum);
     console.log('PostViewer에서 찍어본 postItem', postItem);
     return (
         <PostViewerBlock>
             <Main>
                 <PostTitle>
-                    <h1>제목이고요 전 황선구입니다.</h1>
+                    <h1>{postItem.data?.title}</h1>
                     <div>
-                        <span>2021-05-05</span>
+                        <span>{postItem.data?.createdAt.substring(0, 10)}</span>
                         <br />
-                        <span>황선구</span>
+                        <span>{postItem.data?.name}</span>
                     </div>
                 </PostTitle>
-                <PostContent dangerouslySetInnerHTML={{ __html: '<p>내용입니다.</>' }} />
+                <PostContent dangerouslySetInnerHTML={{ __html: postItem.data?.content }} />
             </Main>
         </PostViewerBlock>
     );

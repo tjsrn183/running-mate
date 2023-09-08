@@ -43,8 +43,8 @@ const CommunityWritePage = () => {
 
     const registerLetter = async () => {
         const resultSetLetter = await setLetter({ nick: userInfo.data.user.user.nick, title, body }).unwrap();
-        console.log('프론트 resultSetLetter', resultSetLetter);
-        navigate(`/community/${resultSetLetter}`);
+        console.log('프론트 resultSetLetter', resultSetLetter.postId);
+        navigate(`/community/${resultSetLetter.postId}`);
     };
 
     useEffect(() => {

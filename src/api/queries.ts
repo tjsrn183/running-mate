@@ -5,6 +5,12 @@ interface writeType {
     title: string;
     body: string;
 }
+interface detailPostType {
+    createdAt: string;
+    name: string;
+    title: string;
+    content: any;
+}
 interface resultWriteType {
     data: any;
     postId: number;
@@ -28,7 +34,7 @@ export const api = createApi({
                 };
             }
         }),
-        getPostItem: builder.query<writeType, number>({
+        getPostItem: builder.query<detailPostType, number>({
             query: (postId) => `/post/${postId}`,
             providesTags: (result, error, arg) => [{ type: 'PostItem', id: arg }]
         })
