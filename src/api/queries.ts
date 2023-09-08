@@ -10,14 +10,16 @@ interface detailPostType {
     name: string;
     title: string;
     content: any;
+    postId: number;
 }
 interface resultWriteType {
     data: any;
     postId: number;
 }
+
 export const api = createApi({
     reducerPath: 'api',
-    tagTypes: ['UserInfo', 'PostItem'],
+    tagTypes: ['UserInfo', 'PostItem', 'PostList'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
     endpoints: (builder) => ({
         getUserInfo: builder.query<any, void>({
@@ -37,8 +39,12 @@ export const api = createApi({
         getPostItem: builder.query<detailPostType, number>({
             query: (postId) => `/post/${postId}`,
             providesTags: (result, error, arg) => [{ type: 'PostItem', id: arg }]
+        }),
+        getPostList: builder.query({
+            query: ({ page }) => `list/${page}`,
+            providesTags: (result, error, arg) => [{ type: 'PostList', id: arg.page }]
         })
     })
 });
 
-export const { useGetUserInfoQuery, useWriteCummunityMutation, useGetPostItemQuery } = api;
+export const { useGetUserInfoQuery, useWriteCummunityMutation, useGetPostItemQuery, useGetPostListQuery } = api;

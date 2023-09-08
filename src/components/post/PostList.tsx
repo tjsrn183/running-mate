@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
+import { useGetPostListQuery } from '../../api/queries';
 
 const PostListBlock = styled.div`
     display: flex;
@@ -33,6 +34,8 @@ const Main = styled.div`
 `;
 
 const PostItem = () => {
+    const postList = useGetPostListQuery(1);
+    console.log(postList);
     return (
         <PostViewerBlock>
             <h2>제목</h2>
