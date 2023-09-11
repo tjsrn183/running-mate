@@ -40,8 +40,8 @@ export const api = createApi({
             query: (postId) => `/post/${postId}`,
             providesTags: (result, error, arg) => [{ type: 'PostItem', id: arg }]
         }),
-        getPostList: builder.query({
-            query: ({ page }) => `list/${page}`,
+        getPostList: builder.query<any, any>({
+            query: (page) => `/post/list/${page}`,
             providesTags: (result, error, arg) => [{ type: 'PostList', id: arg.page }]
         })
     })

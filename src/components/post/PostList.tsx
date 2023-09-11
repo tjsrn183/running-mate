@@ -32,28 +32,40 @@ const ListBlock = styled.div``;
 const Main = styled.div`
     margin: 50px;
 `;
+interface postType {
+    postId: number;
+    title: string;
+    nick: string;
+    content: string;
+    createdAt: string;
+}
 
-const PostItem = () => {
-    const postList = useGetPostListQuery(1);
-    console.log(postList);
+const PostItem = ({ posts }: { posts: postType }) => {
+    const { postId, title, nick, content, createdAt } = posts;
     return (
         <PostViewerBlock>
-            <h2>제목</h2>
-            <b>나한과</b>
-            <p>포스트내용의 일부분</p>
+            <h2>{title}</h2>
+            <b>{nick}</b>
+            <p>{content}</p>
         </PostViewerBlock>
     );
 };
 
 const PostList = () => {
+    const postList = useGetPostListQuery(1);
+    console.log(postList);
     return (
         <PostListBlock>
             <Main>
                 <StyledLink to="/community/write">글 작성하기</StyledLink>
                 <ListBlock>
-                    <PostItem />
-                    <PostItem />
-                    <PostItem />
+                    {!postList.isLoading && postList.data && (
+                        <div>
+                            {postList.data.map((post: postType) => (
+                                <PostItem posts={post} key={post.postId} />
+                            ))}
+                        </div>
+                    )}
                 </ListBlock>
             </Main>
         </PostListBlock>

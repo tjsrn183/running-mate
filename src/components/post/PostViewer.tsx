@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useGetPostItemQuery } from '../../api/queries';
-import { type } from 'os';
 
 const PostViewerBlock = styled.div`
     display: flex;
