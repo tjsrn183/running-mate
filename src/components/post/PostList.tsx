@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useGetPostListQuery } from '../../api/queries';
@@ -32,23 +32,43 @@ const ListBlock = styled.div``;
 const Main = styled.div`
     margin: 50px;
 `;
+const NameSpan = styled.span`
+    color: gray;
+`;
+const CreateDate = styled.span`
+    font-size: small;
+    color: gray;
+`;
+const Title = styled.div`
+    margin-top: 20px;
+    font-size: large;
+    font-weight: border;
+`;
+const SubInfo = styled.div``;
+const PostItemClick = styled(NavLink)`
+    &:hover {
+        cursor: pointer;
+    }
+`;
 interface postType {
     postId: number;
     title: string;
-    nick: string;
+    name: string;
     content: string;
     createdAt: string;
     body: string;
 }
 
 const PostItem = ({ posts }: { posts: postType }) => {
-    const { postId, title, nick, content, createdAt, body } = posts;
+    const { postId, title, name, content, createdAt, body } = posts;
 
     return (
         <PostViewerBlock>
-            <h2>{title}</h2>
-            <h4>{createdAt}</h4>
-            <b>{nick}</b>
+            <Title>{title}</Title>
+            <SubInfo>
+                <NameSpan>{name}</NameSpan>&nbsp;
+                <CreateDate>{createdAt.substring(0, 10)}</CreateDate>
+            </SubInfo>
             <p>{body}</p>
         </PostViewerBlock>
     );
@@ -66,7 +86,9 @@ const PostList = () => {
                     {!postList.isLoading && postList.data && (
                         <div>
                             {postList.data.map((post: postType) => (
-                                <PostItem posts={post} key={post.postId} />
+                                <PostItemClick key={post.postId} to={`/community/${post.postId}`}>
+                                    <PostItem posts={post} />
+                                </PostItemClick>
                             ))}
                         </div>
                     )}
