@@ -38,15 +38,18 @@ interface postType {
     nick: string;
     content: string;
     createdAt: string;
+    body: string;
 }
 
 const PostItem = ({ posts }: { posts: postType }) => {
-    const { postId, title, nick, content, createdAt } = posts;
+    const { postId, title, nick, content, createdAt, body } = posts;
+
     return (
         <PostViewerBlock>
             <h2>{title}</h2>
+            <h4>{createdAt}</h4>
             <b>{nick}</b>
-            <p>{content}</p>
+            <p>{body}</p>
         </PostViewerBlock>
     );
 };
@@ -54,6 +57,7 @@ const PostItem = ({ posts }: { posts: postType }) => {
 const PostList = () => {
     const postList = useGetPostListQuery(1);
     console.log(postList);
+
     return (
         <PostListBlock>
             <Main>
