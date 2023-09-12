@@ -2,13 +2,15 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useGetPostItemQuery } from '../../api/queries';
+import PostEditDeleteButton from '../common/PostEditDeleteButton';
 
 const PostViewerBlock = styled.div`
     display: flex;
     justify-content: center;
 `;
 const Main = styled.div`
-    margin-top: 50px;
+    width: 60%;
+    margin: 0 auto;
 `;
 const PostTitle = styled.div`
     & > h1 {
@@ -42,6 +44,7 @@ const PostViewer = () => {
                     </div>
                 </PostTitle>
                 <PostContent dangerouslySetInnerHTML={{ __html: postItem.data?.content }} />
+                <PostEditDeleteButton />
             </Main>
         </PostViewerBlock>
     );
