@@ -11,6 +11,7 @@ interface detailPostType {
     title: string;
     content: any;
     postId: number;
+    user_id: number;
 }
 interface resultWriteType {
     data: any;

@@ -1,8 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useGetPostItemQuery } from '../../api/queries';
+import { useGetPostItemQuery, useGetUserInfoQuery } from '../../api/queries';
 import PostEditDeleteButton from '../common/PostEditDeleteButton';
+import { useAppDispatch } from '../../redux/hooks';
+import { setPost } from '../../redux/writeSlice';
 
 const PostViewerBlock = styled.div`
     display: flex;
@@ -29,9 +31,22 @@ const PostViewer = () => {
     const { postId } = useParams();
     const postIdNum: number = parseInt(postId!);
     const postItem = useGetPostItemQuery(postIdNum);
+    const userInfo = useGetUserInfoQuery();
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
     console.log('PpostId의 타입', typeof postIdNum);
     console.log('PostViewer에 postIdNum', postIdNum);
     console.log('PostViewer에서 찍어본 postItem', postItem);
+    const ownPost = (userInfo.data?.user && userInfo.data?.user.user.id) === (postItem.data && postItem.data.user_id);
+    const onEdit = () => {
+        dispatch(setPost({ title: postItem.data?.title as unknown as string, body: postItem.data?.content }));
+
+        navigate(`/community/write/`);
+    };
+    const onDelete = () => {
+        navigate(`/`);
+    };
     return (
         <PostViewerBlock>
             <Main>
@@ -44,7 +59,7 @@ const PostViewer = () => {
                     </div>
                 </PostTitle>
                 <PostContent dangerouslySetInnerHTML={{ __html: postItem.data?.content }} />
-                <PostEditDeleteButton />
+                {ownPost && <PostEditDeleteButton onEdit={onEdit} onDelete={onDelete} />}
             </Main>
         </PostViewerBlock>
     );

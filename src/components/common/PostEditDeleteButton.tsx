@@ -1,27 +1,36 @@
 import styled from 'styled-components';
 import React from 'react';
 import palette from '../../lib/styles/palette';
+interface PostEditDeleteButtonProps {
+    onEdit: () => void;
+    onDelete: () => void;
+}
 const PostActionButtonBlock = styled.div`
-    display: flex;
+    position: flex;
+    bottom: calc((100% - 800px) / 2);
+    right: calc((100% - 1700px) / 2);
 `;
 const ActionButton = styled.button`
-    position: fixed;
-    bottom: calc((100% - 650px) / 2);
-    right: calc((100% - 650px) / 2);
+    font-size: larger;
     cursor: pointer;
     border: none;
     background-color: ${palette.orange};
     color: white;
+    border-radius: 5px;
+    width: 100px;
+    height: 50px;
     &:hover {
         background-color: ${palette.hover_orange};
     }
 `;
 
-const PostEditDeleteButton = () => {
+const PostEditDeleteButton = ({ onEdit, onDelete }: PostEditDeleteButtonProps) => {
     return (
         <PostActionButtonBlock>
-            <ActionButton>수정</ActionButton>
-            <ActionButton>삭제</ActionButton>
+            <ActionButton style={{ borderRight: '1px solid white' }} onClick={onEdit}>
+                수정
+            </ActionButton>
+            <ActionButton onClick={onDelete}>삭제</ActionButton>
         </PostActionButtonBlock>
     );
 };
