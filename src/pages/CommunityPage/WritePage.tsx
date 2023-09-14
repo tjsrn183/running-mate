@@ -34,6 +34,13 @@ const CommunityWritePage = () => {
     const setLetter = letterMutation[0];
     const userInfo = useGetUserInfoQuery();
 
+    useEffect(() => {
+        console.log('WritePage의 useEffect훅 마운트실행');
+        return () => {
+            console.log('WritePage의 useEffect훅 언!!마운트실행');
+            dispatch(initiallize());
+        };
+    }, [dispatch]);
     const { title, body } = useAppSelector(({ write }) => ({
         title: write.title,
         body: write.body
@@ -47,16 +54,11 @@ const CommunityWritePage = () => {
         navigate(`/community/${resultSetLetter.postId}`);
     };
 
-    useEffect(() => {
-        return () => {
-            dispatch(initiallize());
-        };
-    }, [dispatch]);
     return (
         <ComunityWriteBlock>
             <Header />
             <EditorBlock>
-                <Editor width="840px" height="500px" onChangeField={onChangeField} title={title} />
+                <Editor width="840px" height="500px" onChangeField={onChangeField} title={title} body={body} />
             </EditorBlock>
             <RegisterButton onClick={registerLetter}>등록하기</RegisterButton>
         </ComunityWriteBlock>

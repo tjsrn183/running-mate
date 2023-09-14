@@ -3,6 +3,8 @@ import 'quill/dist/quill.snow.css';
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { ChangeFieldWritePayload } from '../../redux/writeSlice';
+import { useAppSelector } from '../../redux/hooks';
+import useFirstMountEffect from '../../hooks/useFirstMountEffect';
 
 const TitleInput = styled.input`
     font-size: 2rem;
@@ -40,7 +42,7 @@ interface EditorProps {
     onChangeField?: (payload: ChangeFieldWritePayload) => void;
 }
 type quilltype = typeof Quill;
-const Editor: React.FC<EditorProps> = ({ height, width, title, onChangeField }) => {
+const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeField }) => {
     const quillElement = useRef<HTMLDivElement>(null);
     const quillInstance = useRef<quilltype | null>(null);
 
@@ -71,6 +73,11 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, onChangeField }) 
             [onChangeField]
         );
     }
+
+    useFirstMountEffect(() => {
+        quillInstance.current.innterHtml = body;
+    }, [body]);
+
     const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChangeField?.({
             key: 'title',
