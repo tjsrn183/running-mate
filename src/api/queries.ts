@@ -4,6 +4,7 @@ interface writeType {
     nick: string;
     title: string;
     body: string;
+    postId?: number;
 }
 interface detailPostType {
     createdAt: string;
@@ -27,13 +28,31 @@ export const api = createApi({
             query: () => 'auth/userinfo',
             providesTags: ['UserInfo']
         }),
-        writeCummunity: builder.mutation<resultWriteType, writeType>({
+        writeCommunity: builder.mutation<resultWriteType, writeType>({
             query: ({ nick, title, body }: writeType) => {
                 return {
                     url: '/post',
                     method: 'POST',
                     body: { nick, title, body },
                     responseType: 'json'
+                };
+            }
+        }),
+        editCommunity: builder.mutation<resultWriteType, writeType>({
+            query: ({ nick, title, body, postId }: writeType) => {
+                return {
+                    url: `/post/${postId}`,
+                    method: 'PUT',
+                    body: { nick, title, body, postId },
+                    responseType: 'json'
+                };
+            }
+        }),
+        deleteCommunity: builder.mutation<any, number>({
+            query: (postId) => {
+                return {
+                    url: `/post/${postId}`,
+                    method: 'DELETE'
                 };
             }
         }),
@@ -48,4 +67,11 @@ export const api = createApi({
     })
 });
 
-export const { useGetUserInfoQuery, useWriteCummunityMutation, useGetPostItemQuery, useGetPostListQuery } = api;
+export const {
+    useGetUserInfoQuery,
+    useWriteCommunityMutation,
+    useGetPostItemQuery,
+    useGetPostListQuery,
+    useEditCommunityMutation,
+    useDeleteCommunityMutation
+} = api;

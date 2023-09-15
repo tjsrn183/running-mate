@@ -75,7 +75,8 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
     }
 
     useFirstMountEffect(() => {
-        quillInstance.current.innterHtml = body;
+        console.log('customHook에서 body찍어봄', body);
+        quillInstance.current.root.innerHTML = body;
     }, [body]);
 
     const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {

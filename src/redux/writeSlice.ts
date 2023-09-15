@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface WriteState {
     title: string;
     body: string;
+    postId?: number;
     [state: string]: any;
 }
 
@@ -26,6 +27,7 @@ const writeSlice = createSlice({
         setPost: (state: WriteState, action: PayloadAction<WriteState>) => {
             state.title = action.payload.title;
             state.body = action.payload.body;
+            state.postId = action.payload.postId;
         },
         initiallize: () => initialState
     }

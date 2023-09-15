@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import CustomButton from '../../components/common/CustomButton';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ChangeFieldWritePayload, changeWriteField, initiallize } from '../../redux/writeSlice';
-import { useWriteCummunityMutation, useGetUserInfoQuery } from '../../api/queries';
+import { useWriteCommunityMutation, useGetUserInfoQuery, useEditCommunityMutation } from '../../api/queries';
 
 import { useNavigate } from 'react-router-dom';
 const ComunityWriteBlock = styled.div`
@@ -27,11 +27,12 @@ const RegisterButton = styled(CustomButton)`
     margin-bottom: 0;
 `;
 type OnChangeFieldFunction = (payload: ChangeFieldWritePayload) => void;
+
 const CommunityWritePage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const letterMutation = useWriteCummunityMutation();
-    const setLetter = letterMutation[0];
+    const letterMutation = useWriteCommunityMutation();
+    const editMutation = useEditCommunityMutation();
     const userInfo = useGetUserInfoQuery();
 
     useEffect(() => {
@@ -41,15 +42,21 @@ const CommunityWritePage = () => {
             dispatch(initiallize());
         };
     }, [dispatch]);
-    const { title, body } = useAppSelector(({ write }) => ({
+    const { title, body, postId } = useAppSelector(({ write }) => ({
         title: write.title,
-        body: write.body
+        body: write.body,
+        postId: write.postId
     }));
 
     const onChangeField: OnChangeFieldFunction = (payload) => dispatch(changeWriteField(payload));
 
     const registerLetter = async () => {
-        const resultSetLetter = await setLetter({ nick: userInfo.data.user.user.nick, title, body }).unwrap();
+        if (postId) {
+            await editMutation[0]({ nick: userInfo.data.user.user.nick, title, body, postId }).unwrap();
+            return;
+        }
+
+        const resultSetLetter = await letterMutation[0]({ nick: userInfo.data.user.user.nick, title, body }).unwrap();
         console.log('프론트 resultSetLetter', resultSetLetter.postId);
         navigate(`/community/${resultSetLetter.postId}`);
     };

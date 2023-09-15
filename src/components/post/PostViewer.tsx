@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useGetPostItemQuery, useGetUserInfoQuery } from '../../api/queries';
+import { useDeleteCommunityMutation, useGetPostItemQuery, useGetUserInfoQuery } from '../../api/queries';
 import PostEditDeleteButton from '../common/PostEditDeleteButton';
 import { useAppDispatch } from '../../redux/hooks';
-import { setPost } from '../../redux/writeSlice';
+import { initiallize, setPost } from '../../redux/writeSlice';
 
 const PostViewerBlock = styled.div`
     display: flex;
@@ -32,6 +32,7 @@ const PostViewer = () => {
     const postIdNum: number = parseInt(postId!);
     const postItem = useGetPostItemQuery(postIdNum);
     const userInfo = useGetUserInfoQuery();
+    const deletePost = useDeleteCommunityMutation();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -40,11 +41,25 @@ const PostViewer = () => {
     console.log('PostViewer에서 찍어본 postItem', postItem);
     const ownPost = (userInfo.data?.user && userInfo.data?.user.user.id) === (postItem.data && postItem.data.user_id);
     const onEdit = () => {
-        dispatch(setPost({ title: postItem.data?.title as unknown as string, body: postItem.data?.content }));
-
+        dispatch(
+            setPost({
+                title: postItem.data?.title as unknown as string,
+                body: postItem.data?.content,
+                postId: postItem.data?.postId
+            })
+        );
         navigate(`/community/write/`);
     };
+    useEffect(() => {
+        console.log('PostViewer에 의 useEffect');
+        return () => {
+            dispatch(initiallize());
+        };
+    });
     const onDelete = () => {
+        const result1 = deletePost[0](postIdNum);
+        console.log('onDelete에 의  result1', result1);
+
         navigate(`/`);
     };
     return (
