@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Editor from '../../components/write/Editor';
 import Header from '../../components/common/Header';
 import { styled } from 'styled-components';
@@ -35,11 +35,20 @@ const CommunityWritePage = () => {
     const editMutation = useEditCommunityMutation();
     const userInfo = useGetUserInfoQuery();
 
+    const Ref = useRef(false);
     useEffect(() => {
         console.log('WritePage의 useEffect훅 마운트실행');
+        setTimeout(() => {
+            console.log('콘솔에 setTimeout찍음');
+            Ref.current = true;
+        }, 2000);
         return () => {
-            console.log('WritePage의 useEffect훅 언!!마운트실행');
-            dispatch(initiallize());
+            if (Ref.current) {
+                return;
+            } else {
+                console.log('WritePage의 useEffect훅 언!!마운트실행');
+                setTimeout(() => dispatch(initiallize()), 10000);
+            }
         };
     }, [dispatch]);
     const { title, body, postId } = useAppSelector(({ write }) => ({
@@ -56,18 +65,17 @@ const CommunityWritePage = () => {
             title,
             body
         }).unwrap();
-        console.log('프론트 resultSetLetter', resultSetLetter.postId);
-        window.location.replace(`/community/${resultSetLetter.postId}`);
+        console.log('프론트 resultSetLetter', resultSetLetter);
+        window.location.replace(`/community/${postId}`);
     };
     const editButton = async () => {
         const resultSetLetter = await editMutation[0]({
-            nick: userInfo.data.user.user.nick,
             title,
             body,
             postId
         }).unwrap();
         console.log('editditMutation에 의  resultSetLetter', resultSetLetter);
-        window.location.replace(`/community/${resultSetLetter.postId}`);
+        window.location.replace(`/community/${postId}`);
     };
 
     return (

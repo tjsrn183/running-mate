@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useDeleteCommunityMutation, useGetPostItemQuery, useGetUserInfoQuery } from '../../api/queries';
 import PostEditDeleteButton from '../common/PostEditDeleteButton';
 import { useAppDispatch } from '../../redux/hooks';
-import { initiallize, setPost } from '../../redux/writeSlice';
+import { setPost } from '../../redux/writeSlice';
 
 const PostViewerBlock = styled.div`
     display: flex;
@@ -51,12 +51,7 @@ const PostViewer = () => {
         );
         navigate(`/community/write/`);
     };
-    useEffect(() => {
-        console.log('PostViewer에 의 useEffect');
-        return () => {
-            dispatch(initiallize());
-        };
-    });
+
     const onDelete = async () => {
         const result1 = await deletePost[0](postItem.data?.postId as unknown as number);
         console.log('onDelete에 의  result1', result1);

@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 interface writeType {
-    nick: string;
+    nick?: string;
     title: string;
     body: string;
-    postId?: number;
+    postId?: number | null;
 }
 interface detailPostType {
     createdAt: string;
@@ -44,7 +44,7 @@ export const api = createApi({
                 return {
                     url: `/post/edit/${postId}`,
                     method: 'PUT',
-                    body: { nick, title, body, postId },
+                    body: { title, body, postId },
                     responseType: 'json'
                 };
             }
