@@ -51,14 +51,23 @@ const CommunityWritePage = () => {
     const onChangeField: OnChangeFieldFunction = (payload) => dispatch(changeWriteField(payload));
 
     const registerLetter = async () => {
-        if (postId) {
-            await editMutation[0]({ nick: userInfo.data.user.user.nick, title, body, postId }).unwrap();
-            return;
-        }
-
-        const resultSetLetter = await letterMutation[0]({ nick: userInfo.data.user.user.nick, title, body }).unwrap();
+        const resultSetLetter = await letterMutation[0]({
+            nick: userInfo.data.user.user.nick,
+            title,
+            body
+        }).unwrap();
         console.log('프론트 resultSetLetter', resultSetLetter.postId);
-        navigate(`/community/${resultSetLetter.postId}`);
+        window.location.replace(`/community/${resultSetLetter.postId}`);
+    };
+    const editButton = async () => {
+        const resultSetLetter = await editMutation[0]({
+            nick: userInfo.data.user.user.nick,
+            title,
+            body,
+            postId
+        }).unwrap();
+        console.log('editditMutation에 의  resultSetLetter', resultSetLetter);
+        window.location.replace(`/community/${resultSetLetter.postId}`);
     };
 
     return (
@@ -67,7 +76,11 @@ const CommunityWritePage = () => {
             <EditorBlock>
                 <Editor width="840px" height="500px" onChangeField={onChangeField} title={title} body={body} />
             </EditorBlock>
-            <RegisterButton onClick={registerLetter}>등록하기</RegisterButton>
+            {postId ? (
+                <RegisterButton onClick={editButton}>수정하기</RegisterButton>
+            ) : (
+                <RegisterButton onClick={registerLetter}>등록하기</RegisterButton>
+            )}
         </ComunityWriteBlock>
     );
 };

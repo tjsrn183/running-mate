@@ -40,8 +40,9 @@ export const api = createApi({
         }),
         editCommunity: builder.mutation<resultWriteType, writeType>({
             query: ({ nick, title, body, postId }: writeType) => {
+                console.log('editCommunity 사용됨');
                 return {
-                    url: `/post/${postId}`,
+                    url: `/post/edit/${postId}`,
                     method: 'PUT',
                     body: { nick, title, body, postId },
                     responseType: 'json'
@@ -51,7 +52,7 @@ export const api = createApi({
         deleteCommunity: builder.mutation<any, number>({
             query: (postId) => {
                 return {
-                    url: `/post/${postId}`,
+                    url: `/post/delete/${postId}`,
                     method: 'DELETE'
                 };
             }

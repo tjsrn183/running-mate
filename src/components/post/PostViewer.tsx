@@ -33,6 +33,7 @@ const PostViewer = () => {
     const postItem = useGetPostItemQuery(postIdNum);
     const userInfo = useGetUserInfoQuery();
     const deletePost = useDeleteCommunityMutation();
+
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -56,10 +57,10 @@ const PostViewer = () => {
             dispatch(initiallize());
         };
     });
-    const onDelete = () => {
-        const result1 = deletePost[0](postIdNum);
+    const onDelete = async () => {
+        const result1 = await deletePost[0](postItem.data?.postId as unknown as number);
         console.log('onDelete에 의  result1', result1);
-
+        window.location.replace('/');
         navigate(`/`);
     };
     return (
