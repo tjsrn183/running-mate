@@ -56,7 +56,6 @@ const PostViewer = () => {
         const result1 = await deletePost[0](postItem.data?.postId as unknown as number);
         console.log('onDelete에 의  result1', result1);
         window.location.replace('/');
-        navigate(`/`);
     };
     return (
         <PostViewerBlock>
