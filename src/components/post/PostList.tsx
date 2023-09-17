@@ -1,8 +1,9 @@
-import React from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useGetPostListQuery } from '../../api/queries';
+import Pagenation from '../common/Pagenation';
 
 const PostListBlock = styled.div`
     display: flex;
@@ -75,8 +76,11 @@ const PostItem = ({ posts }: { posts: postType }) => {
 };
 
 const PostList = () => {
+    const [limit, setLimit] = useState(10); //한 페이지당 표시할 게시물수
+    const [page, setPage] = useState(1); //현재 페이지
+    const offset = (page - 1) * limit; //페이지에 따라 게시물을 스킵할때 쓸 변수
     const postList = useGetPostListQuery(1);
-    console.log(postList);
+    console.log(postList.data);
 
     return (
         <PostListBlock>
@@ -85,7 +89,7 @@ const PostList = () => {
                 <ListBlock>
                     {!postList.isLoading && postList.data && (
                         <div>
-                            {postList.data.map((post: postType) => (
+                            {postList.data.slice(offset, offset + limit).map((post: postType) => (
                                 <PostItemClick key={post.postId} to={`/community/${post.postId}`}>
                                     <PostItem posts={post} />
                                 </PostItemClick>
@@ -93,6 +97,9 @@ const PostList = () => {
                         </div>
                     )}
                 </ListBlock>
+                {postList.data && (
+                    <Pagenation total={postList.data.length} limit={limit} page={page} setPage={setPage}></Pagenation>
+                )}
             </Main>
         </PostListBlock>
     );
