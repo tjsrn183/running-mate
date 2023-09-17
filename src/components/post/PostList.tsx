@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useGetPostListQuery } from '../../api/queries';
 import Pagenation from '../common/Pagenation';
+import { LoadingSpin } from '../common/LoadingSpin';
 
 const PostListBlock = styled.div`
     display: flex;
@@ -87,7 +88,9 @@ const PostList = () => {
             <Main>
                 <StyledLink to="/community/write">글 작성하기</StyledLink>
                 <ListBlock>
-                    {!postList.isLoading && postList.data && (
+                    {postList.isLoading ? (
+                        <LoadingSpin />
+                    ) : (
                         <div>
                             {postList.data.slice(offset, offset + limit).map((post: postType) => (
                                 <PostItemClick key={post.postId} to={`/community/${post.postId}`}>
