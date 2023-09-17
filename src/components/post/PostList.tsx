@@ -76,7 +76,7 @@ const PostItem = ({ posts }: { posts: postType }) => {
 };
 
 const PostList = () => {
-    const [limit, setLimit] = useState(10); //한 페이지당 표시할 게시물수
+    const [limit, setLimit] = useState(5); //한 페이지당 표시할 게시물수
     const [page, setPage] = useState(1); //현재 페이지
     const offset = (page - 1) * limit; //페이지에 따라 게시물을 스킵할때 쓸 변수
     const postList = useGetPostListQuery(1);
