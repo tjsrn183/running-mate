@@ -8,6 +8,7 @@ import { ChangeFieldWritePayload, changeWriteField, initiallize } from '../../re
 import { useWriteCommunityMutation, useGetUserInfoQuery, useEditCommunityMutation } from '../../api/queries';
 
 import { useNavigate } from 'react-router-dom';
+import { LoadingSpin } from '../../components/common/LoadingSpin';
 const ComunityWriteBlock = styled.div`
     position: relative;
     height: 100vh;
@@ -49,6 +50,9 @@ const CommunityWritePage = () => {
             title,
             body
         }).unwrap();
+        if (letterMutation[1].isLoading) {
+            return <LoadingSpin />;
+        }
         console.log('프론트 resultSetLetter', resultSetLetter);
         window.location.replace(`/community/${resultSetLetter.postId}`);
     };
@@ -58,6 +62,9 @@ const CommunityWritePage = () => {
             body,
             postId
         }).unwrap();
+        if (editMutation[1].isLoading) {
+            return <LoadingSpin />;
+        }
         console.log('editditMutation에 의  resultSetLetter', resultSetLetter);
         window.location.replace(`/community/${postId}`);
     };

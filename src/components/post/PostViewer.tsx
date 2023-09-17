@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDeleteCommunityMutation, useGetPostItemQuery, useGetUserInfoQuery } from '../../api/queries';
 import PostEditDeleteButton from '../common/PostEditDeleteButton';
 import { useAppDispatch } from '../../redux/hooks';
 import { setPost } from '../../redux/writeSlice';
+import { LoadingSpin } from '../common/LoadingSpin';
 
 const PostViewerBlock = styled.div`
     display: flex;
@@ -53,24 +54,30 @@ const PostViewer = () => {
     };
 
     const onDelete = async () => {
-        const result1 = await deletePost[0](postItem.data?.postId as unknown as number);
-        console.log('onDelete에 의  result1', result1);
+        await deletePost[0](postItem.data?.postId as unknown as number);
+        if (deletePost[1].isLoading) {
+            return <LoadingSpin />;
+        }
         window.location.replace('/');
     };
     return (
         <PostViewerBlock>
-            <Main>
-                <PostTitle>
-                    <h1>{postItem.data?.title}</h1>
-                    <div>
-                        <span>{postItem.data?.createdAt.substring(0, 10)}</span>
-                        <br />
-                        <span>{postItem.data?.name}</span>
-                    </div>
-                </PostTitle>
-                <PostContent dangerouslySetInnerHTML={{ __html: postItem.data?.content }} />
-                {ownPost && <PostEditDeleteButton onEdit={onEdit} onDelete={onDelete} />}
-            </Main>
+            {!postItem.data ? (
+                <LoadingSpin />
+            ) : (
+                <Main>
+                    <PostTitle>
+                        <h1>{postItem.data?.title}</h1>
+                        <div>
+                            <span>{postItem.data?.createdAt.substring(0, 10)}</span>
+                            <br />
+                            <span>{postItem.data?.name}</span>
+                        </div>
+                    </PostTitle>
+                    <PostContent dangerouslySetInnerHTML={{ __html: postItem.data?.content }} />
+                    {ownPost && <PostEditDeleteButton onEdit={onEdit} onDelete={onDelete} />}
+                </Main>
+            )}
         </PostViewerBlock>
     );
 };

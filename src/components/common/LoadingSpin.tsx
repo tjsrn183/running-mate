@@ -19,7 +19,7 @@ const SpinnerBlock = styled.div`
     border: 8px solid transparent;
     border-top-color: ${palette.orange};
     border-bottom-color: ${palette.orange};
-    animation: spinner 0.8s ease infinite;
+    animation: ${spinner} 0.8s ease infinite;
 `;
 
 export const LoadingSpin = () => {
