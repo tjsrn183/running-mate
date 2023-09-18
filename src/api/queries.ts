@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
+//커뮤니티 글쓰기 타입
 interface writeType {
     nick?: string;
     title: string;
     body: string;
     postId?: number | null;
 }
+//서버로부터 커뮤니티 글정보 패칭 타입
 interface detailPostType {
     createdAt: string;
     name: string;
@@ -14,6 +15,7 @@ interface detailPostType {
     postId: number;
     user_id: number;
 }
+//글 업로드후 해당 게시물로 이동하기위해 받는 정보의 타입
 interface resultWriteType {
     data: any;
     postId: number;
@@ -36,6 +38,18 @@ export const api = createApi({
                     body: { nick, title, body },
                     responseType: 'json'
                 };
+            }
+        }),
+        imgUploadCommunity: builder.mutation<any, any>({
+            query: (formData) => {
+                {
+                    return {
+                        url: '/post/img',
+                        method: 'POST',
+                        body: formData,
+                        responseType: 'json'
+                    };
+                }
             }
         }),
         editCommunity: builder.mutation<resultWriteType, writeType>({
@@ -74,5 +88,6 @@ export const {
     useGetPostItemQuery,
     useGetPostListQuery,
     useEditCommunityMutation,
-    useDeleteCommunityMutation
+    useDeleteCommunityMutation,
+    useImgUploadCommunityMutation
 } = api;

@@ -13,7 +13,7 @@ const MainPage = () => {
             <MainTop />
             <ChatPage />
             <p />
-            <Link to="/myInfo">내 정보로이동</Link>
+
             <RunItemList />
         </div>
     );
