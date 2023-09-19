@@ -65,6 +65,7 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
 
         input.addEventListener('change', async () => {
             const file = input?.files?.[0];
+            console.log('file은 무엇일까', file);
             const formData = new FormData();
             formData.append('img', file!);
             try {
@@ -85,7 +86,9 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
                 container: [
                     ['image'],
                     [{ header: [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline', 'strike', 'blockquote']
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    ['blockquote', 'code-block', 'link']
                 ],
                 handlers: {
                     image: imageHandler
@@ -113,7 +116,7 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
             <ReactQuill
                 ref={quillInstance}
                 theme="snow"
-                placeholder="플레이스 홀더"
+                placeholder="글을 입력하세요"
                 value={body}
                 onChange={setValue}
                 modules={modules}

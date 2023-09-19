@@ -80,8 +80,9 @@ const PostList = () => {
     const [limit, setLimit] = useState(5); //한 페이지당 표시할 게시물수
     const [page, setPage] = useState(1); //현재 페이지
     const offset = (page - 1) * limit; //페이지에 따라 게시물을 스킵할때 쓸 변수
-    const postList = useGetPostListQuery(1);
-    console.log(postList.data);
+    const postList = useGetPostListQuery(page);
+    console.log('postList임', postList.data);
+    console.log('page임', page);
 
     return (
         <PostListBlock>
@@ -92,7 +93,7 @@ const PostList = () => {
                         <LoadingSpin />
                     ) : (
                         <div>
-                            {postList.data.slice(offset, offset + limit).map((post: postType) => (
+                            {postList.data?.slice(offset, offset + limit).map((post: postType) => (
                                 <PostItemClick key={post.postId} to={`/community/${post.postId}`}>
                                     <PostItem posts={post} />
                                 </PostItemClick>

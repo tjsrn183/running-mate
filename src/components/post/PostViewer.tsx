@@ -38,6 +38,7 @@ const PostViewer = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
+    console.log('PostViewer에  userInfo', userInfo);
     console.log('PpostId의 타입', typeof postIdNum);
     console.log('PostViewer에 postIdNum', postIdNum);
     console.log('PostViewer에서 찍어본 postItem', postItem);

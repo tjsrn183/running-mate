@@ -1,4 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { type } from 'os';
+//사용자정보 패칭 타입
+interface userInfoType {
+    id: number;
+    name: string;
+    email: string;
+    created_at: string;
+    updated_at: string;
+}
 //커뮤니티 글쓰기 타입
 interface writeType {
     nick?: string;
@@ -20,6 +29,14 @@ interface resultWriteType {
     data: any;
     postId: number;
 }
+//포스트리스트 페이지에서 포스트를 배열로 받는 타입
+interface postListType {
+    data: Array<detailPostType>;
+    slice: (arg1: number, arg2: number) => Array<any>;
+    length: number;
+    postId: number;
+    map: any;
+}
 
 export const api = createApi({
     reducerPath: 'api',
@@ -38,9 +55,10 @@ export const api = createApi({
                     body: { nick, title, body },
                     responseType: 'json'
                 };
-            }
+            },
+            invalidatesTags: ['PostList']
         }),
-        imgUploadCommunity: builder.mutation<any, any>({
+        imgUploadCommunity: builder.mutation<{ url: string }, any>({
             query: (formData) => {
                 {
                     return {
@@ -54,30 +72,34 @@ export const api = createApi({
         }),
         editCommunity: builder.mutation<resultWriteType, writeType>({
             query: ({ nick, title, body, postId }: writeType) => {
-                console.log('editCommunity 사용됨');
                 return {
                     url: `/post/edit/${postId}`,
                     method: 'PUT',
                     body: { title, body, postId },
                     responseType: 'json'
                 };
-            }
+            },
+            invalidatesTags: (result, error, arg) => [{ type: 'PostItem', id: arg.postId as unknown as number }]
         }),
-        deleteCommunity: builder.mutation<any, number>({
+        deleteCommunity: builder.mutation<void, number>({
             query: (postId) => {
                 return {
                     url: `/post/delete/${postId}`,
                     method: 'DELETE'
                 };
-            }
+            },
+            invalidatesTags: (result, error, arg) => [{ type: 'PostItem', id: arg }]
         }),
         getPostItem: builder.query<detailPostType, number>({
             query: (postId) => `/post/${postId}`,
             providesTags: (result, error, arg) => [{ type: 'PostItem', id: arg }]
         }),
-        getPostList: builder.query<any, any>({
+        getPostList: builder.query<postListType, number>({
             query: (page) => `/post/list/${page}`,
-            providesTags: (result, error, arg) => [{ type: 'PostList', id: arg.page }]
+            providesTags: (result, error, arg) =>
+                result
+                    ? [...result.map(({ postId }: { postId: number }) => ({ type: 'PostList', id: postId }))]
+                    : ['PostList']
         })
     })
 });
