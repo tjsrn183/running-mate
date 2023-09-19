@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CustomButton from './common/CustomButton';
 import palette from '../lib/styles/palette';
 import Editor from './write/Editor';
+import MapComponent from './common/MapComponent';
 
 const StyledMapBlock = styled.div`
     position: relative;
@@ -20,7 +21,7 @@ const MapBlock = styled.div`
 `;
 const EditorBlock = styled.div`
     grid-column: 5/8;
-    grid-row: 1/6;
+    grid-row: 1/7;
 `;
 
 const CourseBlock = styled.div`
@@ -87,9 +88,11 @@ const Map = () => {
     };
     return (
         <StyledMapBlock>
-            <MapBlock />
+            <MapBlock>
+                <MapComponent />
+            </MapBlock>
             <EditorBlock>
-                <Editor />
+                <Editor height="480px" />
             </EditorBlock>
             <CourseBlock>
                 <Course>
