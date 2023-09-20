@@ -40,6 +40,7 @@
     "jest": "^27.4.3",
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
+    "jquery": "^3.7.1",
     "mini-css-extract-plugin": "^2.4.5",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
@@ -102,6 +103,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.19",
     "@types/quill": "^2.0.10",
     "@types/react": "^18.2.14",
     "@types/react-redux": "^7.1.25",

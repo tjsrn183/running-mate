@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CustomButton from './common/CustomButton';
 import palette from '../lib/styles/palette';
 import Editor from './write/Editor';
-import MapComponent from './common/MapComponent';
+import MapComponent from './common/Map/MapComponent';
 
 const StyledMapBlock = styled.div`
     position: relative;
@@ -81,7 +81,8 @@ const RegisterItem = styled(CustomButton)`
 
 const Map = () => {
     const [numberOfItems, setNumberOfItems] = useState(1);
-
+    const [startLocation, setStartLocation] = useState('');
+    const [endLocation, setEndLocation] = useState('');
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
         setNumberOfItems(RegisterNumber);
@@ -89,16 +90,24 @@ const Map = () => {
     return (
         <StyledMapBlock>
             <MapBlock>
-                <MapComponent />
+                <MapComponent startLocation={startLocation} endLocation={endLocation} />
             </MapBlock>
             <EditorBlock>
                 <Editor height="480px" />
             </EditorBlock>
             <CourseBlock>
                 <Course>
-                    <CourseInput placeholder="출발지를 입력하세요" />
+                    <CourseInput
+                        placeholder="출발지를 입력하세요"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStartLocation(e.target.value)}
+                        value={startLocation}
+                    />
                     <br />
-                    <CourseInput placeholder="도착지를 입력하세요" />
+                    <CourseInput
+                        placeholder="도착지를 입력하세요"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEndLocation(e.target.value)}
+                        value={endLocation}
+                    />
                     <br />
                     <p>참여인원</p>
                     <CourseInput type="number" min="0" max="20" value={numberOfItems} onChange={onChangeRegister} />
@@ -112,12 +121,8 @@ const Map = () => {
                 <br />
                 <RegisterItem>등록하기</RegisterItem>
                 <RunInfo>
-                    <p>
-                        거리<h3>8km</h3>
-                    </p>
-                    <p>
-                        예상소요시간<h3>20분</h3>
-                    </p>
+                    <div>거리8km</div>
+                    <div>예상소요시간20분</div>
                 </RunInfo>
             </CourseBlock>
         </StyledMapBlock>
