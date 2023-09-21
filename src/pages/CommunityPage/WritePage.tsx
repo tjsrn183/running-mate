@@ -4,7 +4,7 @@ import Header from '../../components/common/Header';
 import { styled } from 'styled-components';
 import CustomButton from '../../components/common/CustomButton';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { ChangeFieldWritePayload, changeWriteField, initiallize } from '../../redux/writeSlice';
+import { ChangeFieldWritePayload, changeWriteField, initialize } from '../../redux/writeSlice';
 import { useWriteCommunityMutation, useGetUserInfoQuery, useEditCommunityMutation } from '../../api/queries';
 
 import { useNavigate } from 'react-router-dom';
@@ -54,7 +54,8 @@ const CommunityWritePage = () => {
             return <LoadingSpin />;
         }
         console.log('프론트 resultSetLetter', resultSetLetter);
-        window.location.replace(`/community/${resultSetLetter.postId}`);
+
+        navigate(`/community/${resultSetLetter.postId}`);
     };
     const editButton = async () => {
         const resultSetLetter = await editMutation[0]({
@@ -66,7 +67,7 @@ const CommunityWritePage = () => {
             return <LoadingSpin />;
         }
         console.log('editditMutation에 의  resultSetLetter', resultSetLetter);
-        window.location.replace(`/community/${postId}`);
+        navigate(`/community/${postId}`);
     };
 
     return (

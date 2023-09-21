@@ -1,5 +1,5 @@
 // POI 상세검색 함수
-export const poiDetail = ({ CURRENT_MAP, tData, poiId }: any) => {
+export const poiDetail = ({ CURRENT_MAP, tData, poiId, labelArr }: any) => {
     const optionObj = {
         resCoordType: 'WGS84GEO'
     };

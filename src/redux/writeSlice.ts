@@ -30,9 +30,9 @@ const writeSlice = createSlice({
             state.postId = action.payload.postId;
         },
 
-        initiallize: () => initialState
+        initialize: () => initialState
     }
 });
 
-export const { changeWriteField, initiallize, setPost } = writeSlice.actions;
+export const { changeWriteField, initialize, setPost } = writeSlice.actions;
 export default writeSlice;

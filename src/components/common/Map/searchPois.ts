@@ -1,6 +1,6 @@
 // (장소API) 통합 검색 함수
-export const searchPois = ({ CURRENT_MAP, tData }: any) => {
-    const searchKeyword = startLocation;
+export const searchPois = ({ CURRENT_MAP, tData, markerArr, searchLocation }: any) => {
+    const searchKeyword = searchLocation;
 
     const optionObj = {
         resCoordType: 'WGS84GEO',

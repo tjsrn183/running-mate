@@ -2,10 +2,11 @@ import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import React, { useRef, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { ChangeFieldWritePayload } from '../../redux/writeSlice';
+import { ChangeFieldWritePayload, initialize } from '../../redux/writeSlice';
 import { useAppSelector } from '../../redux/hooks';
 import useFirstMountEffect from '../../hooks/useFirstMountEffect';
 import { useImgUploadCommunityMutation } from '../../api/queries';
+import { useDispatch } from 'react-redux';
 
 const TitleInput = styled.input`
     font-size: 2rem;
@@ -46,8 +47,13 @@ interface EditorProps {
 const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeField }) => {
     const quillInstance = useRef<ReactQuill>(null);
     const editor = quillInstance?.current?.getEditor();
+    const dispatch = useDispatch();
     const imgUpload = useImgUploadCommunityMutation();
-
+    useEffect(() => {
+        return () => {
+            dispatch(initialize());
+        };
+    }, []);
     useFirstMountEffect(() => {
         console.log('customHook에서 body찍어봄', body);
         const editor = quillInstance?.current?.getEditor();

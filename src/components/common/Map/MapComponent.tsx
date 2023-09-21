@@ -15,10 +15,10 @@ const MapComponent = ({ startLocation, endLocation }: LocationType) => {
             height: '100%',
             zoom: 14
         });
-        const markerArr = [];
-        const labelArr = [];
-        const lineArr = [];
-
+        const markerArr: any = [];
+        const labelArr: any = [];
+        const lineArr: any = [];
+        const poiId = 0;
         const tData = new window.Tmapv2.extension.TData();
 
         CURRENT_MAP.addListener('click', function onClick(evt: any) {
@@ -69,9 +69,9 @@ const MapComponent = ({ startLocation, endLocation }: LocationType) => {
             tData.getAddressFromGeoJson(lat, lon, optionObj, params);
         });
 
-        routesPedestrian({ CURRENT_MAP, tData });
-        poiDetail({ CURRENT_MAP, tData, poiId });
-        searchPois({ CURRENT_MAP, tData });
+        routesPedestrian({ CURRENT_MAP, tData, markerArr });
+        poiDetail({ CURRENT_MAP, tData, poiId, lineArr, labelArr });
+        // searchPois({ CURRENT_MAP, tData, markerArr, searchLocation });
     }, []);
 
     return <div id="map_div" style={{ width: '100%', height: '500px' }}></div>;

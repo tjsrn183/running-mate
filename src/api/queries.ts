@@ -56,7 +56,7 @@ export const api = createApi({
                     responseType: 'json'
                 };
             },
-            invalidatesTags: ['PostList']
+            invalidatesTags: ['PostItem']
         }),
         imgUploadCommunity: builder.mutation<{ url: string }, any>({
             query: (formData) => {
@@ -96,10 +96,14 @@ export const api = createApi({
         }),
         getPostList: builder.query<postListType, number>({
             query: (page) => `/post/list/${page}`,
-            providesTags: (result, error, arg) =>
-                result
-                    ? [...result.map(({ postId }: { postId: number }) => ({ type: 'PostList', id: postId }))]
-                    : ['PostList']
+            providesTags: (result, error, arg) => {
+                {
+                    console.log('getPostList에 의 return', result, error, arg);
+                    return result
+                        ? [...result.map(({ postId }: { postId: number }) => ({ type: 'PostItem', id: postId }))]
+                        : ['PostList'];
+                }
+            }
         })
     })
 });

@@ -59,7 +59,7 @@ const PostViewer = () => {
         if (deletePost[1].isLoading) {
             return <LoadingSpin />;
         }
-        window.location.replace('/');
+        navigate('/');
     };
     return (
         <PostViewerBlock>
