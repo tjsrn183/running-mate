@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import palette from '../../lib/styles/palette';
 
 const StyledButton = styled.button`
@@ -17,15 +17,28 @@ const StyledButton = styled.button`
         background-color: ${palette.hover_orange};
     }
 `;
+const StyledButton2 = styled(StyledButton)`
+    background-color: white;
+    color: ${palette.orange};
+    &:hover {
+        background-color: ${palette.hover_orange};
+        color: white;
+    }
+`;
 interface ButtonProps {
-    onClick?: () => void;
+    onClick?: any;
     children?: React.ReactNode;
+    style?: CSSProperties | undefined;
 }
 
-const CustomButton = ({ children, onClick, ...rest }: ButtonProps) => (
-    <StyledButton onClick={onClick} {...rest}>
+const CustomButton = ({ children, onClick, style, ...rest }: ButtonProps) => (
+    <StyledButton onClick={onClick} style={style} {...rest}>
         {children}
     </StyledButton>
 );
-
-export default CustomButton;
+const CustomButton2 = ({ children, onClick, style, ...rest }: ButtonProps) => (
+    <StyledButton2 onClick={onClick} style={style} {...rest}>
+        {children}
+    </StyledButton2>
+);
+export { CustomButton, CustomButton2 };

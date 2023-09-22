@@ -2,7 +2,7 @@ import React from 'react';
 import Editor from '../../components/write/Editor';
 import Header from '../../components/common/Header';
 import { styled } from 'styled-components';
-import CustomButton from '../../components/common/CustomButton';
+import { CustomButton } from '../../components/common/CustomButton';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ChangeFieldWritePayload, changeWriteField, initialize } from '../../redux/writeSlice';
 import { useWriteCommunityMutation, useGetUserInfoQuery, useEditCommunityMutation } from '../../api/queries';

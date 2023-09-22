@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import Header from '../components/common/Header';
-import CustomButton from '../components/common/CustomButton';
+import { CustomButton } from '../components/common/CustomButton';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { changeAuthField, initializeForm, AuthFormKey } from '../redux/authSlice';
 import axios from 'axios';

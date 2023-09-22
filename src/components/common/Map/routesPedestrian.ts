@@ -1,5 +1,6 @@
-// (경로API) 보행자 경로 안내 API
-export const routesPedestrian = ({ CURRENT_MAP, tData, markerArr, lineArr }: any) => {
+///////////////////////////////// (경로API) 보행자 경로 안내 API
+/*
+const routesPedestrian = () => {
     return new Promise(function (resolve, reject) {
         // 출발지, 목적지의 좌표를 조회
         const startx = $('#startx').val();
@@ -82,3 +83,6 @@ export const routesPedestrian = ({ CURRENT_MAP, tData, markerArr, lineArr }: any
         tData.getRoutePlanForPeopleJson(startLatLng, endLatLng, '출발지', '도착지', optionObj, params);
     });
 };
+export default routesPedestrian;
+*/
+export {};

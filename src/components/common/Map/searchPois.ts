@@ -1,5 +1,6 @@
-// (장소API) 통합 검색 함수
-export const searchPois = ({ CURRENT_MAP, tData, markerArr, searchLocation }: any) => {
+/////////////////////////////// (장소API) 통합 검색 함수
+/*
+const searchPois = (searchLocation: any) => {
     const searchKeyword = searchLocation;
 
     const optionObj = {
@@ -11,7 +12,7 @@ export const searchPois = ({ CURRENT_MAP, tData, markerArr, searchLocation }: an
     const params = {
         onComplete: function (result: any) {
             // 데이터 로드가 성공적으로 완료되었을 때 발생하는 이벤트입니다.
-            const resultpoisData = result._responseData.searchPoiInfo.pois.poi;
+            const resultpoisData = result._responseData.searchPoiInfo?.pois.poi;
 
             let innerHtml = ''; // Search Reulsts 결과값 노출 위한 변수
             const positionBounds = new window.Tmapv2.LatLngBounds(); //맵에 결과물 확인 하기 위한 LatLngBounds객체 생성
@@ -19,7 +20,7 @@ export const searchPois = ({ CURRENT_MAP, tData, markerArr, searchLocation }: an
             for (const k in resultpoisData) {
                 // POI 정보의 ID
                 const id = resultpoisData[k].id;
-
+                console.log('id는 무엇일까요~', id);
                 const name = resultpoisData[k].name;
 
                 const lat = Number(resultpoisData[k].noorLat);
@@ -61,8 +62,8 @@ export const searchPois = ({ CURRENT_MAP, tData, markerArr, searchLocation }: an
             }
             innerHtml = '<ul>' + innerHtml + '</ul>';
             $('#apiResult').html(innerHtml); //searchResult 결과값 노출
-            CURRENT_MAP.panToBounds(positionBounds); // 확장된 bounds의 중심으로 이동시키기
-            CURRENT_MAP.zoomOut();
+            CURRENT_MAP?.panToBounds(positionBounds); // 확장된 bounds의 중심으로 이동시키기
+            CURRENT_MAP?.zoomOut();
         },
         onProgress: function () {
             console.log('성공했습니다.');
@@ -73,3 +74,7 @@ export const searchPois = ({ CURRENT_MAP, tData, markerArr, searchLocation }: an
     };
     tData.getPOIDataFromSearchJson(searchKeyword, optionObj, params);
 };
+
+export default searchPois;
+*/
+export {};

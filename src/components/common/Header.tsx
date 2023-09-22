@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
-import CustomButton from './CustomButton';
+import { CustomButton } from './CustomButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGetUserInfoQuery } from '../../api/queries';
 import axios from 'axios';

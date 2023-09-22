@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import CustomButton from './common/CustomButton';
+import { CustomButton } from './common/CustomButton';
 import palette from '../lib/styles/palette';
 import Editor from './write/Editor';
 import MapComponent from './common/Map/MapComponent';
@@ -81,8 +81,8 @@ const RegisterItem = styled(CustomButton)`
 
 const Map = () => {
     const [numberOfItems, setNumberOfItems] = useState(1);
-    const [startLocation, setStartLocation] = useState('');
-    const [endLocation, setEndLocation] = useState('');
+    const [startLocation, setStartLocation] = useState([]);
+    const [endLocation, setEndLocation] = useState([]);
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
         setNumberOfItems(RegisterNumber);
@@ -90,24 +90,21 @@ const Map = () => {
     return (
         <StyledMapBlock>
             <MapBlock>
-                <MapComponent startLocation={startLocation} endLocation={endLocation} />
+                <MapComponent
+                    setstartLocation={setStartLocation}
+                    setendLocation={setEndLocation}
+                    startLocation={startLocation}
+                    endLocation={endLocation}
+                />
             </MapBlock>
             <EditorBlock>
                 <Editor height="480px" />
             </EditorBlock>
             <CourseBlock>
                 <Course>
-                    <CourseInput
-                        placeholder="출발지를 입력하세요"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStartLocation(e.target.value)}
-                        value={startLocation}
-                    />
+                    <CourseInput placeholder="출발지를 입력하세요" />
                     <br />
-                    <CourseInput
-                        placeholder="도착지를 입력하세요"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEndLocation(e.target.value)}
-                        value={endLocation}
-                    />
+                    <CourseInput placeholder="도착지를 입력하세요" />
                     <br />
                     <p>참여인원</p>
                     <CourseInput type="number" min="0" max="20" value={numberOfItems} onChange={onChangeRegister} />
