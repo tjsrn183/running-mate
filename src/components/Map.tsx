@@ -81,8 +81,7 @@ const RegisterItem = styled(CustomButton)`
 
 const Map = () => {
     const [numberOfItems, setNumberOfItems] = useState(1);
-    const [startLocation, setStartLocation] = useState([]);
-    const [endLocation, setEndLocation] = useState([]);
+
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
         setNumberOfItems(RegisterNumber);
@@ -90,12 +89,7 @@ const Map = () => {
     return (
         <StyledMapBlock>
             <MapBlock>
-                <MapComponent
-                    setstartLocation={setStartLocation}
-                    setendLocation={setEndLocation}
-                    startLocation={startLocation}
-                    endLocation={endLocation}
-                />
+                <MapComponent />
             </MapBlock>
             <EditorBlock>
                 <Editor height="480px" />
