@@ -3,7 +3,9 @@ import $ from 'jquery';
 import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
 import { CustomButton, CustomButton2 } from '../CustomButton';
 import styled from 'styled-components';
-import routesPedestrian from './routesPedestrian';
+
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { startEndLocation, runActionType } from '../../../redux/runSlice';
 
 //import searchPois from './searchPois';
 //import poiDetail from './poiDetail';
@@ -22,8 +24,15 @@ const StartEndButtonBlock = styled.div`
 
 const MapComponent = (calDistance: any) => {
     const [resultData, setResultData] = useState<any>([]);
-    const setStart = useRef<any>([]);
-    const setEnd = useRef<any>([]);
+    const dispatch = useAppDispatch();
+    ////
+    const { start, end } = useAppSelector(({ run }) => ({
+        start: run.start,
+        end: run.end
+    }));
+    const changeLatLon = (payload: runActionType) => dispatch(startEndLocation(payload));
+    ////
+
     const currentMapRef = useRef<any>(null);
     const [immAdress, setImmAress] = useState();
     const tData = new window.Tmapv2.extension.TData();
@@ -123,7 +132,8 @@ const MapComponent = (calDistance: any) => {
             console.log('lon과 lat는 제대로 들어갔는가', lon, lat);
             console.log('시작 마커가 올라왔니?', marker.isLoaded());
             console.log('marker임', marker);
-            setStart.current([lat, lon]);
+            changeLatLon({ key: 'start', value: { lat: lat, lon: lon } });
+
             if (markerArr.length >= 2) {
                 markerArr.forEach((element: any, index: number) => {
                     if (index == markerArr.length - 1) {
@@ -149,7 +159,7 @@ const MapComponent = (calDistance: any) => {
             });
             markerArr.push(marker);
             console.log('도착지 마커가 올라왔니?', marker.isLoaded());
-            setEnd.current([lat, lon]);
+            changeLatLon({ key: 'end', value: { lat: lat, lon: lon } });
             if (markerArr.length >= 2) {
                 markerArr.forEach((element: any, index: number) => {
                     if (index == markerArr.length - 1) {
@@ -163,9 +173,6 @@ const MapComponent = (calDistance: any) => {
             }
         }
     };
-    if (calDistance) {
-        routesPedestrian(setStart.current, setEnd.current, currentMapRef.current, tData);
-    }
 
     //     searchPois();
     //  poiDetail();

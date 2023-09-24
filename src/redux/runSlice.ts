@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface LocationType {
-    lat: number;
-    lon: number;
+    start: { lat: number; lon: number };
+    end: { lat: number; lon: number };
+    ifCalRun?: boolean;
 }
-interface runActionType {
-    key: 'lat' | 'lon';
-    value: number;
+export interface runActionType {
+    key: 'start' | 'end';
+    value: { lat: number; lon: number };
 }
 const initialState: LocationType = {
-    lat: 0,
-    lon: 0
+    start: { lat: 0, lon: 0 },
+    end: { lat: 0, lon: 0 },
+    ifCalRun: false
 };
 
 const runSlice = createSlice({
@@ -18,7 +20,10 @@ const runSlice = createSlice({
     reducers: {
         startEndLocation: (state, action: PayloadAction<runActionType>) => {
             const { key, value } = action.payload;
-            state[key] = value;
+            return {
+                ...state,
+                [key]: value
+            };
         },
         initialize: () => initialState
     }
