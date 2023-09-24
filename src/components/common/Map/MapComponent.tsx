@@ -3,6 +3,7 @@ import $ from 'jquery';
 import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
 import { CustomButton, CustomButton2 } from '../CustomButton';
 import styled from 'styled-components';
+import routesPedestrian from './routesPedestrian';
 
 //import searchPois from './searchPois';
 //import poiDetail from './poiDetail';
@@ -19,13 +20,17 @@ const StartEndButtonBlock = styled.div`
     z-index: 1;
 `;
 
-const MapComponent = () => {
+const MapComponent = (calDistance: any) => {
     const [resultData, setResultData] = useState<any>([]);
-    const [start, setStart] = useState<any>([]);
-    const [end, setEnd] = useState<any>([]);
+    const setStart = useRef<any>([]);
+    const setEnd = useRef<any>([]);
     const currentMapRef = useRef<any>(null);
-    const startMarkerArr: any = [];
-    const endMarkerArr: any = [];
+    const [immAdress, setImmAress] = useState();
+    const tData = new window.Tmapv2.extension.TData();
+    const startMakerRef = useRef([]);
+    const endMakerRef = useRef([]);
+    const markerRef = useRef<any>([]);
+
     useFirstMountEffect(() => {
         const CURRENT_MAP = new window.Tmapv2.Map('map_div', {
             center: new window.Tmapv2.LatLng(37.5, 126.9), // 지도 초기 좌표
@@ -37,7 +42,6 @@ const MapComponent = () => {
         const labelArr: any = [];
         const lineArr: any = [];
         const poiId = null;
-        const tData = new window.Tmapv2.extension.TData();
 
         CURRENT_MAP.addListener('click', function onClick(evt: any) {
             const mapLatLng = evt.latLng;
@@ -54,6 +58,7 @@ const MapComponent = () => {
                 map: CURRENT_MAP,
                 zIndex: 1
             });
+            markerRef.current.push(marker1);
             const optionObj = {
                 coordType: 'WGS84GEO', //응답좌표 타입 옵션 설정 입니다.
                 addressType: 'A10' //주소타입 옵션 설정 입니다.
@@ -75,6 +80,7 @@ const MapComponent = () => {
                     result += '좌표(WSG84) : ' + lat + ', ' + lon;
                     console.log(result);
                     setResultData([lat, lon]);
+                    setImmAress(newRoadAddr);
                     currentMapRef.current = CURRENT_MAP;
                     console.log('currentMapRef.current랑 current맵이랑 같은가', currentMapRef.current == CURRENT_MAP);
                     console.log('CURRENTMAP', CURRENT_MAP);
@@ -100,7 +106,8 @@ const MapComponent = () => {
         startOrEnd: 'start' | 'end',
         lat: number,
         lon: number,
-        markerArr: any
+        markerArr: any,
+        totalMarker: []
     ) => {
         if (startOrEnd === 'start') {
             const marker = new window.Tmapv2.Marker({
@@ -116,7 +123,7 @@ const MapComponent = () => {
             console.log('lon과 lat는 제대로 들어갔는가', lon, lat);
             console.log('시작 마커가 올라왔니?', marker.isLoaded());
             console.log('marker임', marker);
-            setStart([lat, lon]);
+            setStart.current([lat, lon]);
             if (markerArr.length >= 2) {
                 markerArr.forEach((element: any, index: number) => {
                     if (index == markerArr.length - 1) {
@@ -125,7 +132,11 @@ const MapComponent = () => {
                     element.setMap(null);
                     console.log('element사라져야하는데?');
                 });
+                totalMarker.forEach((element: any) => {
+                    element.setMap(null);
+                });
             }
+
             console.log('markerArr', markerArr);
         }
         if (startOrEnd === 'end') {
@@ -138,7 +149,7 @@ const MapComponent = () => {
             });
             markerArr.push(marker);
             console.log('도착지 마커가 올라왔니?', marker.isLoaded());
-            setEnd([lat, lon]);
+            setEnd.current([lat, lon]);
             if (markerArr.length >= 2) {
                 markerArr.forEach((element: any, index: number) => {
                     if (index == markerArr.length - 1) {
@@ -146,9 +157,16 @@ const MapComponent = () => {
                     }
                     element.setMap(null);
                 });
+                totalMarker.forEach((element: any) => {
+                    element.setMap(null);
+                });
             }
         }
     };
+    if (calDistance) {
+        routesPedestrian(setStart.current, setEnd.current, currentMapRef.current, tData);
+    }
+
     //     searchPois();
     //  poiDetail();
     // routesPedestrian();
@@ -169,14 +187,28 @@ const MapComponent = () => {
                 <CustomButton
                     style={{ marginRight: '30px' }}
                     onClick={() =>
-                        startEndMarker(currentMapRef.current, 'start', resultData[0], resultData[1], startMarkerArr)
+                        startEndMarker(
+                            currentMapRef.current,
+                            'start',
+                            resultData[0],
+                            resultData[1],
+                            startMakerRef.current,
+                            markerRef.current
+                        )
                     }
                 >
                     출발
                 </CustomButton>
                 <CustomButton2
                     onClick={() =>
-                        startEndMarker(currentMapRef.current, 'end', resultData[0], resultData[1], endMarkerArr)
+                        startEndMarker(
+                            currentMapRef.current,
+                            'end',
+                            resultData[0],
+                            resultData[1],
+                            endMakerRef.current,
+                            markerRef.current
+                        )
                     }
                 >
                     도착

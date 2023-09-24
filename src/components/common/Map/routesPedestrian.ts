@@ -1,16 +1,17 @@
 ///////////////////////////////// (경로API) 보행자 경로 안내 API
-/*
-const routesPedestrian = () => {
+
+const routesPedestrian = (start: any, end: any, CURRENT_MAP: any, tData: any) => {
     return new Promise(function (resolve, reject) {
         // 출발지, 목적지의 좌표를 조회
-        const startx = $('#startx').val();
-        const starty = $('#starty').val();
-        const endx = $('#endx').val();
-        const endy = $('#endy').val();
+        const startx = start[1];
+        const starty = start[0];
+        const endx = end[1];
+        const endy = end[0];
 
         const startLatLng = new window.Tmapv2.LatLng(starty, startx);
         const endLatLng = new window.Tmapv2.LatLng(endy, endx);
-
+        const markerArr: any = [];
+        const lineArr: any = [];
         const optionObj = {
             reqCoordType: 'WGS84GEO',
             resCoordType: 'WGS84GEO'
@@ -84,5 +85,3 @@ const routesPedestrian = () => {
     });
 };
 export default routesPedestrian;
-*/
-export {};

@@ -81,7 +81,7 @@ const RegisterItem = styled(CustomButton)`
 
 const Map = () => {
     const [numberOfItems, setNumberOfItems] = useState(1);
-
+    const [calculateDistance, setCalculateDistance] = useState(false);
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
         setNumberOfItems(RegisterNumber);
@@ -89,7 +89,7 @@ const Map = () => {
     return (
         <StyledMapBlock>
             <MapBlock>
-                <MapComponent />
+                <MapComponent calDistance={calculateDistance} />
             </MapBlock>
             <EditorBlock>
                 <Editor height="480px" />
@@ -108,7 +108,7 @@ const Map = () => {
                     <StartDateTime type="datetime-local" />
                 </StartBlock>
 
-                <DistanceItem>거리보기</DistanceItem>
+                <DistanceItem onClick={() => setCalculateDistance(true)}>거리보기</DistanceItem>
                 <br />
                 <RegisterItem>등록하기</RegisterItem>
                 <RunInfo>
