@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import $ from 'jquery';
 import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
 import { CustomButton, CustomButton2 } from '../CustomButton';
 import styled from 'styled-components';
-
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { startEndLocation, runActionType, currentMap } from '../../../redux/runSlice';
 
@@ -22,7 +20,7 @@ const StartEndButtonBlock = styled.div`
     z-index: 1;
 `;
 
-const MapComponent = (calDistance: any) => {
+const MapComponent = () => {
     const [resultData, setResultData] = useState<any>([]);
     const dispatch = useAppDispatch();
     ////
@@ -31,7 +29,6 @@ const MapComponent = (calDistance: any) => {
     ////
 
     const currentMapRef = useRef<any>(null);
-    const [immAdress, setImmAress] = useState();
     const tData = new window.Tmapv2.extension.TData();
     const startMakerRef = useRef([]);
     const endMakerRef = useRef([]);
@@ -86,7 +83,7 @@ const MapComponent = (calDistance: any) => {
                     result += '좌표(WSG84) : ' + lat + ', ' + lon;
                     console.log(result);
                     setResultData([lat, lon]);
-                    setImmAress(newRoadAddr);
+
                     currentMapRef.current = CURRENT_MAP;
                     dispatch(currentMap({ currentMapState: CURRENT_MAP }));
                     console.log('currentMapRef.current랑 current맵이랑 같은가', currentMapRef.current == CURRENT_MAP);
@@ -174,18 +171,6 @@ const MapComponent = (calDistance: any) => {
 
     //     searchPois();
     //  poiDetail();
-    // routesPedestrian();
-
-    /* const startClick = (CURRENT_MAP: any) => {
-        const marker_s = new window.Tmapv2.Marker({
-            position: new window.Tmapv2.LatLng(startLocation[1], startLocation[0]),
-            icon: 'http://topopen.tmap.co.kr/imgs/start.png',
-            iconSize: new window.Tmapv2.Size(24, 38),
-            map: CURRENT_MAP
-        });
-        setStartLocation([startLocation[0], startLocation[1]]);
-    };*/
-
     return (
         <MapBlock id="map_div" style={{ width: '100%', height: '500px' }}>
             <StartEndButtonBlock>

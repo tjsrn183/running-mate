@@ -83,19 +83,17 @@ const RegisterItem = styled(CustomButton)`
 `;
 
 const Map = () => {
+    const dispatch = useDispatch();
+    const [numberOfItems, setNumberOfItems] = useState(1);
     const { start, end, CURRENT_MAP } = useAppSelector(({ run }) => ({
         start: run.start,
         end: run.end,
         CURRENT_MAP: run.currentMapState
     }));
-    const dispatch = useDispatch();
-    const [numberOfItems, setNumberOfItems] = useState(1);
-    const [calculateDistance, setCalculateDistance] = useState(false);
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
         setNumberOfItems(RegisterNumber);
     };
-
     const calDistance = () => {
         routesPedestrian(start, end, CURRENT_MAP);
     };
@@ -103,7 +101,7 @@ const Map = () => {
     return (
         <StyledMapBlock>
             <MapBlock>
-                <MapComponent calDistance={calculateDistance} />
+                <MapComponent />
             </MapBlock>
             <EditorBlock>
                 <Editor height="480px" />
