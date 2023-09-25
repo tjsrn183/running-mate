@@ -38,7 +38,7 @@ const runSlice = createSlice({
         currentMap: (state, action: PayloadAction<any>) => {
             state.currentMapState = action.payload;
         },
-        LocationNaturalLan: (state, action: PayloadAction<runNaturalLanType>) => {
+        locationNaturalLan: (state, action: PayloadAction<runNaturalLanType>) => {
             const { key, value } = action.payload;
             return {
                 ...state,
@@ -49,5 +49,5 @@ const runSlice = createSlice({
     }
 });
 
-export const { startEndLocation, initialize, currentMap } = runSlice.actions;
+export const { startEndLocation, initialize, currentMap, locationNaturalLan } = runSlice.actions;
 export default runSlice;

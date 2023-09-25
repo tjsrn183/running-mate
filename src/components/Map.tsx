@@ -85,10 +85,12 @@ const RegisterItem = styled(CustomButton)`
 const Map = () => {
     const dispatch = useDispatch();
     const [numberOfItems, setNumberOfItems] = useState(1);
-    const { start, end, CURRENT_MAP } = useAppSelector(({ run }) => ({
+    const { start, end, CURRENT_MAP, startLocationNaturalLan, endLocationNaturalLan } = useAppSelector(({ run }) => ({
         start: run.start,
         end: run.end,
-        CURRENT_MAP: run.currentMapState
+        CURRENT_MAP: run.currentMapState,
+        startLocationNaturalLan: run.startLocationNaturalLan,
+        endLocationNaturalLan: run.endLocationNaturalLan
     }));
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
@@ -108,9 +110,9 @@ const Map = () => {
             </EditorBlock>
             <CourseBlock>
                 <Course>
-                    <CourseInput placeholder="출발지를 입력하세요" />
+                    <CourseInput placeholder="출발지를 입력하세요" value={startLocationNaturalLan} />
                     <br />
-                    <CourseInput placeholder="도착지를 입력하세요" />
+                    <CourseInput placeholder="도착지를 입력하세요" value={endLocationNaturalLan} />
                     <br />
                     <p>참여인원</p>
                     <CourseInput type="number" min="0" max="20" value={numberOfItems} onChange={onChangeRegister} />

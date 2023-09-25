@@ -3,7 +3,13 @@ import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
 import { CustomButton, CustomButton2 } from '../CustomButton';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { startEndLocation, runActionType, currentMap } from '../../../redux/runSlice';
+import {
+    startEndLocation,
+    runActionType,
+    currentMap,
+    runNaturalLanType,
+    locationNaturalLan
+} from '../../../redux/runSlice';
 
 //import searchPois from './searchPois';
 //import poiDetail from './poiDetail';
@@ -22,10 +28,12 @@ const StartEndButtonBlock = styled.div`
 
 const MapComponent = () => {
     const [resultData, setResultData] = useState<any>([]);
+    const [locationNatural, setLocationNatural] = useState<string>('');
     const dispatch = useAppDispatch();
     ////
 
     const changeLatLon = (payload: runActionType) => dispatch(startEndLocation(payload));
+    const locationNutural = (payload: runNaturalLanType) => dispatch(locationNaturalLan(payload));
     ////
 
     const currentMapRef = useRef<any>(null);
@@ -83,7 +91,7 @@ const MapComponent = () => {
                     result += '좌표(WSG84) : ' + lat + ', ' + lon;
                     console.log(result);
                     setResultData([lat, lon]);
-
+                    setLocationNatural(newRoadAddr);
                     currentMapRef.current = CURRENT_MAP;
                     dispatch(currentMap({ currentMapState: CURRENT_MAP }));
                     console.log('currentMapRef.current랑 current맵이랑 같은가', currentMapRef.current == CURRENT_MAP);
@@ -127,6 +135,7 @@ const MapComponent = () => {
             console.log('lon과 lat는 제대로 들어갔는가', lon, lat);
             console.log('시작 마커가 올라왔니?', marker.isLoaded());
             console.log('marker임', marker);
+            locationNaturalLan({ key: 'startLocationNaturalLan', value: locationNatural });
             changeLatLon({ key: 'start', value: { lat: lat, lon: lon } });
 
             if (markerArr.length >= 2) {
@@ -154,6 +163,7 @@ const MapComponent = () => {
             });
             markerArr.push(marker);
             console.log('도착지 마커가 올라왔니?', marker.isLoaded());
+            locationNaturalLan({ key: 'endLocationNaturalLan', value: locationNatural });
             changeLatLon({ key: 'end', value: { lat: lat, lon: lon } });
             if (markerArr.length >= 2) {
                 markerArr.forEach((element: any, index: number) => {
