@@ -11,7 +11,10 @@ const store = configureStore({
         run: runSlice.reducer,
         [api.reducerPath]: api.reducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware)
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false // Disable serializableCheck
+        }).concat(api.middleware)
 });
 
 export default store;

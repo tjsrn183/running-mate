@@ -1,17 +1,15 @@
-///////////////////////////////// (경로API) 보행자 경로 안내 API
-/*
-const routesPedestrian = (start: any, end: any, CURRENT_MAP: any, tData: any) => {
+const routesPedestrian = (start: any, end: any, CURRENT_MAP: any) => {
     return new Promise(function (resolve, reject) {
-        // 출발지, 목적지의 좌표를 조회
-        const startx = start[1];
-        const starty = start[0];
-        const endx = end[1];
-        const endy = end[0];
+        const startx = start.lat;
+        const starty = start.lon;
+        const endx = end.lat;
+        const endy = end.lon;
+        const tData = new window.Tmapv2.extension.TData();
 
         const startLatLng = new window.Tmapv2.LatLng(starty, startx);
         const endLatLng = new window.Tmapv2.LatLng(endy, endx);
-        const markerArr: any = [];
-        const lineArr: any = [];
+        const markerArr = [];
+        const lineArr = [];
         const optionObj = {
             reqCoordType: 'WGS84GEO',
             resCoordType: 'WGS84GEO'
@@ -20,15 +18,13 @@ const routesPedestrian = (start: any, end: any, CURRENT_MAP: any, tData: any) =>
         const params = {
             onComplete: function (result: any) {
                 const resultData = result._responseData.features;
-
-                //결과 출력
+                // 결과 출력
                 let appendHtml =
-                    '보행자 경로안내: 총 거리 : ' + (resultData[0].properties.totalDistance / 1000).toFixed(1) + 'km,';
-                appendHtml += ' 총 시간 : ' + (resultData[0].properties.totalTime / 60).toFixed(0) + '분';
+                    '보행자 경로안내: 총 거리 : ' + (resultData[0]?.properties.totalDistance / 1000).toFixed(1) + 'km,';
+                appendHtml += ' 총 시간 : ' + (resultData[0]?.properties.totalTime / 60).toFixed(0) + '분';
 
                 console.log(appendHtml);
 
-                // 시작마커설정
                 const marker_s = new window.Tmapv2.Marker({
                     position: new window.Tmapv2.LatLng(starty, startx),
                     icon: 'http://topopen.tmap.co.kr/imgs/start.png',
@@ -36,7 +32,6 @@ const routesPedestrian = (start: any, end: any, CURRENT_MAP: any, tData: any) =>
                     map: CURRENT_MAP
                 });
 
-                // 도착마커설정
                 const marker_e = new window.Tmapv2.Marker({
                     position: new window.Tmapv2.LatLng(endy, endx),
                     icon: 'http://topopen.tmap.co.kr/imgs/arrival.png',
@@ -46,13 +41,10 @@ const routesPedestrian = (start: any, end: any, CURRENT_MAP: any, tData: any) =>
                 markerArr.push(marker_s);
                 markerArr.push(marker_e);
 
-                // GeoJSON함수를 이용하여 데이터 파싱 및 지도에 그린다.
                 const jsonObject = new window.Tmapv2.extension.GeoJSON();
                 const jsonForm = jsonObject.read(result._responseData);
 
                 jsonObject.drawRoute(CURRENT_MAP, jsonForm, {}, function (e: any) {
-                    // 경로가 표출된 이후 실행되는 콜백 함수.
-
                     for (const m of e.markers) {
                         markerArr.push(m);
                     }
@@ -60,10 +52,10 @@ const routesPedestrian = (start: any, end: any, CURRENT_MAP: any, tData: any) =>
                         lineArr.push(l);
                     }
 
-                    const positionBounds = new window.Tmapv2.LatLngBounds(); //맵에 결과물 확인 하기 위한 LatLngBounds객체 생성
+                    const positionBounds = new window.Tmapv2.LatLngBounds();
                     for (const polyline of e.polylines) {
                         for (const latlng of polyline.getPath().path) {
-                            positionBounds.extend(latlng); // LatLngBounds의 객체 확장
+                            positionBounds.extend(latlng);
                         }
                     }
 
@@ -77,13 +69,13 @@ const routesPedestrian = (start: any, end: any, CURRENT_MAP: any, tData: any) =>
                 console.log('성공했습니다.');
             },
             onError: function () {
-                console.log('실패했습니다.');
+                console.error('API 호출 중 오류가 발생했습니다.');
+                reject('API 호출 중 오류가 발생했습니다.');
             }
         };
 
         tData.getRoutePlanForPeopleJson(startLatLng, endLatLng, '출발지', '도착지', optionObj, params);
     });
 };
+
 export default routesPedestrian;
-*/
-export {};

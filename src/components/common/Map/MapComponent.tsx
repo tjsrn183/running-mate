@@ -5,11 +5,11 @@ import { CustomButton, CustomButton2 } from '../CustomButton';
 import styled from 'styled-components';
 
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { startEndLocation, runActionType } from '../../../redux/runSlice';
+import { startEndLocation, runActionType, currentMap } from '../../../redux/runSlice';
 
 //import searchPois from './searchPois';
 //import poiDetail from './poiDetail';
-//import routesPedestrian from './routesPedestrian';
+import routesPedestrian from './routesPedestrian';
 const MapBlock = styled.div`
     position: relative;
 `;
@@ -26,10 +26,7 @@ const MapComponent = (calDistance: any) => {
     const [resultData, setResultData] = useState<any>([]);
     const dispatch = useAppDispatch();
     ////
-    const { start, end } = useAppSelector(({ run }) => ({
-        start: run.start,
-        end: run.end
-    }));
+
     const changeLatLon = (payload: runActionType) => dispatch(startEndLocation(payload));
     ////
 
@@ -91,6 +88,7 @@ const MapComponent = (calDistance: any) => {
                     setResultData([lat, lon]);
                     setImmAress(newRoadAddr);
                     currentMapRef.current = CURRENT_MAP;
+                    dispatch(currentMap({ currentMapState: CURRENT_MAP }));
                     console.log('currentMapRef.current랑 current맵이랑 같은가', currentMapRef.current == CURRENT_MAP);
                     console.log('CURRENTMAP', CURRENT_MAP);
                 },

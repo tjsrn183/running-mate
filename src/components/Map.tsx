@@ -4,7 +4,10 @@ import { CustomButton } from './common/CustomButton';
 import palette from '../lib/styles/palette';
 import Editor from './write/Editor';
 import MapComponent from './common/Map/MapComponent';
-
+import { useDispatch } from 'react-redux';
+import { startEndLocation } from '../redux/runSlice';
+import { useAppSelector } from '../redux/hooks';
+import routesPedestrian from './common/Map/routesPedestrian';
 const StyledMapBlock = styled.div`
     position: relative;
     top: 100px;
@@ -80,12 +83,23 @@ const RegisterItem = styled(CustomButton)`
 `;
 
 const Map = () => {
+    const { start, end, CURRENT_MAP } = useAppSelector(({ run }) => ({
+        start: run.start,
+        end: run.end,
+        CURRENT_MAP: run.currentMapState
+    }));
+    const dispatch = useDispatch();
     const [numberOfItems, setNumberOfItems] = useState(1);
     const [calculateDistance, setCalculateDistance] = useState(false);
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
         setNumberOfItems(RegisterNumber);
     };
+
+    const calDistance = () => {
+        routesPedestrian(start, end, CURRENT_MAP);
+    };
+
     return (
         <StyledMapBlock>
             <MapBlock>
@@ -108,7 +122,7 @@ const Map = () => {
                     <StartDateTime type="datetime-local" />
                 </StartBlock>
 
-                <DistanceItem onClick={() => setCalculateDistance(true)}>거리보기</DistanceItem>
+                <DistanceItem onClick={() => calDistance()}>거리보기</DistanceItem>
                 <br />
                 <RegisterItem>등록하기</RegisterItem>
                 <RunInfo>
