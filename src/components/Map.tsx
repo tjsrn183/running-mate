@@ -98,7 +98,11 @@ const RegisterItem = styled(CustomButton)`
     padding: 10px 100px;
     grid-row: 5/6;
 `;
-
+const SubRunInfo = styled.div`
+    font-weight: bold;
+    color: black;
+    font-size: xx-large;
+`;
 const Map = () => {
     const dispatch = useDispatch();
     const [numberOfItems, setNumberOfItems] = useState(1);
@@ -199,8 +203,12 @@ const Map = () => {
                 <br />
                 <RegisterItem>등록하기</RegisterItem>
                 <RunInfo>
-                    <div>거리 {distance}km</div>
-                    <div>예상소요시간 {duration}분</div>
+                    <div>
+                        거리 <SubRunInfo>l{distance}km</SubRunInfo>
+                    </div>
+                    <div>
+                        예상소요시간 <SubRunInfo>{duration}분</SubRunInfo>
+                    </div>
                 </RunInfo>
             </CourseBlock>
         </StyledMapBlock>
