@@ -5,10 +5,10 @@ import palette from '../lib/styles/palette';
 import Editor from './write/Editor';
 import MapComponent from './common/Map/MapComponent';
 import { useDispatch } from 'react-redux';
-import { startEndLocation } from '../redux/runSlice';
+import { startEndLocation, subInfoType } from '../redux/runSlice';
 import { useAppSelector } from '../redux/hooks';
 import routesPedestrian from './common/Map/routesPedestrian';
-import { runActionType, runNaturalLanType, locationNaturalLan } from '../redux/runSlice';
+import { runActionType, runNaturalLanType, locationNaturalLan, subInfo } from '../redux/runSlice';
 import searchPois from './common/Map/searchPois';
 const StyledMapBlock = styled.div`
     position: relative;
@@ -102,16 +102,32 @@ const RegisterItem = styled(CustomButton)`
 const Map = () => {
     const dispatch = useDispatch();
     const [numberOfItems, setNumberOfItems] = useState(1);
-    const { start, end, CURRENT_MAP, startLocationNaturalLan, endLocationNaturalLan, distance, duration } =
-        useAppSelector(({ run }) => ({
-            start: run.start,
-            end: run.end,
-            CURRENT_MAP: run.currentMapState,
-            startLocationNaturalLan: run.startLocationNaturalLan,
-            endLocationNaturalLan: run.endLocationNaturalLan,
-            distance: run.distance,
-            duration: run.durationTime
-        }));
+    const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
+    const [startDateTime, setStartDateTime] = useState(dateNow);
+
+    const {
+        start,
+        end,
+        CURRENT_MAP,
+        startLocationNaturalLan,
+        endLocationNaturalLan,
+        distance,
+        duration,
+        title,
+        body,
+        date
+    } = useAppSelector(({ run }) => ({
+        start: run.start,
+        end: run.end,
+        CURRENT_MAP: run.currentMapState,
+        startLocationNaturalLan: run.startLocationNaturalLan,
+        endLocationNaturalLan: run.endLocationNaturalLan,
+        distance: run.distance,
+        duration: run.durationTime,
+        title: run.title,
+        body: run.body,
+        date: run.date
+    }));
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
         setNumberOfItems(RegisterNumber);
@@ -121,9 +137,14 @@ const Map = () => {
     };
     const changeLatLon = (payload: runActionType) => dispatch(startEndLocation(payload));
     const locationNutural = (payload: runNaturalLanType) => dispatch(locationNaturalLan(payload));
-    const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
+
     const searchAddress = (searchLocation: string) => {
         searchPois(CURRENT_MAP.currentMapState, searchLocation);
+    };
+    const onChangeLetter = (payload: subInfoType) => dispatch(subInfo(payload));
+    const onChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(subInfo({ key: 'date', value: e.target.value }));
+        setStartDateTime(e.target.value);
     };
     return (
         <StyledMapBlock>
@@ -131,7 +152,7 @@ const Map = () => {
                 <MapComponent changeLatLon={changeLatLon} locationNutural={locationNutural} />
             </MapBlock>
             <EditorBlock>
-                <Editor height="480px" />
+                <Editor height="480px" onChangeField={onChangeLetter} title={title} body={body} />
             </EditorBlock>
             <CourseBlock>
                 <Course>
@@ -166,16 +187,14 @@ const Map = () => {
                             search
                         </ResearchIcon>
                     </InputBlock>
-
                     <br />
                     <p>참여인원</p>
                     <AttendNumber type="number" min="0" max="20" value={numberOfItems} onChange={onChangeRegister} />
                 </Course>
                 <StartBlock>
                     <p>출발시간</p>
-                    <StartDateTime type="datetime-local" value={dateNow} />
+                    <StartDateTime type="datetime-local" value={startDateTime} onChange={onChangeDate} />
                 </StartBlock>
-
                 <DistanceItem onClick={() => calDistance()}>거리보기</DistanceItem>
                 <br />
                 <RegisterItem>등록하기</RegisterItem>
