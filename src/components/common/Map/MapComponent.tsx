@@ -2,18 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
 import { CustomButton, CustomButton2 } from '../CustomButton';
 import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import {
-    startEndLocation,
-    runActionType,
-    currentMap,
-    runNaturalLanType,
-    locationNaturalLan
-} from '../../../redux/runSlice';
+import { useAppDispatch } from '../../../redux/hooks';
+import { runActionType, currentMap, runNaturalLanType } from '../../../redux/runSlice';
 
-//import searchPois from './searchPois';
-//import poiDetail from './poiDetail';
-import routesPedestrian from './routesPedestrian';
 const MapBlock = styled.div`
     position: relative;
 `;
@@ -26,22 +17,19 @@ const StartEndButtonBlock = styled.div`
     z-index: 1;
 `;
 
-const MapComponent = () => {
+interface MapcomponentPropsType {
+    changeLatLon: (payload: runActionType) => void;
+    locationNutural: (payload: runNaturalLanType) => void;
+}
+const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) => {
     const [resultData, setResultData] = useState<any>([]);
     const [locationNatural, setLocationNatural] = useState<string>('');
     const dispatch = useAppDispatch();
-    ////
-
-    const changeLatLon = (payload: runActionType) => dispatch(startEndLocation(payload));
-    const locationNutural = (payload: runNaturalLanType) => dispatch(locationNaturalLan(payload));
-    ////
-
     const currentMapRef = useRef<any>(null);
-    const tData = new window.Tmapv2.extension.TData();
     const startMakerRef = useRef([]);
     const endMakerRef = useRef([]);
     const markerRef = useRef<any>([]);
-
+    const tData = new window.Tmapv2.extension.TData();
     useFirstMountEffect(() => {
         const CURRENT_MAP = new window.Tmapv2.Map('map_div', {
             center: new window.Tmapv2.LatLng(37.5, 126.9), // 지도 초기 좌표
@@ -135,7 +123,7 @@ const MapComponent = () => {
             console.log('lon과 lat는 제대로 들어갔는가', lon, lat);
             console.log('시작 마커가 올라왔니?', marker.isLoaded());
             console.log('marker임', marker);
-            locationNaturalLan({ key: 'startLocationNaturalLan', value: locationNatural });
+            locationNutural({ key: 'startLocationNaturalLan', value: locationNatural });
             changeLatLon({ key: 'start', value: { lat: lat, lon: lon } });
 
             if (markerArr.length >= 2) {
@@ -163,7 +151,7 @@ const MapComponent = () => {
             });
             markerArr.push(marker);
             console.log('도착지 마커가 올라왔니?', marker.isLoaded());
-            locationNaturalLan({ key: 'endLocationNaturalLan', value: locationNatural });
+            locationNutural({ key: 'endLocationNaturalLan', value: locationNatural });
             changeLatLon({ key: 'end', value: { lat: lat, lon: lon } });
             if (markerArr.length >= 2) {
                 markerArr.forEach((element: any, index: number) => {

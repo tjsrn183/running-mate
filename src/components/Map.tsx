@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CustomButton } from './common/CustomButton';
 import palette from '../lib/styles/palette';
@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 import { startEndLocation } from '../redux/runSlice';
 import { useAppSelector } from '../redux/hooks';
 import routesPedestrian from './common/Map/routesPedestrian';
+import { runActionType, runNaturalLanType, locationNaturalLan } from '../redux/runSlice';
+import searchPois from './common/Map/searchPois';
 const StyledMapBlock = styled.div`
     position: relative;
     top: 100px;
@@ -38,6 +40,9 @@ const CourseBlock = styled.div`
 const Course = styled.div`
     grid-row: 1/2;
     padding: 0px 16px 0px 9px;
+    & .material-symbols-outlined {
+        position: absolute;
+    }
 `;
 const StartBlock = styled.div`
     margin: 0 0 0 10px;
@@ -51,8 +56,12 @@ const StartDateTime = styled.input`
 const CourseInput = styled.input`
     width: 100%;
     height: 30px;
+    padding-left: 30px;
 `;
-
+const AttendNumber = styled.input`
+    width: 100%;
+    height: 30px;
+`;
 const DistanceItem = styled(CustomButton)`
     color: ${palette.orange};
     background-color: ${palette.back_ground_orange};
@@ -63,7 +72,10 @@ const DistanceItem = styled(CustomButton)`
         background-color: ${palette.hover_gray};
     }
 `;
-
+const ResearchIcon = styled.span`
+    padding: 6px 3px;
+    cursor: pointer;
+`;
 const RunInfo = styled.div`
     margin: 20px 10px;
     color: gray;
@@ -75,6 +87,11 @@ const RunInfo = styled.div`
         color: black;
     }
 `;
+const InputBlock = styled.div`
+    display: flex;
+    width: 100%;
+    height: 30px;
+`;
 const RegisterItem = styled(CustomButton)`
     border-radius: 20px;
     margin: 1px 10px;
@@ -85,49 +102,86 @@ const RegisterItem = styled(CustomButton)`
 const Map = () => {
     const dispatch = useDispatch();
     const [numberOfItems, setNumberOfItems] = useState(1);
-    const { start, end, CURRENT_MAP, startLocationNaturalLan, endLocationNaturalLan } = useAppSelector(({ run }) => ({
-        start: run.start,
-        end: run.end,
-        CURRENT_MAP: run.currentMapState,
-        startLocationNaturalLan: run.startLocationNaturalLan,
-        endLocationNaturalLan: run.endLocationNaturalLan
-    }));
+    const { start, end, CURRENT_MAP, startLocationNaturalLan, endLocationNaturalLan, distance, duration } =
+        useAppSelector(({ run }) => ({
+            start: run.start,
+            end: run.end,
+            CURRENT_MAP: run.currentMapState,
+            startLocationNaturalLan: run.startLocationNaturalLan,
+            endLocationNaturalLan: run.endLocationNaturalLan,
+            distance: run.distance,
+            duration: run.durationTime
+        }));
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
         setNumberOfItems(RegisterNumber);
     };
     const calDistance = () => {
-        routesPedestrian(start, end, CURRENT_MAP);
+        routesPedestrian(start, end, CURRENT_MAP.currentMapState, dispatch);
     };
-
+    const changeLatLon = (payload: runActionType) => dispatch(startEndLocation(payload));
+    const locationNutural = (payload: runNaturalLanType) => dispatch(locationNaturalLan(payload));
+    const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
+    const searchAddress = (searchLocation: string) => {
+        searchPois(CURRENT_MAP.currentMapState, searchLocation);
+    };
     return (
         <StyledMapBlock>
             <MapBlock>
-                <MapComponent />
+                <MapComponent changeLatLon={changeLatLon} locationNutural={locationNutural} />
             </MapBlock>
             <EditorBlock>
                 <Editor height="480px" />
             </EditorBlock>
             <CourseBlock>
                 <Course>
-                    <CourseInput placeholder="출발지를 입력하세요" value={startLocationNaturalLan} />
+                    <InputBlock>
+                        <CourseInput
+                            placeholder="출발지를 입력하세요"
+                            value={startLocationNaturalLan}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                dispatch(locationNaturalLan({ key: 'startLocationNaturalLan', value: e.target.value }));
+                            }}
+                        />
+                        <ResearchIcon
+                            className="material-symbols-outlined"
+                            onClick={() => searchAddress(startLocationNaturalLan)}
+                        >
+                            search
+                        </ResearchIcon>
+                    </InputBlock>
                     <br />
-                    <CourseInput placeholder="도착지를 입력하세요" value={endLocationNaturalLan} />
+                    <InputBlock>
+                        <CourseInput
+                            placeholder="도착지를 입력하세요"
+                            value={endLocationNaturalLan}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                dispatch(locationNaturalLan({ key: 'endLocationNaturalLan', value: e.target.value }));
+                            }}
+                        />
+                        <ResearchIcon
+                            className="material-symbols-outlined"
+                            onClick={() => searchAddress(endLocationNaturalLan)}
+                        >
+                            search
+                        </ResearchIcon>
+                    </InputBlock>
+
                     <br />
                     <p>참여인원</p>
-                    <CourseInput type="number" min="0" max="20" value={numberOfItems} onChange={onChangeRegister} />
+                    <AttendNumber type="number" min="0" max="20" value={numberOfItems} onChange={onChangeRegister} />
                 </Course>
                 <StartBlock>
                     <p>출발시간</p>
-                    <StartDateTime type="datetime-local" />
+                    <StartDateTime type="datetime-local" value={dateNow} />
                 </StartBlock>
 
                 <DistanceItem onClick={() => calDistance()}>거리보기</DistanceItem>
                 <br />
                 <RegisterItem>등록하기</RegisterItem>
                 <RunInfo>
-                    <div>거리8km</div>
-                    <div>예상소요시간20분</div>
+                    <div>거리 {distance}km</div>
+                    <div>예상소요시간 {duration}분</div>
                 </RunInfo>
             </CourseBlock>
         </StyledMapBlock>

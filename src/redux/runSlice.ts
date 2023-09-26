@@ -5,6 +5,8 @@ interface LocationType {
     end: { lat: number; lon: number };
     endLocationNaturalLan: string;
     currentMapState?: any;
+    durationTime: number;
+    distance: number;
 }
 export interface runActionType {
     key: 'start' | 'end' | 'map';
@@ -21,7 +23,9 @@ const initialState: LocationType = {
     startLocationNaturalLan: '',
     end: { lat: 0, lon: 0 },
     endLocationNaturalLan: '',
-    currentMapState: {}
+    currentMapState: {},
+    durationTime: 0,
+    distance: 0
 };
 
 const runSlice = createSlice({
@@ -45,9 +49,13 @@ const runSlice = createSlice({
                 [key]: value
             };
         },
+        runInfo: (state, action: PayloadAction<number[]>) => {
+            state.distance = action.payload[0];
+            state.durationTime = action.payload[1];
+        },
         initialize: () => initialState
     }
 });
 
-export const { startEndLocation, initialize, currentMap, locationNaturalLan } = runSlice.actions;
+export const { startEndLocation, initialize, currentMap, locationNaturalLan, runInfo } = runSlice.actions;
 export default runSlice;
