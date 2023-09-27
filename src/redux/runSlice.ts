@@ -12,7 +12,7 @@ export interface subInfoType {
     key: 'title' | 'body' | 'numberOfPeople' | 'date';
     value: string | number;
 }
-interface LocationType {
+export interface LocationType {
     start: { lat: number; lon: number };
     startLocationNaturalLan: string;
     end: { lat: number; lon: number };

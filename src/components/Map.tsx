@@ -10,6 +10,7 @@ import { useAppSelector } from '../redux/hooks';
 import routesPedestrian from './common/Map/routesPedestrian';
 import { runActionType, runNaturalLanType, locationNaturalLan, subInfo } from '../redux/runSlice';
 import searchPois from './common/Map/searchPois';
+import { useRunRegisterItemMutation } from '../api/queries';
 const StyledMapBlock = styled.div`
     position: relative;
     top: 100px;
@@ -105,10 +106,10 @@ const SubRunInfo = styled.div`
 `;
 const Map = () => {
     const dispatch = useDispatch();
+    const runRegister = useRunRegisterItemMutation();
     const [numberOfItems, setNumberOfItems] = useState(1);
     const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
     const [startDateTime, setStartDateTime] = useState(dateNow);
-
     const {
         start,
         end,
@@ -116,10 +117,11 @@ const Map = () => {
         startLocationNaturalLan,
         endLocationNaturalLan,
         distance,
-        duration,
+        durationTime,
         title,
         body,
-        date
+        date,
+        numberOfPeople
     } = useAppSelector(({ run }) => ({
         start: run.start,
         end: run.end,
@@ -127,10 +129,11 @@ const Map = () => {
         startLocationNaturalLan: run.startLocationNaturalLan,
         endLocationNaturalLan: run.endLocationNaturalLan,
         distance: run.distance,
-        duration: run.durationTime,
+        durationTime: run.durationTime,
         title: run.title,
         body: run.body,
-        date: run.date
+        date: run.date,
+        numberOfPeople: run.numberOfPeople
     }));
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
@@ -141,7 +144,6 @@ const Map = () => {
     };
     const changeLatLon = (payload: runActionType) => dispatch(startEndLocation(payload));
     const locationNutural = (payload: runNaturalLanType) => dispatch(locationNaturalLan(payload));
-
     const searchAddress = (searchLocation: string) => {
         searchPois(CURRENT_MAP.currentMapState, searchLocation);
     };
@@ -149,6 +151,22 @@ const Map = () => {
     const onChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(subInfo({ key: 'date', value: e.target.value }));
         setStartDateTime(e.target.value);
+    };
+    const clickRegister = async () => {
+        if (startLocationNaturalLan && endLocationNaturalLan) {
+            const runRegisterFunc = await runRegister[0]({
+                start,
+                end,
+                startLocationNaturalLan,
+                endLocationNaturalLan,
+                durationTime,
+                distance,
+                date,
+                title,
+                body,
+                numberOfPeople
+            });
+        }
     };
     return (
         <StyledMapBlock>
@@ -201,15 +219,15 @@ const Map = () => {
                 </StartBlock>
                 <DistanceItem onClick={() => calDistance()}>거리보기</DistanceItem>
                 <br />
-                <RegisterItem>등록하기</RegisterItem>
                 <RunInfo>
                     <div>
-                        거리 <SubRunInfo>l{distance}km</SubRunInfo>
+                        거리 <SubRunInfo>{distance}km</SubRunInfo>
                     </div>
                     <div>
-                        예상소요시간 <SubRunInfo>{duration}분</SubRunInfo>
+                        예상소요시간 <SubRunInfo>{durationTime}분</SubRunInfo>
                     </div>
                 </RunInfo>
+                <RegisterItem onClick={() => clickRegister}>등록하기</RegisterItem>
             </CourseBlock>
         </StyledMapBlock>
     );

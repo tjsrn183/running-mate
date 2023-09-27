@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { type } from 'os';
+import { LocationType } from '../redux/runSlice';
 //사용자정보 패칭 타입
 interface userInfoType {
     id: number;
@@ -70,6 +71,38 @@ export const api = createApi({
                 }
             }
         }),
+        runRegisterItem: builder.mutation<void, LocationType>({
+            query: ({
+                start,
+                end,
+                startLocationNaturalLan,
+                endLocationNaturalLan,
+                durationTime,
+                distance,
+                date,
+                title,
+                body,
+                numberOfPeople
+            }) => {
+                return {
+                    url: '/post/run',
+                    method: 'POST',
+                    body: {
+                        start,
+                        end,
+                        startLocationNaturalLan,
+                        endLocationNaturalLan,
+                        durationTime,
+                        distance,
+                        date,
+                        title,
+                        body,
+                        numberOfPeople
+                    },
+                    responseType: 'json'
+                };
+            }
+        }),
         editCommunity: builder.mutation<resultWriteType, writeType>({
             query: ({ nick, title, body, postId }: writeType) => {
                 return {
@@ -115,5 +148,6 @@ export const {
     useGetPostListQuery,
     useEditCommunityMutation,
     useDeleteCommunityMutation,
-    useImgUploadCommunityMutation
+    useImgUploadCommunityMutation,
+    useRunRegisterItemMutation
 } = api;

@@ -119,10 +119,7 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
             });
 
             markerArr.push(marker);
-            console.log('스타트함수가 실행되는지 함보자');
-            console.log('lon과 lat는 제대로 들어갔는가', lon, lat);
-            console.log('시작 마커가 올라왔니?', marker.isLoaded());
-            console.log('marker임', marker);
+
             locationNutural({ key: 'startLocationNaturalLan', value: locationNatural });
             changeLatLon({ key: 'start', value: { lat: lat, lon: lon } });
 
@@ -167,8 +164,6 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
         }
     };
 
-    //     searchPois();
-    //  poiDetail();
     return (
         <MapBlock id="map_div" style={{ width: '100%', height: '500px' }}>
             <StartEndButtonBlock>
