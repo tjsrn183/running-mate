@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import palette from '../lib/styles/palette';
 import { CustomButton } from './common/CustomButton';
+import Header from './common/Header';
+import { useParams } from 'react-router-dom';
 
 const Container = styled.div``;
 
@@ -69,8 +71,12 @@ const StartChat = styled(CustomButton)`
 `;
 
 const ItemDetail = () => {
+    const { runItemId } = useParams();
+    const runItemIdNum: number = parseInt(runItemId!);
+
     return (
         <Container>
+            <Header />
             <Main>
                 <BigMap>큰지도 들어갈자리</BigMap>
                 <Title>

@@ -11,6 +11,7 @@ import routesPedestrian from './common/Map/routesPedestrian';
 import { runActionType, runNaturalLanType, locationNaturalLan, subInfo } from '../redux/runSlice';
 import searchPois from './common/Map/searchPois';
 import { useRunRegisterItemMutation } from '../api/queries';
+import { useGetUserInfoQuery } from '../api/queries';
 const StyledMapBlock = styled.div`
     position: relative;
     top: 100px;
@@ -110,6 +111,7 @@ const Map = () => {
     const [numberOfItems, setNumberOfItems] = useState(1);
     const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
     const [startDateTime, setStartDateTime] = useState(dateNow);
+    const userInfo = useGetUserInfoQuery();
     const {
         start,
         end,
@@ -155,6 +157,7 @@ const Map = () => {
     const clickRegister = async () => {
         if (startLocationNaturalLan && endLocationNaturalLan) {
             const runRegisterFunc = await runRegister[0]({
+                name: userInfo.data.user.user.nick,
                 start,
                 end,
                 startLocationNaturalLan,

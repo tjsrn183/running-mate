@@ -24,6 +24,7 @@ export interface LocationType {
     body: string;
     numberOfPeople: number;
     date: string;
+    name?: string;
 }
 const initialState: LocationType = {
     start: { lat: 0, lon: 0 },
@@ -36,7 +37,8 @@ const initialState: LocationType = {
     title: '',
     body: '',
     numberOfPeople: 0,
-    date: ''
+    date: '',
+    name: ''
 };
 
 const runSlice = createSlice({

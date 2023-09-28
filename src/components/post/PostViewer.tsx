@@ -30,6 +30,7 @@ const PostContent = styled.div``;
 
 const PostViewer = () => {
     const { postId } = useParams();
+
     const postIdNum: number = parseInt(postId!);
     const postItem = useGetPostItemQuery(postIdNum);
     const userInfo = useGetUserInfoQuery();

@@ -38,10 +38,13 @@ interface postListType {
     postId: number;
     map: any;
 }
+interface runRegisterResultType {
+    runItemId: number;
+}
 
 export const api = createApi({
     reducerPath: 'api',
-    tagTypes: ['UserInfo', 'PostItem', 'PostList'],
+    tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
     endpoints: (builder) => ({
         getUserInfo: builder.query<any, void>({
@@ -71,7 +74,7 @@ export const api = createApi({
                 }
             }
         }),
-        runRegisterItem: builder.mutation<void, LocationType>({
+        runRegisterItem: builder.mutation<runRegisterResultType, LocationType>({
             query: ({
                 start,
                 end,
@@ -82,10 +85,11 @@ export const api = createApi({
                 date,
                 title,
                 body,
-                numberOfPeople
+                numberOfPeople,
+                name
             }) => {
                 return {
-                    url: '/post/run',
+                    url: '/run/register',
                     method: 'POST',
                     body: {
                         start,
@@ -97,11 +101,13 @@ export const api = createApi({
                         date,
                         title,
                         body,
-                        numberOfPeople
+                        numberOfPeople,
+                        name
                     },
                     responseType: 'json'
                 };
-            }
+            },
+            invalidatesTags: ['RunItem']
         }),
         editCommunity: builder.mutation<resultWriteType, writeType>({
             query: ({ nick, title, body, postId }: writeType) => {
