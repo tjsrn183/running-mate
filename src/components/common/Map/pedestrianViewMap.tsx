@@ -2,20 +2,20 @@ import React from 'react';
 import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
 
 interface PedestrianViewMapPropsType {
-    start: { lat: number; lng: number };
-    end: { lat: number; lng: number };
+    start: { lat: number; lon: number };
+    end: { lat: number; lon: number };
 }
-const pedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
+const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
     useFirstMountEffect(() => {
         const startx = start.lat;
-        const starty = start.lng;
+        const starty = start.lon;
         const endx = end.lat;
-        const endy = end.lng;
+        const endy = end.lon;
         const tData = new window.Tmapv2.extension.TData();
-        const startLatLng = new window.Tmapv2.LatLng(startx, starty);
-        const endLatLng = new window.Tmapv2.LatLng(endx, endy);
+        const startLatlon = new window.Tmapv2.Latlon(startx, starty);
+        const endLatlon = new window.Tmapv2.Latlon(endx, endy);
         const VIEW_MAP = new window.Tmapv2.Map('view_map_div', {
-            center: new window.Tmapv2.LatLng(start.lat, start.lng),
+            center: new window.Tmapv2.Latlon(start.lat, start.lon),
             width: '100%',
             height: '100%',
             zoom: 14
@@ -29,7 +29,7 @@ const pedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
         const params = {
             onComplete: function (result: any) {
                 const marker_s = new window.Tmapv2.Marker({
-                    position: new window.Tmapv2.LatLng(startx, starty),
+                    position: new window.Tmapv2.Latlon(startx, starty),
                     icon: 'http://topopen.tmap.co.kr/imgs/start.png',
                     iconSize: new window.Tmapv2.Size(24, 38),
                     map: VIEW_MAP,
@@ -37,7 +37,7 @@ const pedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
                 });
 
                 const marker_e = new window.Tmapv2.Marker({
-                    position: new window.Tmapv2.LatLng(endx, endy),
+                    position: new window.Tmapv2.Latlon(endx, endy),
                     icon: 'http://topopen.tmap.co.kr/imgs/arrival.png',
                     iconSize: new window.Tmapv2.Size(24, 38),
                     map: VIEW_MAP,
@@ -57,10 +57,10 @@ const pedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
                         lineArr.push(l);
                     }
 
-                    const positionBounds = new window.Tmapv2.LatLngBounds();
+                    const positionBounds = new window.Tmapv2.LatlonBounds();
                     for (const polyline of e.polylines) {
-                        for (const latlng of polyline.getPath().path) {
-                            positionBounds.extend(latlng);
+                        for (const latlon of polyline.getPath().path) {
+                            positionBounds.extend(latlon);
                         }
                     }
 
@@ -75,9 +75,9 @@ const pedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
                 console.error('API 호출 중 오류가 발생했습니다.');
             }
         };
-        tData.getRoutePlanForPeopleJson(startLatLng, endLatLng, '출발지', '도착지', optionObj, params);
+        tData.getRoutePlanForPeopleJson(startLatlon, endLatlon, '출발지', '도착지', optionObj, params);
     }, []);
 
     return <div id="view_map_div"></div>;
 };
-export default pedestrianViewMap;
+export default PedestrianViewMap;

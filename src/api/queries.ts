@@ -109,7 +109,7 @@ export const api = createApi({
             },
             invalidatesTags: ['RunItem']
         }),
-        getRunItem: builder.query<runRegisterResultType, number>({
+        getRunItem: builder.query<LocationType, number>({
             query: (runItemId) => `/run/${runItemId}`,
             providesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
         }),

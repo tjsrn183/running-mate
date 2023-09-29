@@ -176,7 +176,7 @@ const Map = () => {
                 body,
                 numberOfPeople
             }).unwrap();
-            navigate(`/run/${runRegisterFunc.runItemId}`);
+            navigate(`/runItemDetail/${runRegisterFunc.runItemId}`);
         }
     };
     return (
