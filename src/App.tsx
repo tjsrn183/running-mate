@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import MyInfoPage from './pages/MyInfoPage';
 import ItemPage from './pages/ItemPage';
-import RunItemDetailModalPage from './components/ItemDetail';
+import RunItemDetailPage from './components/ItemDetail';
 import RegisterPage from './pages/RegisterPage';
 import './App.css';
 import RegisterRunPage from './pages/RegisterRunPage';
@@ -31,7 +31,7 @@ const App = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/myInfo" element={<MyInfoPage />} />
                 <Route path="/ItemPage" element={<ItemPage />} />
-                <Route path="/runItemDetail" element={<RunItemDetailModalPage />} />
+                <Route path="/runItemDetail/:runItemId" element={<RunItemDetailPage />} />
                 <Route path="/RegisterPage" element={<RegisterPage />} />
                 <Route path="/RegisterRun" element={<RegisterRunPage />} />
             </Routes>

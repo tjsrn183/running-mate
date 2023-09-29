@@ -4,6 +4,8 @@ import palette from '../lib/styles/palette';
 import { CustomButton } from './common/CustomButton';
 import Header from './common/Header';
 import { useParams } from 'react-router-dom';
+import { useGetUserInfoQuery, useGetRunItemQuery } from '../api/queries';
+import { LoadingSpin } from './common/LoadingSpin';
 
 const Container = styled.div``;
 
@@ -73,50 +75,57 @@ const StartChat = styled(CustomButton)`
 const ItemDetail = () => {
     const { runItemId } = useParams();
     const runItemIdNum: number = parseInt(runItemId!);
+    const userInfo = useGetUserInfoQuery();
+    const runItem = useGetRunItemQuery(runItemIdNum);
 
     return (
         <Container>
             <Header />
-            <Main>
-                <BigMap>큰지도 들어갈자리</BigMap>
-                <Title>
-                    <h1>제목입니다. 러닝하러가요!</h1>
-                </Title>
-                <UserInfo>
-                    <div id="picture" />
-                    <div className="nameTime">
-                        <div id="name">황선구</div>
-                        <div id="time">2023.7.26</div>
-                    </div>
-                </UserInfo>
-                <ClientWriting />
-            </Main>
-
-            <AsideBlock>
-                <div className="itemInfo">
-                    <h4>출발시간</h4>
-                    <h3>2023-07-26 오후 17:00</h3>
+            {!runItem.data ? (
+                <LoadingSpin />
+            ) : (
+                <div>
+                    <Main>
+                        <BigMap>큰지도 들어갈자리</BigMap>
+                        <Title>
+                            <h1>제목입니다. 러닝하러가요!</h1>
+                        </Title>
+                        <UserInfo>
+                            <div id="picture" />
+                            <div className="nameTime">
+                                <div id="name">황선구</div>
+                                <div id="time">2023.7.26</div>
+                            </div>
+                        </UserInfo>
+                        <ClientWriting />
+                    </Main>
+                    <AsideBlock>
+                        <div className="itemInfo">
+                            <h4>출발시간</h4>
+                            <h3>2023-07-26 오후 17:00</h3>
+                        </div>
+                        <WidthSort>
+                            <div>
+                                <h4>출발지</h4>
+                                <h3>죽전동</h3>
+                            </div>
+                            <div>
+                                <h4>도착지</h4>
+                                <h3>다사읍</h3>
+                            </div>
+                        </WidthSort>
+                        <div className="itemInfo">
+                            <h4>예상소요시간</h4>
+                            <h3>30분</h3>
+                        </div>
+                        <div className="itemInfo">
+                            <h4>참여인원</h4>
+                            <h3>2/3</h3>
+                        </div>
+                        <StartChat>채팅시작하기</StartChat>
+                    </AsideBlock>
                 </div>
-                <WidthSort>
-                    <div>
-                        <h4>출발지</h4>
-                        <h3>죽전동</h3>
-                    </div>
-                    <div>
-                        <h4>도착지</h4>
-                        <h3>다사읍</h3>
-                    </div>
-                </WidthSort>
-                <div className="itemInfo">
-                    <h4>예상소요시간</h4>
-                    <h3>30분</h3>
-                </div>
-                <div className="itemInfo">
-                    <h4>참여인원</h4>
-                    <h3>2/3</h3>
-                </div>
-                <StartChat>채팅시작하기</StartChat>
-            </AsideBlock>
+            )}
         </Container>
     );
 };

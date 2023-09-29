@@ -109,6 +109,11 @@ export const api = createApi({
             },
             invalidatesTags: ['RunItem']
         }),
+        getRunItem: builder.query<runRegisterResultType, number>({
+            query: (runItemId) => `/run/${runItemId}`,
+            providesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
+        }),
+
         editCommunity: builder.mutation<resultWriteType, writeType>({
             query: ({ nick, title, body, postId }: writeType) => {
                 return {
@@ -155,5 +160,6 @@ export const {
     useEditCommunityMutation,
     useDeleteCommunityMutation,
     useImgUploadCommunityMutation,
-    useRunRegisterItemMutation
+    useRunRegisterItemMutation,
+    useGetRunItemQuery
 } = api;

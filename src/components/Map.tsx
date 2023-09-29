@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { CustomButton } from './common/CustomButton';
 import palette from '../lib/styles/palette';
@@ -8,10 +8,11 @@ import { useDispatch } from 'react-redux';
 import { startEndLocation, subInfoType } from '../redux/runSlice';
 import { useAppSelector } from '../redux/hooks';
 import routesPedestrian from './common/Map/routesPedestrian';
-import { runActionType, runNaturalLanType, locationNaturalLan, subInfo } from '../redux/runSlice';
+import { runActionType, runNaturalLanType, locationNaturalLan, subInfo, initialize } from '../redux/runSlice';
 import searchPois from './common/Map/searchPois';
 import { useRunRegisterItemMutation } from '../api/queries';
 import { useGetUserInfoQuery } from '../api/queries';
+import { useNavigate } from 'react-router-dom';
 const StyledMapBlock = styled.div`
     position: relative;
     top: 100px;
@@ -108,10 +109,16 @@ const SubRunInfo = styled.div`
 const Map = () => {
     const dispatch = useDispatch();
     const runRegister = useRunRegisterItemMutation();
+    const navigate = useNavigate();
     const [numberOfItems, setNumberOfItems] = useState(1);
     const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
     const [startDateTime, setStartDateTime] = useState(dateNow);
     const userInfo = useGetUserInfoQuery();
+    useEffect(() => {
+        return () => {
+            dispatch(initialize());
+        };
+    }, []);
     const {
         start,
         end,
@@ -168,7 +175,8 @@ const Map = () => {
                 title,
                 body,
                 numberOfPeople
-            });
+            }).unwrap();
+            navigate(`/run/${runRegisterFunc.runItemId}`);
         }
     };
     return (
