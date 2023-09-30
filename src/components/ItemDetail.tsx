@@ -6,7 +6,7 @@ import Header from './common/Header';
 import { useParams } from 'react-router-dom';
 import { useGetUserInfoQuery, useGetRunItemQuery } from '../api/queries';
 import { LoadingSpin } from './common/LoadingSpin';
-import PedestrianViewMap from './common/Map/pedestrianViewMap';
+import PedestrianViewMap from './common/Map/PedestrianViewMap';
 const Container = styled.div``;
 
 const AsideBlock = styled.aside`
@@ -95,7 +95,7 @@ const ItemDetail = () => {
                             <div id="picture" />
                             <div className="nameTime">
                                 <div id="name">{runItem.data.name}</div>
-                                <div id="time">{runItem.data.createAt}</div>
+                                <div id="time">{runItem.data.createdAt?.slice(0, 10)}</div>
                             </div>
                         </UserInfo>
                         <ClientWriting dangerouslySetInnerHTML={{ __html: runItem.data.body }} />

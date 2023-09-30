@@ -38,10 +38,6 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
             zoom: 14
         });
 
-        const labelArr: any = [];
-        const lineArr: any = [];
-        const poiId = null;
-
         CURRENT_MAP.addListener('click', function onClick(evt: any) {
             const mapLatLng = evt.latLng;
             const lon = mapLatLng._lng;

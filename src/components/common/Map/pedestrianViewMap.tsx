@@ -12,10 +12,10 @@ const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
         const endx = end.lat;
         const endy = end.lon;
         const tData = new window.Tmapv2.extension.TData();
-        const startLatlon = new window.Tmapv2.Latlon(startx, starty);
-        const endLatlon = new window.Tmapv2.Latlon(endx, endy);
+        const startLatlon = new window.Tmapv2.LatLng(startx, starty);
+        const endLatlon = new window.Tmapv2.LatLng(endx, endy);
         const VIEW_MAP = new window.Tmapv2.Map('view_map_div', {
-            center: new window.Tmapv2.Latlon(start.lat, start.lon),
+            center: new window.Tmapv2.LatLng(start.lat, start.lon),
             width: '100%',
             height: '100%',
             zoom: 14
@@ -29,7 +29,7 @@ const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
         const params = {
             onComplete: function (result: any) {
                 const marker_s = new window.Tmapv2.Marker({
-                    position: new window.Tmapv2.Latlon(startx, starty),
+                    position: new window.Tmapv2.LatLng(startx, starty),
                     icon: 'http://topopen.tmap.co.kr/imgs/start.png',
                     iconSize: new window.Tmapv2.Size(24, 38),
                     map: VIEW_MAP,
@@ -37,7 +37,7 @@ const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
                 });
 
                 const marker_e = new window.Tmapv2.Marker({
-                    position: new window.Tmapv2.Latlon(endx, endy),
+                    position: new window.Tmapv2.LatLng(endx, endy),
                     icon: 'http://topopen.tmap.co.kr/imgs/arrival.png',
                     iconSize: new window.Tmapv2.Size(24, 38),
                     map: VIEW_MAP,
@@ -57,7 +57,7 @@ const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
                         lineArr.push(l);
                     }
 
-                    const positionBounds = new window.Tmapv2.LatlonBounds();
+                    const positionBounds = new window.Tmapv2.LatLngBounds();
                     for (const polyline of e.polylines) {
                         for (const latlon of polyline.getPath().path) {
                             positionBounds.extend(latlon);

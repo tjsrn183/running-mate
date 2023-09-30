@@ -13,6 +13,7 @@ import searchPois from './common/Map/searchPois';
 import { useRunRegisterItemMutation } from '../api/queries';
 import { useGetUserInfoQuery } from '../api/queries';
 import { useNavigate } from 'react-router-dom';
+import { LoadingSpin } from './common/LoadingSpin';
 const StyledMapBlock = styled.div`
     position: relative;
     top: 100px;
@@ -176,6 +177,9 @@ const Map = () => {
                 body,
                 numberOfPeople
             }).unwrap();
+            if (runRegister[1].isLoading) {
+                return <LoadingSpin />;
+            }
             navigate(`/runItemDetail/${runRegisterFunc.runItemId}`);
         }
     };
@@ -228,7 +232,7 @@ const Map = () => {
                     <p>출발시간</p>
                     <StartDateTime type="datetime-local" value={startDateTime} onChange={onChangeDate} />
                 </StartBlock>
-                <DistanceItem onClick={() => calDistance()}>거리보기</DistanceItem>
+                <DistanceItem onClick={calDistance}>거리보기</DistanceItem>
                 <br />
                 <RunInfo>
                     <div>
@@ -238,7 +242,7 @@ const Map = () => {
                         예상소요시간 <SubRunInfo>{durationTime}분</SubRunInfo>
                     </div>
                 </RunInfo>
-                <RegisterItem onClick={() => clickRegister}>등록하기</RegisterItem>
+                <RegisterItem onClick={clickRegister}>등록하기</RegisterItem>
             </CourseBlock>
         </StyledMapBlock>
     );

@@ -25,7 +25,7 @@ export interface LocationType {
     numberOfPeople: number;
     date: string;
     name?: string;
-    createAt?: string;
+    createdAt?: string;
 }
 const initialState: LocationType = {
     start: { lat: 0, lon: 0 },
