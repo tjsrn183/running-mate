@@ -27,6 +27,7 @@ export interface LocationType {
     name?: string;
     createdAt?: string;
 }
+const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
 const initialState: LocationType = {
     start: { lat: 0, lon: 0 },
     startLocationNaturalLan: '',
@@ -37,8 +38,8 @@ const initialState: LocationType = {
     distance: 0,
     title: '',
     body: '',
-    numberOfPeople: 0,
-    date: '',
+    numberOfPeople: 1,
+    date: dateNow,
     name: ''
 };
 

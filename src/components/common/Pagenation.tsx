@@ -44,7 +44,7 @@ interface PagenationType {
 
 const Pagenation = ({ total, limit, page, setPage }: PagenationType) => {
     const numPages = Math.ceil(total / limit); //페이지 갯수 계산
-    console.log('Pagenation에서 계산함', numPages);
+
     return (
         <PagenationBlock>
             <Button onClick={() => setPage(page - 1)} disabled={page === 1}>

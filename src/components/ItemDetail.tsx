@@ -14,10 +14,11 @@ const AsideBlock = styled.aside`
     top: 90px;
     right: calc((100% - 900px) / 2);
     width: 300px;
-    height: 450px;
+    height: 660px;
     background-color: ${palette.back_ground_orange};
     display: flex;
     flex-direction: column;
+
     h4 {
         color: ${palette.orange};
     }
@@ -63,10 +64,7 @@ const UserInfo = styled.div`
         flex-direction: column;
     }
 `;
-const WidthSort = styled.div`
-    display: flex;
-    justify-content: space-around;
-`;
+const StartEndLocation = styled.div``;
 
 const StartChat = styled(CustomButton)`
     height: 50px;
@@ -76,6 +74,7 @@ const ItemDetail = () => {
     const { runItemId } = useParams();
     const runItemIdNum: number = parseInt(runItemId!);
     const runItem = useGetRunItemQuery(runItemIdNum);
+    const startTime = runItem.data?.date.split('T').join(' ');
 
     return (
         <Container>
@@ -103,21 +102,25 @@ const ItemDetail = () => {
                     <AsideBlock>
                         <div className="itemInfo">
                             <h4>출발시간</h4>
-                            <h3>{runItem.data.date}</h3>
+                            <h3>{startTime}</h3>
                         </div>
-                        <WidthSort>
-                            <div>
+                        <StartEndLocation>
+                            <div className="itemInfo">
                                 <h4>출발지</h4>
                                 <h3>{runItem.data.startLocationNaturalLan}</h3>
                             </div>
-                            <div>
+                            <div className="itemInfo">
                                 <h4>도착지</h4>
                                 <h3>{runItem.data.endLocationNaturalLan}</h3>
                             </div>
-                        </WidthSort>
+                        </StartEndLocation>
                         <div className="itemInfo">
                             <h4>예상소요시간</h4>
-                            <h3>{runItem.data.durationTime}</h3>
+                            <h3>{runItem.data.durationTime}분</h3>
+                        </div>
+                        <div className="itemInfo">
+                            <h4>거리</h4>
+                            <h3>{runItem.data.distance}km</h3>
                         </div>
                         <div className="itemInfo">
                             <h4>참여인원</h4>

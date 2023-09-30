@@ -38,13 +38,18 @@ interface postListType {
     postId: number;
     map: any;
 }
+interface runItemListType {
+    data: Array<LocationType>;
+    map: any;
+    slice: (arg1: number, arg2: number) => Array<any>;
+}
 interface runRegisterResultType {
     runItemId: number;
 }
 
 export const api = createApi({
     reducerPath: 'api',
-    tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem'],
+    tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'RunItemList'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
     endpoints: (builder) => ({
         getUserInfo: builder.query<any, void>({
@@ -113,7 +118,22 @@ export const api = createApi({
             query: (runItemId) => `/run/${runItemId}`,
             providesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
         }),
-
+        getRunItemList: builder.query<runItemListType, number>({
+            query: (mock) => `/run/list/${mock}`,
+            providesTags: (result, error, arg) => {
+                {
+                    console.log('getPostList에 의 return', result, error, arg);
+                    return result
+                        ? [
+                              ...result.map(({ runItemId }: { runItemId: number }) => ({
+                                  type: 'RunItem',
+                                  id: runItemId
+                              }))
+                          ]
+                        : ['RunItemList'];
+                }
+            }
+        }),
         editCommunity: builder.mutation<resultWriteType, writeType>({
             query: ({ nick, title, body, postId }: writeType) => {
                 return {
@@ -161,5 +181,6 @@ export const {
     useDeleteCommunityMutation,
     useImgUploadCommunityMutation,
     useRunRegisterItemMutation,
-    useGetRunItemQuery
+    useGetRunItemQuery,
+    useGetRunItemListQuery
 } = api;
