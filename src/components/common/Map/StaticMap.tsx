@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
-
-interface PedestrianViewMapPropsType {
+interface StaticMapPropsType {
     start: { lat: number; lon: number };
     end: { lat: number; lon: number };
+    runItemId?: number;
 }
-const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
-    useFirstMountEffect(() => {
+const StaticMap = ({ start, end, runItemId }: StaticMapPropsType) => {
+    useEffect(() => {
         console.log('홈화면에서 실행됨');
         const startx = start.lat;
         const starty = start.lon;
@@ -21,6 +20,10 @@ const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
             height: '100%',
             zoom: 14
         });
+        VIEW_MAP._data.options.scrollwheel = false;
+
+        // 지도 옵션 줌컨트롤 표출 비활성화
+        VIEW_MAP.setOptions({ zoomControl: false });
         const markerArr = [];
         const lineArr = [];
         const optionObj = {
@@ -77,8 +80,8 @@ const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
             }
         };
         tData.getRoutePlanForPeopleJson(startLatlon, endLatlon, '출발지', '도착지', optionObj, params);
-    }, []);
+    }, [runItemId]);
 
     return <div id="view_map_div"></div>;
 };
-export default PedestrianViewMap;
+export default StaticMap;

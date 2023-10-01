@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-
+//첫 렌더링시에만 실행시키는 훅
 const useFirstMountEffect = (func: () => void, deps: any[]) => {
     const didMount = useRef(false);
 
