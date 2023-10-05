@@ -11,9 +11,7 @@ const MainPage = () => {
         <div>
             <Header />
             <MainTop />
-            <ChatPage />
             <p />
-
             <RunItemList />
         </div>
     );

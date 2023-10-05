@@ -46,12 +46,26 @@ interface runItemListType {
 interface runRegisterResultType {
     runItemId: number;
 }
-
+interface chatRoomInputType {
+    title: string;
+    max: number;
+    owner: string;
+}
 export const api = createApi({
     reducerPath: 'api',
     tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'RunItemList'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
     endpoints: (builder) => ({
+        createRoom: builder.mutation<void, chatRoomInputType>({
+            query: ({ title, max, owner }) => {
+                return {
+                    url: '/chat/room',
+                    method: 'POST',
+                    body: { title, max, owner },
+                    responseType: 'json'
+                };
+            }
+        }),
         getUserInfo: builder.query<any, void>({
             query: () => 'auth/userinfo',
             providesTags: ['UserInfo']

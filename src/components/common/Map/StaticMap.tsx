@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+/*import React, { useEffect } from 'react';
 interface StaticMapPropsType {
     start: { lat: number; lon: number };
     end: { lat: number; lon: number };
@@ -85,3 +85,5 @@ const StaticMap = ({ start, end, runItemId }: StaticMapPropsType) => {
     return <div id="view_map_div"></div>;
 };
 export default StaticMap;
+*/
+export {};

@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { useGetRunItemListQuery } from '../api/queries';
 import { LoadingSpin } from './common/LoadingSpin';
 import { LocationType } from '../redux/runSlice';
-import PedestrianViewMap from './common/Map/PedestrianViewMap';
-import StaticMap from './common/Map/StaticMap';
 
 const StyledItemBlock = styled.li`
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
@@ -30,7 +28,7 @@ const ItemList = styled.ul`
     justify-items: center;
 `;
 const RunItem = ({ item }: { item: LocationType }) => {
-    const { start, end, startLocationNaturalLan, endLocationNaturalLan, distance, durationTime, runItemId } = item;
+    const { startLocationNaturalLan, endLocationNaturalLan, distance, durationTime } = item;
     console.log('프론트에서 찍어본 item', item);
 
     return (
@@ -38,11 +36,8 @@ const RunItem = ({ item }: { item: LocationType }) => {
             <div className="item-info-container">
                 <p>출발: {startLocationNaturalLan}</p>
                 <p>도착 :{endLocationNaturalLan}</p>
-                <p>거리 : {distance}km 예상 </p>
+                <p>거리 : {distance}km</p>
                 <p>소요시간 : {durationTime}분</p>
-            </div>
-            <div className="item-map-container">
-                <StaticMap start={start} end={end} runItemId={runItemId} />
             </div>
         </StyledItemBlock>
     );

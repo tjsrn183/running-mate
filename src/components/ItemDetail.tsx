@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import palette from '../lib/styles/palette';
 import { CustomButton } from './common/CustomButton';
@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useGetUserInfoQuery, useGetRunItemQuery } from '../api/queries';
 import { LoadingSpin } from './common/LoadingSpin';
 import PedestrianViewMap from './common/Map/PedestrianViewMap';
+import ChatPage from './ChatPage';
 const Container = styled.div``;
 
 const AsideBlock = styled.aside`
@@ -72,9 +73,19 @@ const StartChat = styled(CustomButton)`
 
 const ItemDetail = () => {
     const { runItemId } = useParams();
+
     const runItemIdNum: number = parseInt(runItemId!);
     const runItem = useGetRunItemQuery(runItemIdNum);
     const startTime = runItem.data?.date.split('T').join(' ');
+    const dialogRef = useRef<any>();
+
+    const openModal = () => {
+        dialogRef.current?.showModal();
+    };
+
+    const closeModal = () => {
+        dialogRef.current?.close();
+    };
 
     return (
         <Container>
@@ -126,7 +137,11 @@ const ItemDetail = () => {
                             <h4>참여인원</h4>
                             <h3>{runItem.data.numberOfPeople}</h3>
                         </div>
-                        <StartChat>채팅시작하기</StartChat>
+                        <StartChat onClick={openModal}>채팅시작하기</StartChat>
+                        <dialog ref={dialogRef}>
+                            <ChatPage />
+                            <button onClick={closeModal}>Close</button>
+                        </dialog>
                     </AsideBlock>
                 </div>
             )}

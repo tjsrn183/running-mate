@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { styled } from 'styled-components';
+import { io } from 'socket.io-client';
 
 const StyledChatList = styled.div`
     height: 500px;
@@ -8,17 +9,18 @@ const StyledChatList = styled.div`
 `;
 const StyledChatForm = styled.form`
     text-align: right;
-    width: 100%;
-    padding: 10px;
+    padding: 15px 10px;
 `;
 const StyledFiledSet = styled.fieldset`
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
     width: 300px;
     border: 1px solid #ccc;
 `;
 const ChatPage = () => {
+    const socket = io('http://localhost:8000');
+    socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('reply', 'Hi');
+    });
     return (
         <div>
             <StyledFiledSet>
