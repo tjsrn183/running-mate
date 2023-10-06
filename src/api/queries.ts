@@ -51,6 +51,11 @@ interface chatRoomInputType {
     max: number;
     owner: string;
 }
+interface sendChatType {
+    roomId: number;
+    message: string;
+    user: string;
+}
 export const api = createApi({
     reducerPath: 'api',
     tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'RunItemList'],
@@ -66,6 +71,25 @@ export const api = createApi({
                 };
             }
         }),
+        removeRoom: builder.mutation<void, number>({
+            query: (roomId) => {
+                return {
+                    url: `/chat/room/${roomId}`,
+                    method: 'DELETE',
+                    responseType: 'json'
+                };
+            }
+        }),
+        sendChat: builder.mutation<void, sendChatType>({
+            query: ({ roomId, message, user }) => {
+                return {
+                    url: `chat/room/${roomId}/chat`,
+                    method: 'POST',
+                    body: { message, user }
+                };
+            }
+        }),
+
         getUserInfo: builder.query<any, void>({
             query: () => 'auth/userinfo',
             providesTags: ['UserInfo']
