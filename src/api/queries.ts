@@ -84,6 +84,7 @@ export const api = createApi({
         }),
         sendChat: builder.mutation<void, sendChatType>({
             query: ({ roomId, message, user }) => {
+                console.log('sendchat 쿼리 실행됨');
                 return {
                     url: `chat/room/${roomId}/chat`,
                     method: 'POST',

@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import { useEnterRoomQuery, useGetUserInfoQuery, useSendChatMutation } from '../api/queries';
 import Header from './common/Header';
 import { useParams } from 'react-router-dom';
+import ChatBlock from './ChatBlock';
 
 const StyledFiledSet = styled.fieldset`
     width: 300px;
@@ -30,6 +31,7 @@ const ChatPage = () => {
     const enterRoomHook = useEnterRoomQuery(roomIdNumber);
     const userInfo = useGetUserInfoQuery();
     const sendMessageFunc = async () => {
+        console.log('샌드챗  실행됨');
         await sendChatHook[0]({ message, roomId: roomIdNumber, user: userInfo.data.user.user.nick });
         setChatList([...chatList, { message, user: userInfo.data.user.user.nick }]);
         setMessage('');
@@ -48,7 +50,7 @@ const ChatPage = () => {
             setChatList([...chatList, data]);
         });
         socket.on('join', ({ user, chat }: any) => {
-            setChatList([...chatList, chat]);
+            setChatList([...chatList, { user, chat }]);
         });
     }, [socket]);
 
@@ -58,17 +60,10 @@ const ChatPage = () => {
             <StyledFiledSet>
                 <StyledChatList>
                     {chatList &&
-                        chatList.map((chat: any, i: number) => {
-                            return (
-                                <div key={i}>
-                                    <div />
-                                    {chat.message}
-                                    {chat.user}
-                                </div>
-                            );
+                        chatList.map((chat: { message: string; user: string }, i: number) => {
+                            return <ChatBlock key={i} chat={chat} />;
                         })}
                 </StyledChatList>
-
                 <StyledChatForm>
                     <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
                     <button type="submit" onClick={sendMessageFunc}>
