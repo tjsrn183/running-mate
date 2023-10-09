@@ -1,6 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { io } from 'socket.io-client';
+import { useEnterRoomQuery, useGetUserInfoQuery, useSendChatMutation } from '../api/queries';
+import Header from './common/Header';
+import { useParams } from 'react-router-dom';
 
 const StyledFiledSet = styled.fieldset`
     width: 300px;
@@ -17,19 +20,60 @@ const StyledChatForm = styled.form`
 `;
 
 const ChatPage = () => {
-    const socket = io('http://localhost:8000');
-    socket.on('news', function (data) {
-        console.log(data);
-        socket.emit('reply', 'Hi');
-    });
+    const { roomId } = useParams();
+    const roomIdNumber = parseInt(roomId!);
+    const [chatList, setChatList] = useState<any>([]); //채팅 리스트
+    const [message, setMessage] = useState(''); //채팅 input
+    const socket = io('http://localhost:8000/chat');
+    console.log('socketState임', socket);
+    const sendChatHook = useSendChatMutation();
+    const enterRoomHook = useEnterRoomQuery(roomIdNumber);
+    const userInfo = useGetUserInfoQuery();
+    const sendMessageFunc = async () => {
+        await sendChatHook[0]({ message, roomId: roomIdNumber, user: userInfo.data.user.user.nick });
+        setChatList([...chatList, { message, user: userInfo.data.user.user.nick }]);
+        setMessage('');
+    };
+    useEffect(() => {
+        console.log('enterRoomHook.data임', enterRoomHook.data);
+        socket.emit('join', roomIdNumber);
+        setChatList(enterRoomHook?.data);
+        return () => {
+            socket.emit('leave', roomIdNumber);
+            socket.disconnect();
+        };
+    }, [roomIdNumber, socket]);
+    useEffect(() => {
+        socket.on('chat', (data: any) => {
+            setChatList([...chatList, data]);
+        });
+        socket.on('join', ({ user, chat }: any) => {
+            setChatList([...chatList, chat]);
+        });
+    }, [socket]);
+
     return (
         <div>
+            <Header />
             <StyledFiledSet>
-                <StyledChatList></StyledChatList>
+                <StyledChatList>
+                    {chatList &&
+                        chatList.map((chat: any, i: number) => {
+                            return (
+                                <div key={i}>
+                                    <div />
+                                    {chat.message}
+                                    {chat.user}
+                                </div>
+                            );
+                        })}
+                </StyledChatList>
 
                 <StyledChatForm>
-                    <input type="text" />
-                    <button type="submit">전송</button>
+                    <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
+                    <button type="submit" onClick={sendMessageFunc}>
+                        전송
+                    </button>
                 </StyledChatForm>
             </StyledFiledSet>
         </div>

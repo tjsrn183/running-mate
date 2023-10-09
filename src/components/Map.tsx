@@ -10,7 +10,7 @@ import { useAppSelector } from '../redux/hooks';
 import routesPedestrian from './common/Map/routesPedestrian';
 import { runActionType, runNaturalLanType, locationNaturalLan, subInfo, initialize } from '../redux/runSlice';
 import searchPois from './common/Map/searchPois';
-import { useRunRegisterItemMutation } from '../api/queries';
+import { useCreateRoomMutation, useRunRegisterItemMutation } from '../api/queries';
 import { useGetUserInfoQuery } from '../api/queries';
 import { useNavigate } from 'react-router-dom';
 import { LoadingSpin } from './common/LoadingSpin';
@@ -109,6 +109,7 @@ const SubRunInfo = styled.div`
 `;
 const Map = () => {
     const dispatch = useDispatch();
+    const createRoom = useCreateRoomMutation();
     const runRegister = useRunRegisterItemMutation();
     const navigate = useNavigate();
     const [numberOfItems, setNumberOfItems] = useState(1);
@@ -177,7 +178,14 @@ const Map = () => {
                 body,
                 numberOfPeople
             }).unwrap();
-            if (runRegister[1].isLoading) {
+            console.log('runRegisterFunc.runItemId 반환값임', runRegisterFunc.runItemId);
+            const createRoomfunc = await createRoom[0]({
+                title,
+                max: numberOfPeople,
+                name: userInfo.data.user.user.nick,
+                runItemId: runRegisterFunc.runItemId
+            });
+            if (runRegister[1].isLoading || createRoom[1].isLoading) {
                 return <LoadingSpin />;
             }
             navigate(`/runItemDetail/${runRegisterFunc.runItemId}`);

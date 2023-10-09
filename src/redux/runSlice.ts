@@ -27,6 +27,8 @@ export interface LocationType {
     name?: string;
     createdAt?: string;
     runItemId?: number;
+    roomId?: number;
+    ChatRoom?: { roomId: number };
 }
 const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
 const initialState: LocationType = {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import ChatPage from './components/ChatPage';
 import CommunityWritePage from './pages/CommunityPage/WritePage';
 import CommunityPostListPage from './pages/CommunityPage/PostListPage';
 import CommunityPostPage from './pages/CommunityPage/PostPage';
@@ -13,6 +12,7 @@ import RegisterPage from './pages/RegisterPage';
 import './App.css';
 import RegisterRunPage from './pages/RegisterRunPage';
 import { Helmet } from 'react-helmet-async';
+import ChatPage from './components/ChatPage';
 
 const App = () => {
     return (
@@ -22,7 +22,7 @@ const App = () => {
             </Helmet>
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/chat" element={<ChatPage />} />
+                <Route path="ChatPage/:roomId" element={<ChatPage />} />
                 <Route path="/community">
                     <Route index element={<CommunityPostListPage />} />
                     <Route path=":postId" element={<CommunityPostPage />} />

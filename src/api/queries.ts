@@ -49,7 +49,8 @@ interface runRegisterResultType {
 interface chatRoomInputType {
     title: string;
     max: number;
-    owner: string;
+    name: string;
+    runItemId: number;
 }
 interface sendChatType {
     roomId: number;
@@ -62,11 +63,12 @@ export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
     endpoints: (builder) => ({
         createRoom: builder.mutation<void, chatRoomInputType>({
-            query: ({ title, max, owner }) => {
+            query: ({ title, max, name, runItemId }) => {
+                console.log('크리에이트 룸 쿼리가 생성됨');
                 return {
                     url: '/chat/room',
                     method: 'POST',
-                    body: { title, max, owner },
+                    body: { title, max, name, runItemId },
                     responseType: 'json'
                 };
             }
@@ -89,7 +91,9 @@ export const api = createApi({
                 };
             }
         }),
-
+        enterRoom: builder.query<any, number>({
+            query: (roomId) => `chat/room/${roomId}`
+        }),
         getUserInfo: builder.query<any, void>({
             query: () => 'auth/userinfo',
             providesTags: ['UserInfo']
@@ -220,5 +224,9 @@ export const {
     useImgUploadCommunityMutation,
     useRunRegisterItemMutation,
     useGetRunItemQuery,
-    useGetRunItemListQuery
+    useGetRunItemListQuery,
+    useCreateRoomMutation,
+    useRemoveRoomMutation,
+    useSendChatMutation,
+    useEnterRoomQuery
 } = api;
