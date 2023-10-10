@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { io } from 'socket.io-client';
 import { useEnterRoomQuery, useGetUserInfoQuery, useSendChatMutation } from '../api/queries';
@@ -23,6 +23,7 @@ const StyledChatForm = styled.form`
 const ChatPage = () => {
     const { roomId } = useParams();
     const roomIdNumber = parseInt(roomId!);
+    const chatWindow = useRef<any>(null);
     const [chatList, setChatList] = useState<any>([]); //채팅 리스트
     const [message, setMessage] = useState(''); //채팅 input
     const socket = io('http://localhost:8000/chat');
@@ -30,10 +31,16 @@ const ChatPage = () => {
     const sendChatHook = useSendChatMutation();
     const enterRoomHook = useEnterRoomQuery(roomIdNumber);
     const userInfo = useGetUserInfoQuery();
+    const receiveMessage = useCallback(() => {
+        if (chatWindow.current) {
+            chatWindow.current.scrollTo({ top: chatWindow.current.scrollHeight, behavior: 'smooth' });
+        }
+    }, []);
     const sendMessageFunc = async () => {
         console.log('샌드챗  실행됨');
         await sendChatHook[0]({ message, roomId: roomIdNumber, user: userInfo.data.user.user.nick });
         setChatList([...chatList, { message, user: userInfo.data.user.user.nick }]);
+        receiveMessage();
         setMessage('');
     };
     useEffect(() => {
@@ -47,9 +54,12 @@ const ChatPage = () => {
     }, [roomIdNumber, socket]);
     useEffect(() => {
         socket.on('chat', (data: any) => {
+            console.log('chat이벤트에서 data임', data);
             setChatList([...chatList, data]);
         });
         socket.on('join', ({ user, chat }: any) => {
+            console.log('join이벤트에서 user,chat임', user, chat);
+
             setChatList([...chatList, { user, chat }]);
         });
     }, [socket]);
@@ -58,7 +68,7 @@ const ChatPage = () => {
         <div>
             <Header />
             <StyledFiledSet>
-                <StyledChatList>
+                <StyledChatList ref={chatWindow}>
                     {chatList &&
                         chatList.map((chat: { message: string; user: string }, i: number) => {
                             return <ChatBlock key={i} chat={chat} />;
