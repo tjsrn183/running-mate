@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { styled } from 'styled-components';
 import { io } from 'socket.io-client';
 import { useEnterRoomQuery, useGetUserInfoQuery, useSendChatMutation } from '../api/queries';
@@ -31,6 +31,7 @@ const ChatPage = () => {
     const sendChatHook = useSendChatMutation();
     const enterRoomHook = useEnterRoomQuery(roomIdNumber);
     const userInfo = useGetUserInfoQuery();
+
     const receiveMessage = useCallback(() => {
         if (chatWindow.current) {
             chatWindow.current.scrollTo({ top: chatWindow.current.scrollHeight, behavior: 'smooth' });
@@ -71,7 +72,7 @@ const ChatPage = () => {
                 <StyledChatList ref={chatWindow}>
                     {chatList &&
                         chatList.map((chat: { message: string; user: string }, i: number) => {
-                            return <ChatBlock key={i} chat={chat} />;
+                            return <ChatBlock key={i} chat={chat} serviceUser={userInfo.data.user.user.nick} />;
                         })}
                 </StyledChatList>
                 <StyledChatForm>

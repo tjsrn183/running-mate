@@ -29,10 +29,10 @@ const OtherChat = styled.div`
 `;
 interface Chat {
     chat: { user: string; message: string };
+    serviceUser: string;
 }
-const ChatBlock = ({ chat }: Chat) => {
-    const userInfo = useGetUserInfoQuery();
-    if (userInfo.data?.user?.user?.nick === chat.user) {
+const ChatBlock = ({ chat, serviceUser }: Chat) => {
+    if (serviceUser === chat.user) {
         return (
             <MyChat>
                 <span className="message">{chat.message}</span>

@@ -95,10 +95,7 @@ export const api = createApi({
         enterRoom: builder.query<any, number>({
             query: (roomId) => `chat/room/${roomId}`
         }),
-        getUserInfo: builder.query<any, void>({
-            query: () => 'auth/userinfo',
-            providesTags: ['UserInfo']
-        }),
+
         writeCommunity: builder.mutation<resultWriteType, writeType>({
             query: ({ nick, title, body }: writeType) => {
                 return {
@@ -161,6 +158,15 @@ export const api = createApi({
             query: (runItemId) => `/run/${runItemId}`,
             providesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
         }),
+        getUserInfo: builder.query<any, void>({
+            query: () => 'auth/userinfo',
+            providesTags: (result, error, arg) => {
+                console.log('getUserInfo에 의 return', result, error, arg);
+                console.log('result.user.user.id', result.user.user.id);
+                return [{ type: 'UserInfo', id: result.user.user.id }];
+            }
+        }),
+
         getRunItemList: builder.query<runItemListType, number>({
             query: (mock) => `/run/list/${mock}`,
             providesTags: (result, error, arg) => {
