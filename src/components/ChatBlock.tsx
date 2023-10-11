@@ -5,7 +5,7 @@ import palette from '../lib/styles/palette';
 
 const MyChat = styled.div`
     text-align: right;
-    margin: 15px;
+    margin: 10px;
     .message {
         background-color: ${palette.orange};
         color: white;
@@ -16,7 +16,7 @@ const MyChat = styled.div`
 `;
 const OtherChat = styled.div`
     text-align: left;
-    margin: 15px;
+    margin: 10px;
     .name {
         font-size: 5px;
     }

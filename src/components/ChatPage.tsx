@@ -5,15 +5,19 @@ import { useEnterRoomQuery, useGetUserInfoQuery, useSendChatMutation } from '../
 import Header from './common/Header';
 import { useParams } from 'react-router-dom';
 import ChatBlock from './ChatBlock';
+import { LoadingSpin } from './common/LoadingSpin';
 
 const StyledFiledSet = styled.fieldset`
     width: 300px;
     border: 1px solid #ccc;
 `;
 const StyledChatList = styled.div`
+    display: flex;
+    flex-direction: column;
     height: 500px;
     overflow: auto;
-    padding: 5px;
+    & > :first-child {
+    }
 `;
 const StyledChatForm = styled.form`
     text-align: right;
@@ -25,12 +29,16 @@ const ChatPage = () => {
     const roomIdNumber = parseInt(roomId!);
     const chatWindow = useRef<any>(null);
     const [chatList, setChatList] = useState<any>([]); //채팅 리스트
-
-    const socket = io('http://localhost:8000/chat', { transports: ['websocket', 'polling'] });
+    const userInfo = useGetUserInfoQuery();
+    const socket = io('http://localhost:8000/chat', {
+        transports: ['websocket', 'polling'],
+        query: {
+            username: userInfo.data?.user.user.nick
+        }
+    });
     console.log('socketState임', socket);
     const sendChatHook = useSendChatMutation();
     const enterRoomHook = useEnterRoomQuery(roomIdNumber);
-    const userInfo = useGetUserInfoQuery();
 
     //
     const messageRef = useRef('');
@@ -41,37 +49,44 @@ const ChatPage = () => {
             chatWindow.current.scrollTo({ top: chatWindow.current.scrollHeight, behavior: 'smooth' });
         }
     }, []);
-    const sendMessageFunc = async () => {
+    const sendMessageFunc = () => {
         console.log('샌드챗  실행됨');
-        await sendChatHook[0]({
+        socket.emit('message', {
             message: messageRef.current,
             roomId: roomIdNumber,
             user: userInfo.data.user.user.nick
         });
-        setChatList([...chatList, { message: messageRef.current, user: userInfo.data.user.user.nick }]);
+        /* sendChatHook[0] ({
+            message: messageRef.current,
+            roomId: roomIdNumber,
+            user: userInfo.data.user.user.nick
+        })*/
         receiveMessage();
+        console.log('이게 실행이 되나?');
         messageRef.current = '';
     };
     useEffect(() => {
         console.log('enterRoomHook.data임', enterRoomHook.data);
-        socket.emit('join', roomIdNumber);
-
+        if (enterRoomHook.data == 'full') {
+            alert('방이 꽉 찼습니다.');
+        }
+        if (enterRoomHook.data == 'notExist') {
+            alert('방이 존재하지 않습니다.');
+        }
+        socket.emit('join', roomId);
         setChatList(enterRoomHook?.data);
         return () => {
-            socket.emit('leave', roomIdNumber);
+            socket.emit('leave', roomId);
             socket.disconnect();
         };
     }, [roomIdNumber, socket]);
     useEffect(() => {
         socket.on('chat', (data: any) => {
-            console.log('chat이벤트에서 data임', data);
-
-            setChatList([...chatList, data]);
+            console.log('data임', data);
+            setChatList((prevChatList: any) => [...prevChatList, data]);
         });
         socket.on('join', ({ user, chat }: any) => {
-            console.log('join이벤트에서 user,chat임', user, chat);
-
-            setChatList([...chatList, { user, chat }]);
+            setChatList((prevChatList: any) => [...prevChatList, { user, chat }]);
         });
     }, [socket]);
 
