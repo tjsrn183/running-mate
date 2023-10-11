@@ -25,12 +25,16 @@ const ChatPage = () => {
     const roomIdNumber = parseInt(roomId!);
     const chatWindow = useRef<any>(null);
     const [chatList, setChatList] = useState<any>([]); //채팅 리스트
-    const [message, setMessage] = useState(''); //채팅 input
-    const socket = io('http://localhost:8000/chat');
+
+    const socket = io('http://localhost:8000/chat', { transports: ['websocket', 'polling'] });
     console.log('socketState임', socket);
     const sendChatHook = useSendChatMutation();
     const enterRoomHook = useEnterRoomQuery(roomIdNumber);
     const userInfo = useGetUserInfoQuery();
+
+    //
+    const messageRef = useRef('');
+    //
 
     const receiveMessage = useCallback(() => {
         if (chatWindow.current) {
@@ -39,14 +43,19 @@ const ChatPage = () => {
     }, []);
     const sendMessageFunc = async () => {
         console.log('샌드챗  실행됨');
-        await sendChatHook[0]({ message, roomId: roomIdNumber, user: userInfo.data.user.user.nick });
-        setChatList([...chatList, { message, user: userInfo.data.user.user.nick }]);
+        await sendChatHook[0]({
+            message: messageRef.current,
+            roomId: roomIdNumber,
+            user: userInfo.data.user.user.nick
+        });
+        setChatList([...chatList, { message: messageRef.current, user: userInfo.data.user.user.nick }]);
         receiveMessage();
-        setMessage('');
+        messageRef.current = '';
     };
     useEffect(() => {
         console.log('enterRoomHook.data임', enterRoomHook.data);
         socket.emit('join', roomIdNumber);
+
         setChatList(enterRoomHook?.data);
         return () => {
             socket.emit('leave', roomIdNumber);
@@ -56,6 +65,7 @@ const ChatPage = () => {
     useEffect(() => {
         socket.on('chat', (data: any) => {
             console.log('chat이벤트에서 data임', data);
+
             setChatList([...chatList, data]);
         });
         socket.on('join', ({ user, chat }: any) => {
@@ -76,7 +86,7 @@ const ChatPage = () => {
                         })}
                 </StyledChatList>
                 <StyledChatForm>
-                    <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
+                    <input type="text" onChange={(e) => (messageRef.current = e.target.value)} />
                     <button type="submit" onClick={sendMessageFunc}>
                         전송
                     </button>

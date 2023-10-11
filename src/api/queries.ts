@@ -59,7 +59,7 @@ interface sendChatType {
 }
 export const api = createApi({
     reducerPath: 'api',
-    tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'RunItemList'],
+    tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'RunItemList', 'EnterRoom'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
     endpoints: (builder) => ({
         createRoom: builder.mutation<void, chatRoomInputType>({
@@ -93,7 +93,18 @@ export const api = createApi({
             }
         }),
         enterRoom: builder.query<any, number>({
-            query: (roomId) => `chat/room/${roomId}`
+            query: (roomId) => `chat/room/${roomId}`,
+            providesTags: (result, error, arg) => {
+                console.log('enterRoom에 의 return', result, error, arg);
+                return result
+                    ? [
+                          ...result.map(({ chatId }: { chatId: number }) => ({
+                              type: 'EnterRoom',
+                              id: chatId
+                          }))
+                      ]
+                    : ['EnterRoom'];
+            }
         }),
 
         writeCommunity: builder.mutation<resultWriteType, writeType>({
@@ -162,11 +173,21 @@ export const api = createApi({
             query: () => 'auth/userinfo',
             providesTags: (result, error, arg) => {
                 console.log('getUserInfo에 의 return', result, error, arg);
-                console.log('result.user.user.id', result.user.user.id);
-                return [{ type: 'UserInfo', id: result.user.user.id }];
+                console.log('result.user.user.id', result?.user.user.id);
+                return [{ type: 'UserInfo', id: result?.user.user.id }];
             }
         }),
-
+        kakaoLogout: builder.mutation<number, number>({
+            query: () => ({
+                url: '/auth/kakao/logout',
+                method: 'POST',
+                credentials: 'include'
+            }),
+            invalidatesTags: (result, error, arg) => {
+                console.log('kakao로그인에서 result찍어봄', result);
+                return [{ type: 'UserInfo', id: arg }];
+            }
+        }),
         getRunItemList: builder.query<runItemListType, number>({
             query: (mock) => `/run/list/${mock}`,
             providesTags: (result, error, arg) => {
@@ -235,5 +256,6 @@ export const {
     useCreateRoomMutation,
     useRemoveRoomMutation,
     useSendChatMutation,
-    useEnterRoomQuery
+    useEnterRoomQuery,
+    useKakaoLogoutMutation
 } = api;

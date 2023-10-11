@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { CustomButton } from './CustomButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGetUserInfoQuery } from '../../api/queries';
+import { useGetUserInfoQuery, useKakaoLogoutMutation } from '../../api/queries';
 import axios from 'axios';
 
 const HeaderBlock = styled.header`
@@ -88,17 +88,14 @@ const UserName = styled.span`
     padding: 0 10px;
 `;
 const Header = () => {
+    const kakaoLogout = useKakaoLogoutMutation();
     const userInfo = useGetUserInfoQuery();
     const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    useEffect(() => {
-        setIsLoggedIn(!!userInfo.data?.user?.user?.nick);
-    }, [userInfo.data?.user?.user?.nick]);
 
     const kakaoLogoutfunc = async () => {
         try {
-            await axios.post('http://localhost:8000/auth/kakao/logout', {}, { withCredentials: true });
-            setIsLoggedIn(false);
+            await kakaoLogout[0](userInfo.data.user.user.id);
+
             navigate('/');
             window.location.reload();
         } catch (error) {
