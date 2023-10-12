@@ -82,7 +82,7 @@ export const api = createApi({
                 };
             }
         }),
-        sendChat: builder.mutation<void, sendChatType>({
+        /* sendChat: builder.mutation<void, sendChatType>({
             query: ({ roomId, message, user }) => {
                 console.log('sendchat 쿼리 실행됨');
                 return {
@@ -91,7 +91,7 @@ export const api = createApi({
                     body: { message, user }
                 };
             }
-        }),
+        }),*/
         enterRoom: builder.query<any, number>({
             query: (roomId) => `chat/room/${roomId}`,
             providesTags: (result, error, arg) => {
@@ -255,7 +255,7 @@ export const {
     useGetRunItemListQuery,
     useCreateRoomMutation,
     useRemoveRoomMutation,
-    useSendChatMutation,
+    //  useSendChatMutation,
     useEnterRoomQuery,
     useKakaoLogoutMutation
 } = api;

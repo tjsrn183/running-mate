@@ -27,12 +27,28 @@ const OtherChat = styled.div`
         font-size: 15px;
     }
 `;
+const SystemChat = styled.div`
+    text-align: center;
+
+    .system {
+        background-color: black;
+        color: white;
+        padding: 5px 10px 5px 10px;
+        font-size: 10px;
+    }
+`;
 interface Chat {
     chat: { user: string; message: string };
     serviceUser: string;
 }
 const ChatBlock = ({ chat, serviceUser }: Chat) => {
-    if (serviceUser === chat.user) {
+    if (chat.user === 'system') {
+        return (
+            <SystemChat>
+                <div className="system">{chat.message}</div>
+            </SystemChat>
+        );
+    } else if (serviceUser === chat.user) {
         return (
             <MyChat>
                 <span className="message">{chat.message}</span>

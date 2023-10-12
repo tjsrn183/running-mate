@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useMemo, FormEvent } from 'react';
 import { styled } from 'styled-components';
 import { io } from 'socket.io-client';
-import { useEnterRoomQuery, useGetUserInfoQuery, useSendChatMutation } from '../api/queries';
+import { useEnterRoomQuery, useGetUserInfoQuery } from '../api/queries';
+//import { useSendChatMutation } from '../api/mutations';
 import Header from './common/Header';
 import { useParams } from 'react-router-dom';
 import ChatBlock from './ChatBlock';
@@ -37,33 +38,42 @@ const ChatPage = () => {
         }
     });
     console.log('socketState임', socket);
-    const sendChatHook = useSendChatMutation();
+    // const sendChatHook = useSendChatMutation();
     const enterRoomHook = useEnterRoomQuery(roomIdNumber);
 
+    //
+    const [tempMessage, setTempMessage] = useState({
+        message: '',
+        user: userInfo.data?.user.user.nick
+    });
     //
     const messageRef = useRef('');
     //
 
-    const receiveMessage = useCallback(() => {
+    const receiveMessage = () => {
         if (chatWindow.current) {
             chatWindow.current.scrollTo({ top: chatWindow.current.scrollHeight, behavior: 'smooth' });
         }
-    }, []);
-    const sendMessageFunc = () => {
+    };
+    const sendMessageFunc = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         console.log('샌드챗  실행됨');
         socket.emit('message', {
-            message: messageRef.current,
+            message: tempMessage.message,
             roomId: roomIdNumber,
-            user: userInfo.data.user.user.nick
+            user: userInfo.data?.user.user.nick
         });
-        /* sendChatHook[0] ({
+        setTempMessage({ ...tempMessage, message: '' });
+
+        /* 
+        rtk-query를 이용한 채팅 전송
+        sendChatHook[0] ({
             message: messageRef.current,
             roomId: roomIdNumber,
             user: userInfo.data.user.user.nick
         })*/
-        receiveMessage();
+
         console.log('이게 실행이 되나?');
-        messageRef.current = '';
     };
     useEffect(() => {
         console.log('enterRoomHook.data임', enterRoomHook.data);
@@ -73,23 +83,31 @@ const ChatPage = () => {
         if (enterRoomHook.data == 'notExist') {
             alert('방이 존재하지 않습니다.');
         }
+        console.log('socket임', socket);
         socket.emit('join', roomId);
         setChatList(enterRoomHook?.data);
         return () => {
             socket.emit('leave', roomId);
             socket.disconnect();
         };
-    }, [roomIdNumber, socket]);
+    }, [socket, roomId]);
+
     useEffect(() => {
         socket.on('chat', (data: any) => {
             console.log('data임', data);
-            setChatList((prevChatList: any) => [...prevChatList, data]);
+
+            setChatList((chatList: any) => [...chatList, data]);
+            receiveMessage();
         });
+
         socket.on('join', ({ user, chat }: any) => {
-            setChatList((prevChatList: any) => [...prevChatList, { user, chat }]);
+            console.log('join이벤트시 user,chat', user, chat);
+            setChatList((chatList: any) => [...chatList, { user, chat }]);
         });
     }, [socket]);
-
+    const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTempMessage({ ...tempMessage, [e.target.name]: e.target.value });
+    };
     return (
         <div>
             <Header />
@@ -100,11 +118,14 @@ const ChatPage = () => {
                             return <ChatBlock key={i} chat={chat} serviceUser={userInfo.data.user.user.nick} />;
                         })}
                 </StyledChatList>
-                <StyledChatForm>
-                    <input type="text" onChange={(e) => (messageRef.current = e.target.value)} />
-                    <button type="submit" onClick={sendMessageFunc}>
-                        전송
-                    </button>
+                <StyledChatForm onSubmit={(e: FormEvent<HTMLFormElement>) => sendMessageFunc(e)}>
+                    <input
+                        type="text"
+                        name="message"
+                        onChange={(e) => onTextChange(e) /*(messageRef.current = e.target.value)*/}
+                        value={tempMessage.message}
+                    />
+                    <button type="submit">전송</button>
                 </StyledChatForm>
             </StyledFiledSet>
         </div>
