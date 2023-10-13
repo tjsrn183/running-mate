@@ -26,17 +26,18 @@ const StyledChatForm = styled.form`
 `;
 
 const ChatPage = () => {
-    const { roomId } = useParams();
-    const roomIdNumber = parseInt(roomId!);
+    const { roomId } = useParams(); // 채팅 받고 보내고 관련한건 모두 이걸로
+    const roomIdNumber = parseInt(roomId!); //훅으로 보낼때만 쓰기
     const chatWindow = useRef<any>(null);
     const [chatList, setChatList] = useState<any>([]); //채팅 리스트
     const userInfo = useGetUserInfoQuery();
     const socket = io('http://localhost:8000/chat', {
-        transports: ['websocket', 'polling'],
+        transports: ['websocket'],
         query: {
             username: userInfo.data?.user.user.nick
         }
     });
+
     console.log('socketState임', socket);
     // const sendChatHook = useSendChatMutation();
     const enterRoomHook = useEnterRoomQuery(roomIdNumber);
@@ -55,15 +56,18 @@ const ChatPage = () => {
             chatWindow.current.scrollTo({ top: chatWindow.current.scrollHeight, behavior: 'smooth' });
         }
     };
-    const sendMessageFunc = (e: FormEvent<HTMLFormElement>) => {
+    const sendMessageFunc = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('샌드챗  실행됨');
-        socket.emit('message', {
-            message: tempMessage.message,
-            roomId: roomIdNumber,
-            user: userInfo.data?.user.user.nick
-        });
-        setTempMessage({ ...tempMessage, message: '' });
+        if (tempMessage.message !== '') {
+            await socket.emit('message', {
+                message: tempMessage.message,
+                roomId: roomId,
+                user: userInfo.data?.user.user.nick
+            });
+
+            setTempMessage({ ...tempMessage, message: '' });
+        }
 
         /* 
         rtk-query를 이용한 채팅 전송
@@ -77,6 +81,7 @@ const ChatPage = () => {
     };
     useEffect(() => {
         console.log('enterRoomHook.data임', enterRoomHook.data);
+
         if (enterRoomHook.data == 'full') {
             alert('방이 꽉 찼습니다.');
         }
@@ -85,26 +90,28 @@ const ChatPage = () => {
         }
         console.log('socket임', socket);
         socket.emit('join', roomId);
+
         setChatList(enterRoomHook?.data);
+
         return () => {
             socket.emit('leave', roomId);
             socket.disconnect();
         };
-    }, [socket, roomId]);
+    }, [socket, roomIdNumber]);
 
     useEffect(() => {
         socket.on('chat', (data: any) => {
             console.log('data임', data);
-
+            console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ');
             setChatList((chatList: any) => [...chatList, data]);
-            receiveMessage();
         });
 
         socket.on('join', ({ user, chat }: any) => {
             console.log('join이벤트시 user,chat', user, chat);
             setChatList((chatList: any) => [...chatList, { user, chat }]);
         });
-    }, [socket]);
+        receiveMessage();
+    }, [socket, chatList]);
     const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTempMessage({ ...tempMessage, [e.target.name]: e.target.value });
     };

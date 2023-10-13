@@ -112,7 +112,7 @@ const Map = () => {
     const createRoom = useCreateRoomMutation();
     const runRegister = useRunRegisterItemMutation();
     const navigate = useNavigate();
-    const [numberOfItems, setNumberOfItems] = useState(1);
+    const [people, setPeople] = useState(1);
     const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
     const [startDateTime, setStartDateTime] = useState(dateNow);
     const userInfo = useGetUserInfoQuery();
@@ -131,8 +131,7 @@ const Map = () => {
         durationTime,
         title,
         body,
-        date,
-        numberOfPeople
+        date
     } = useAppSelector(({ run }) => ({
         start: run.start,
         end: run.end,
@@ -143,12 +142,12 @@ const Map = () => {
         durationTime: run.durationTime,
         title: run.title,
         body: run.body,
-        date: run.date,
-        numberOfPeople: run.numberOfPeople
+        date: run.date
     }));
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
-        setNumberOfItems(RegisterNumber);
+        console.log('RegisterNumber임', RegisterNumber);
+        setPeople(RegisterNumber);
     };
     const calDistance = () => {
         routesPedestrian(start, end, CURRENT_MAP.currentMapState, dispatch);
@@ -176,12 +175,12 @@ const Map = () => {
                 date,
                 title,
                 body,
-                numberOfPeople
+                numberOfPeople: people
             }).unwrap();
             console.log('runRegisterFunc.runItemId 반환값임', runRegisterFunc.runItemId);
             const createRoomfunc = await createRoom[0]({
                 title,
-                max: numberOfPeople,
+                max: people,
                 name: userInfo.data.user.user.nick,
                 runItemId: runRegisterFunc.runItemId
             });
@@ -234,7 +233,7 @@ const Map = () => {
                     </InputBlock>
                     <br />
                     <p>참여인원</p>
-                    <AttendNumber type="number" min="0" max="20" value={numberOfItems} onChange={onChangeRegister} />
+                    <AttendNumber type="number" min="0" max="20" value={people} onChange={onChangeRegister} />
                 </Course>
                 <StartBlock>
                     <p>출발시간</p>
