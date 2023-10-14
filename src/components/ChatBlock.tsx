@@ -62,4 +62,4 @@ const ChatBlock = ({ chat, serviceUser }: Chat) => {
             </OtherChat>
         );
 };
-export default ChatBlock;
+export default React.memo(ChatBlock);

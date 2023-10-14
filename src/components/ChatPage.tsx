@@ -56,13 +56,14 @@ const ChatPage = () => {
             chatWindow.current.scrollTo({ top: chatWindow.current.scrollHeight, behavior: 'smooth' });
         }
     };
-    const sendMessageFunc = async (e: FormEvent<HTMLFormElement>) => {
+    const sendMessageFunc = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         console.log('샌드챗  실행됨');
         if (tempMessage.message !== '') {
-            await socket.emit('message', {
+            socket.emit('message', {
                 message: tempMessage.message,
-                roomId: roomId,
+                roomId,
                 user: userInfo.data?.user.user.nick
             });
 
@@ -92,12 +93,12 @@ const ChatPage = () => {
         socket.emit('join', roomId);
 
         setChatList(enterRoomHook?.data);
-
+        receiveMessage();
         return () => {
             socket.emit('leave', roomId);
             socket.disconnect();
         };
-    }, [socket, roomIdNumber]);
+    }, []);
 
     useEffect(() => {
         socket.on('chat', (data: any) => {
@@ -108,10 +109,12 @@ const ChatPage = () => {
 
         socket.on('join', ({ user, chat }: any) => {
             console.log('join이벤트시 user,chat', user, chat);
-            setChatList((chatList: any) => [...chatList, { user, chat }]);
+            setChatList([...chatList, { user, chat }]);
         });
+    }, [socket]);
+    useEffect(() => {
         receiveMessage();
-    }, [socket, chatList]);
+    }, [chatList]);
     const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTempMessage({ ...tempMessage, [e.target.name]: e.target.value });
     };
