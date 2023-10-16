@@ -113,7 +113,8 @@ const ChatPage = () => {
 
         socket.on('join', ({ user, chat }: any) => {
             console.log('join이벤트시 user,chat', user, chat);
-            setChatList((chatList: any) => [...chatList, { user, chat }]);
+
+            setChatList((chatList: any) => [...chatList, { user, message: chat }]);
         });
     }, [socket, chatList]);
 

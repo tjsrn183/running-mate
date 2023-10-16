@@ -31,10 +31,12 @@ const SystemChat = styled.div`
     text-align: center;
 
     .system {
+        border-radius: 5px;
         background-color: black;
         color: white;
         padding: 5px 10px 5px 10px;
         font-size: 10px;
+        margin: 5px;
     }
 `;
 interface Chat {
