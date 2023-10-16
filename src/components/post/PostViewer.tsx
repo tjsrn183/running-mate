@@ -43,7 +43,9 @@ const PostViewer = () => {
     console.log('PpostId의 타입', typeof postIdNum);
     console.log('PostViewer에 postIdNum', postIdNum);
     console.log('PostViewer에서 찍어본 postItem', postItem);
-    const ownPost = (userInfo.data?.user && userInfo.data?.user.user.id) === (postItem.data && postItem.data.user_id);
+    const ownPost = userInfo.data?.user.user.id === postItem.data?.UserId;
+    console.log('비교', userInfo.data?.user.user.id, postItem.data?.UserId);
+    console.log('PostViewer에 ownPost', ownPost);
     const onEdit = () => {
         dispatch(
             setPost({

@@ -98,7 +98,7 @@ const ChatPage = () => {
         setChatList(enterRoomHook?.data);
         receiveMessage();
         return () => {
-            socket.emit('leave', roomId);
+            socket.emit('disconnect', roomId);
 
             socket.off();
         };
@@ -108,13 +108,19 @@ const ChatPage = () => {
         socket.on('chat', (data: any) => {
             console.log('data임', data);
             console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ');
-            setChatList((chatList: any) => [...chatList, data]);
+
+            setChatList((prevState: any) => [...prevState, data]);
         });
 
         socket.on('join', ({ user, chat }: any) => {
             console.log('join이벤트시 user,chat', user, chat);
 
-            setChatList((chatList: any) => [...chatList, { user, message: chat }]);
+            setChatList((prevState: any) => [...prevState, { user, message: chat }]);
+        });
+
+        socket.on('disconnect', ({ user, chat }: any) => {
+            console.log('퇴장 이벤트 온');
+            setChatList((prevState: any) => [...prevState, { user, message: chat }]);
         });
     }, [socket, chatList]);
 

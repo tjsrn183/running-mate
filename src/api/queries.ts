@@ -23,7 +23,7 @@ interface detailPostType {
     title: string;
     content: any;
     postId: number;
-    user_id: number;
+    UserId: number;
 }
 //글 업로드후 해당 게시물로 이동하기위해 받는 정보의 타입
 interface resultWriteType {
@@ -73,14 +73,15 @@ export const api = createApi({
                 };
             }
         }),
-        removeRoom: builder.mutation<void, number>({
-            query: (roomId) => {
+        deleteRunItem: builder.mutation<void, number>({
+            query: (runItemId) => {
                 return {
-                    url: `/chat/room/${roomId}`,
+                    url: `/run/delete/${runItemId}`,
                     method: 'DELETE',
                     responseType: 'json'
                 };
-            }
+            },
+            invalidatesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
         }),
         /* sendChat: builder.mutation<void, sendChatType>({
             query: ({ roomId, message, user }) => {
@@ -254,7 +255,7 @@ export const {
     useGetRunItemQuery,
     useGetRunItemListQuery,
     useCreateRoomMutation,
-    useRemoveRoomMutation,
+    useDeleteRunItemMutation,
     //  useSendChatMutation,
     useEnterRoomQuery,
     useKakaoLogoutMutation

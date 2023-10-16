@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import palette from '../lib/styles/palette';
 import { CustomButton } from './common/CustomButton';
 import Header from './common/Header';
-import { Link, useParams } from 'react-router-dom';
-import { useGetUserInfoQuery, useGetRunItemQuery } from '../api/queries';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useGetUserInfoQuery, useGetRunItemQuery, useDeleteRunItemMutation } from '../api/queries';
 import { LoadingSpin } from './common/LoadingSpin';
 import PedestrianViewMap from './common/Map/PedestrianViewMap';
 import ChatPage from './ChatPage';
 import { io } from 'socket.io-client';
 import { useAppDispatch } from '../redux/hooks';
+import { userInfo } from 'os';
 
 const Container = styled.div``;
 
@@ -69,18 +70,38 @@ const UserInfo = styled.div`
     }
 `;
 const StartEndLocation = styled.div``;
-
-const StartChat = styled(Link)`
-    height: 50px;
+const DeleteSpan = styled.i`
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    font-size: 45px;
 `;
+
+const WrapLinkComponent = ({ children, to }: any) => (
+    <CustomButton style={{ height: '50px' }}>
+        <Link to={to}>{children}</Link>
+    </CustomButton>
+);
 
 const ItemDetail = () => {
     const { runItemId } = useParams();
+    const navigate = useNavigate();
+    const userInfo = useGetUserInfoQuery();
     const runItemIdNum: number = parseInt(runItemId!);
     const runItem = useGetRunItemQuery(runItemIdNum);
+    const deleteRunItem = useDeleteRunItemMutation();
     console.log('runItem.data.roomId임', runItem.data?.roomId);
     console.log('runItem임', runItem);
     const startTime = runItem.data?.date.split('T').join(' ');
+    console.log('룸아이디다~~~~~~~~~', runItem.data?.ChatRoom?.roomId);
+    const ownPost = userInfo.data?.user?.user?.id === runItem.data?.UserId;
+    const deleteRunItemFunc = async () => {
+        await deleteRunItem[0](runItemIdNum);
+        if (deleteRunItem[1].isLoading) {
+            <LoadingSpin />;
+        }
+        navigate('/');
+    };
 
     return (
         <Container>
@@ -133,9 +154,16 @@ const ItemDetail = () => {
                             <h3>{runItem.data.numberOfPeople}</h3>
                         </div>
                         {runItem.data.ChatRoom?.roomId ? (
-                            <StartChat to={`/ChatPage/${runItem.data.ChatRoom.roomId}`}>채팅시작하기</StartChat>
+                            <WrapLinkComponent to={`/ChatPage/${runItem.data.ChatRoom.roomId}`}>
+                                채팅시작하기
+                            </WrapLinkComponent>
                         ) : (
                             <div></div>
+                        )}
+                        {ownPost && (
+                            <DeleteSpan onClick={deleteRunItemFunc} className="material-symbols-outlined">
+                                delete
+                            </DeleteSpan>
                         )}
                     </AsideBlock>
                 </div>
