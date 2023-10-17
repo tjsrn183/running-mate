@@ -2,28 +2,70 @@ import React, { useCallback, useEffect, useRef, useState, useMemo, FormEvent } f
 import { styled } from 'styled-components';
 import { io } from 'socket.io-client';
 import { useEnterRoomQuery, useGetUserInfoQuery } from '../api/queries';
-
-//import { useSendChatMutation } from '../api/mutations';
 import Header from './common/Header';
 import { useParams } from 'react-router-dom';
 import ChatBlock from './ChatBlock';
-import { LoadingSpin } from './common/LoadingSpin';
+import palette from '../lib/styles/palette';
 
+const EditHeader = styled(Header)`
+    margin-bottom: 0;
+`;
+const Entire = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: url(../login_background.jpg) no-repeat center;
+`;
+
+const BackDrop = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(255 255 255/ 0.5);
+    backdrop-filter: blur(10px);
+`;
 const StyledFiledSet = styled.fieldset`
     width: 300px;
     border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 10px;
 `;
 const StyledChatList = styled.div`
     display: flex;
     flex-direction: column;
     height: 500px;
     overflow: auto;
-    & > :first-child {
-    }
 `;
 const StyledChatForm = styled.form`
-    text-align: right;
-    padding: 15px 10px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: end;
+
+    .chatInput {
+        margin: 15px 0;
+        padding: 7px 25px;
+        border: solid 1px;
+        border-color: ${palette.chat_bollon};
+        border-collapse: collapse;
+        border-radius: 15px;
+        background-color: ${palette.chat_input_box};
+    }
+    .chatSubmit {
+        border: none;
+        background-color: white;
+        justify-content: end;
+        cursor: pointer;
+    }
+    .material-symbols-outlined {
+        padding: 4px;
+        border-radius: 14px;
+        font-size: 32px;
+        background-color: ${palette.orange};
+        color: white;
+    }
 `;
 const socketFunc = (name: string) => {
     const socket = io('http://localhost:8000/chat', {
@@ -127,21 +169,31 @@ const ChatPage = () => {
 
     socket.on('ping', () => console.log('ping'));
     return (
-        <div>
-            <Header />
-            <StyledFiledSet>
-                <StyledChatList ref={chatWindow}>
-                    {chatList &&
-                        chatList.map((chat: { message: string; user: string }, i: number) => {
-                            return <ChatBlock key={i} chat={chat} serviceUser={userInfo.data.user.user.nick} />;
-                        })}
-                </StyledChatList>
-                <StyledChatForm onSubmit={(e: FormEvent<HTMLFormElement>) => sendMessageFunc(e)}>
-                    <input type="text" name="message" onChange={(e) => onTextChange(e)} value={tempMessage.message} />
-                    <button type="submit">전송</button>
-                </StyledChatForm>
-            </StyledFiledSet>
-        </div>
+        <Entire>
+            <EditHeader />
+            <BackDrop>
+                <StyledFiledSet>
+                    <StyledChatList ref={chatWindow}>
+                        {chatList &&
+                            chatList.map((chat: { message: string; user: string }, i: number) => {
+                                return <ChatBlock key={i} chat={chat} serviceUser={userInfo.data.user.user.nick} />;
+                            })}
+                    </StyledChatList>
+                    <StyledChatForm onSubmit={(e: FormEvent<HTMLFormElement>) => sendMessageFunc(e)}>
+                        <input
+                            className="chatInput"
+                            type="text"
+                            name="message"
+                            onChange={(e) => onTextChange(e)}
+                            value={tempMessage.message}
+                        />
+                        <button className="chatSubmit" type="submit">
+                            <span className="material-symbols-outlined">send</span>
+                        </button>
+                    </StyledChatForm>
+                </StyledFiledSet>
+            </BackDrop>
+        </Entire>
     );
 };
 

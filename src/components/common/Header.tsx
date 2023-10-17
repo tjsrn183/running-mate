@@ -4,7 +4,6 @@ import palette from '../../lib/styles/palette';
 import { CustomButton } from './CustomButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGetUserInfoQuery, useKakaoLogoutMutation } from '../../api/queries';
-import axios from 'axios';
 
 const HeaderBlock = styled.header`
     position: fixed;
@@ -37,6 +36,7 @@ const LogoLetter = styled.div`
 const LoginButton = styled(CustomButton)`
     margin: 10px;
 `;
+
 const RegisterButton = styled(CustomButton)`
     color: ${palette.orange};
     background-color: white;
@@ -67,9 +67,7 @@ const UserBox = styled.div`
     flex-direction: row-reverse;
     width: 200px;
 `;
-const Spacer = styled.div`
-    height: 4rem;
-`;
+
 const LogoutIcon = styled.span`
     color: white;
     background-color: ${palette.orange};
@@ -145,7 +143,6 @@ const Header = () => {
                     </Right>
                 </Wrapper>
             </HeaderBlock>
-            <Spacer />
         </>
     );
 };

@@ -4,6 +4,7 @@ const palette = {
     hover_gray: '#f8f2f2',
     back_ground_orange: '#f3eee3',
     user_name: '#495057',
-    chat_bollon: '#adb5bd'
+    chat_bollon: '#adb5bd',
+    chat_input_box: '#DCDCDC'
 };
 export default palette;
