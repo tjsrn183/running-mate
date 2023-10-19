@@ -7,7 +7,8 @@ import { LocationType } from '../redux/runSlice';
 
 const StyledItemBlock = styled.li`
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-    width: 300px;
+    display: flex;
+    width: 500px;
     height: 200px;
     cursor: pointer;
     list-style: none;
@@ -23,22 +24,33 @@ const RunItemClick = styled(NavLink)`
 
 const ItemList = styled.ul`
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     grid-gap: 1rem;
     justify-items: center;
 `;
+const Image = styled.div`
+    .image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
+`;
+const SubInfo = styled.div``;
 const RunItem = ({ item }: { item: LocationType }) => {
-    const { startLocationNaturalLan, endLocationNaturalLan, distance, durationTime } = item;
+    const { startLocationNaturalLan, endLocationNaturalLan, distance, durationTime, thumbnail } = item;
     console.log('프론트에서 찍어본 item', item);
-
+    console.log('thumnail', thumbnail);
     return (
         <StyledItemBlock>
-            <div className="item-info-container">
+            <Image>
+                <img className="image" src={thumbnail} alt="" />
+            </Image>
+            <SubInfo>
                 <p>출발: {startLocationNaturalLan}</p>
                 <p>도착 :{endLocationNaturalLan}</p>
                 <p>거리 : {distance}km</p>
                 <p>소요시간 : {durationTime}분</p>
-            </div>
+            </SubInfo>
         </StyledItemBlock>
     );
 };

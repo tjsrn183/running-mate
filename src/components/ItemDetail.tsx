@@ -90,6 +90,7 @@ const ItemDetail = () => {
     const startTime = runItem.data?.date.split('T').join(' ');
     console.log('룸아이디다~~~~~~~~~', runItem.data?.ChatRoom?.roomId);
     const ownPost = userInfo.data?.user?.user?.id === runItem.data?.UserId;
+    console.log('runItem.data.body임', runItem.data?.body);
     const deleteRunItemFunc = async () => {
         await deleteRunItem[0](runItemIdNum);
         if (deleteRunItem[1].isLoading) {

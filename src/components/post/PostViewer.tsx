@@ -6,7 +6,6 @@ import PostEditDeleteButton from '../common/PostEditDeleteButton';
 import { useAppDispatch } from '../../redux/hooks';
 import { setPost } from '../../redux/writeSlice';
 import { LoadingSpin } from '../common/LoadingSpin';
-import { Space } from '../common/Space';
 
 const PostViewerBlock = styled.div`
     height: 100vh;
@@ -48,6 +47,7 @@ const PostViewer = () => {
     const ownPost = userInfo.data?.user.user.id === postItem.data?.UserId;
     console.log('비교', userInfo.data?.user.user.id, postItem.data?.UserId);
     console.log('PostViewer에 ownPost', ownPost);
+    console.log('postItem.data.content임 ', postItem.data?.content);
     const onEdit = () => {
         dispatch(
             setPost({

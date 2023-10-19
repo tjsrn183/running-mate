@@ -116,13 +116,14 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
             value: e.target.value
         });
     };
+
     return (
         <Wrapper height={height} width={width}>
             <TitleInput placeholder="제목을 입력하세요.." onChange={onChangeTitle} value={title} />
             <ReactQuill
                 ref={quillInstance}
                 theme="snow"
-                placeholder="글을 입력하세요"
+                placeholder="글을 입력하세요(첫번째 업로드 사진이 썸네일로 사용될 수 있습니다)"
                 value={body}
                 onChange={setValue}
                 modules={modules}

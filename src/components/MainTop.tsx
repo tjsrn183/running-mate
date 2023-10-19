@@ -5,7 +5,7 @@ import palette from '../lib/styles/palette';
 
 const Outtermost = styled.div`
     width: 100%;
-    height: 500px;
+    height: 300px;
     background-color: ${palette.back_ground_orange};
     position: relative;
 `;
@@ -14,7 +14,7 @@ const Letter = styled.div`
     color: black;
     font-size: 30px;
     position: absolute;
-    top: 200px;
+    top: 100px;
     left: 300px;
 `;
 

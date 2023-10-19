@@ -112,7 +112,7 @@ const Map = () => {
     const createRoom = useCreateRoomMutation();
     const runRegister = useRunRegisterItemMutation();
     const navigate = useNavigate();
-    const [people, setPeople] = useState(1);
+    const [people, setPeople] = useState(2);
     const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
     const [startDateTime, setStartDateTime] = useState(dateNow);
     const userInfo = useGetUserInfoQuery();
