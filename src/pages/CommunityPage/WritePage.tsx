@@ -9,6 +9,7 @@ import { useWriteCommunityMutation, useGetUserInfoQuery, useEditCommunityMutatio
 
 import { useNavigate } from 'react-router-dom';
 import { LoadingSpin } from '../../components/common/LoadingSpin';
+
 const ComunityWriteBlock = styled.div`
     position: relative;
     height: 100vh;
@@ -73,6 +74,7 @@ const CommunityWritePage = () => {
     return (
         <ComunityWriteBlock>
             <Header />
+
             <EditorBlock>
                 <Editor width="840px" height="500px" onChangeField={onChangeField} title={title} body={body} />
             </EditorBlock>

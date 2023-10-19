@@ -11,6 +11,7 @@ import ChatPage from './ChatPage';
 import { io } from 'socket.io-client';
 import { useAppDispatch } from '../redux/hooks';
 import { userInfo } from 'os';
+import { Space } from './common/Space';
 
 const Container = styled.div``;
 
@@ -77,12 +78,6 @@ const DeleteSpan = styled.i`
     font-size: 45px;
 `;
 
-const WrapLinkComponent = ({ children, to }: any) => (
-    <CustomButton style={{ height: '50px' }}>
-        <Link to={to}>{children}</Link>
-    </CustomButton>
-);
-
 const ItemDetail = () => {
     const { runItemId } = useParams();
     const navigate = useNavigate();
@@ -106,11 +101,13 @@ const ItemDetail = () => {
     return (
         <Container>
             <Header />
+
             {!runItem.data ? (
                 <LoadingSpin />
             ) : (
                 <div>
                     <Main>
+                        <Space />
                         <BigMap>
                             <PedestrianViewMap start={runItem.data.start} end={runItem.data.end}></PedestrianViewMap>
                         </BigMap>
@@ -154,9 +151,14 @@ const ItemDetail = () => {
                             <h3>{runItem.data.numberOfPeople}</h3>
                         </div>
                         {runItem.data.ChatRoom?.roomId ? (
-                            <WrapLinkComponent to={`/ChatPage/${runItem.data.ChatRoom.roomId}`}>
+                            <CustomButton
+                                onClick={() => {
+                                    window.location.href = `/ChatPage/${runItem.data?.ChatRoom?.roomId}`;
+                                }}
+                                style={{ height: '50px' }}
+                            >
                                 채팅시작하기
-                            </WrapLinkComponent>
+                            </CustomButton>
                         ) : (
                             <div></div>
                         )}

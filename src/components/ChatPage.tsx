@@ -65,6 +65,10 @@ const StyledChatForm = styled.form`
         font-size: 32px;
         background-color: ${palette.orange};
         color: white;
+        &:hover {
+            transform: scale(1.1);
+            transition: 0.5s;
+        }
     }
 `;
 const socketFunc = (name: string) => {
@@ -124,6 +128,7 @@ const ChatPage = () => {
 
         console.log('이게 실행이 되나?');
     };
+
     useEffect(() => {
         socket.emit('join', roomId);
         console.log('enterRoomHook.data임', enterRoomHook.data);

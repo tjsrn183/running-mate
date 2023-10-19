@@ -6,14 +6,16 @@ import PostEditDeleteButton from '../common/PostEditDeleteButton';
 import { useAppDispatch } from '../../redux/hooks';
 import { setPost } from '../../redux/writeSlice';
 import { LoadingSpin } from '../common/LoadingSpin';
+import { Space } from '../common/Space';
 
 const PostViewerBlock = styled.div`
+    height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
 `;
 const Main = styled.div`
-    width: 60%;
-    margin: 0 auto;
+    margin-top: -400px;
 `;
 const PostTitle = styled.div`
     & > h1 {
