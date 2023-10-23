@@ -127,7 +127,7 @@ const RunItemList = () => {
                 </ItemList>
             )}
 
-            {runItemList.isLoading ? <LoadingSpin /> : <div ref={observeDiv}>옵저버</div>}
+            {runItemList.isLoading ? <LoadingSpin /> : <div ref={observeDiv}></div>}
         </StyledListBlock>
     );
 };
