@@ -189,8 +189,8 @@ export const api = createApi({
                 return [{ type: 'UserInfo', id: arg }];
             }
         }),
-        getRunItemList: builder.query<runItemListType, number>({
-            query: (mock) => `/run/list/${mock}`,
+        getRunItemList: builder.query<any, number>({
+            query: (page) => `/run/list/${page}`,
             providesTags: (result, error, arg) => {
                 {
                     console.log('getPostList에 의 return', result, error, arg);
@@ -203,6 +203,17 @@ export const api = createApi({
                           ]
                         : ['RunItemList'];
                 }
+            },
+            serializeQueryArgs: ({ endpointName }) => {
+                return endpointName;
+            },
+            merge: (currentCache, newItems) => {
+                console.log('currentCache임', currentCache);
+                console.log('newItems임', newItems);
+                currentCache.push(...newItems);
+            },
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg;
             }
         }),
         editCommunity: builder.mutation<resultWriteType, writeType>({
