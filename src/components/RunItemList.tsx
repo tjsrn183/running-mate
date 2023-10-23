@@ -60,12 +60,7 @@ const SubInfo = styled.div`
 `;
 const RunItem = ({ item }: { item: LocationType }) => {
     const { startLocationNaturalLan, endLocationNaturalLan, distance, durationTime, thumbnail, date } = item;
-    console.log('RunItem에서 item임', item);
-    console.log('date임', date);
-    console.log('프론트에서 찍어본 item', item);
-    console.log('thumnail', thumbnail);
-    console.log('출발길이', startLocationNaturalLan?.length);
-    console.log('도착길이', endLocationNaturalLan?.length);
+
     const substring = (location: string) => {
         return location?.length < 33 ? location : location?.slice(0, 33) + '...';
     };
@@ -101,7 +96,7 @@ const RunItemList = () => {
 
     console.log('list에서 runItemList.data임', runItemList.data);
     console.log('list에서 runItemList임', runItemList);
-    const handleObserver = (entries: any) => {
+    const handleObserver = (entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
         if (target.isIntersecting) {
             setPage(page + 1);
@@ -112,7 +107,7 @@ const RunItemList = () => {
         const observer = new IntersectionObserver(handleObserver);
         if (observeDiv.current) observer.observe(observeDiv.current);
         return () => observer.disconnect();
-    }, []);
+    }, [runItemList.data]);
 
     return (
         <StyledListBlock>
@@ -131,8 +126,8 @@ const RunItemList = () => {
                     ))}
                 </ItemList>
             )}
-            {runItemList.isLoading && <LoadingSpin />}
-            <div ref={observeDiv}>옵저버</div>
+
+            {runItemList.isLoading ? <LoadingSpin /> : <div ref={observeDiv}>옵저버</div>}
         </StyledListBlock>
     );
 };

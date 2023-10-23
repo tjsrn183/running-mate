@@ -192,28 +192,26 @@ export const api = createApi({
         getRunItemList: builder.query<any, number>({
             query: (page) => `/run/list/${page}`,
             providesTags: (result, error, arg) => {
-                {
-                    console.log('getPostList에 의 return', result, error, arg);
-                    return result
-                        ? [
-                              ...result.map(({ runItemId }: { runItemId: number }) => ({
-                                  type: 'RunItem',
-                                  id: runItemId
-                              }))
-                          ]
-                        : ['RunItemList'];
-                }
+                console.log('쿼리즈에서 결과다', result);
+                return result
+                    ? [
+                          ...result.map(({ runItemId }: { runItemId: number }) => ({
+                              type: 'RunItem',
+                              id: runItemId
+                          }))
+                      ]
+                    : ['RunItemList'];
             },
             serializeQueryArgs: ({ endpointName }) => {
                 return endpointName;
             },
             merge: (currentCache, newItems) => {
-                console.log('currentCache임', currentCache);
-                console.log('newItems임', newItems);
+                console.log('newItems다', newItems);
                 currentCache.push(...newItems);
             },
             forceRefetch({ currentArg, previousArg }) {
-                return currentArg !== previousArg;
+                console.log('forceRefetch다', currentArg, previousArg);
+                return currentArg !== (previousArg && 1);
             }
         }),
         editCommunity: builder.mutation<resultWriteType, writeType>({
