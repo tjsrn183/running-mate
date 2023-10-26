@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { type } from 'os';
 import { LocationType } from '../redux/runSlice';
+
 //사용자정보 패칭 타입
 interface userInfoType {
     id: number;
@@ -57,9 +58,10 @@ interface sendChatType {
     message: string;
     user: string;
 }
+
 export const api = createApi({
     reducerPath: 'api',
-    tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'RunItemList', 'EnterRoom'],
+    tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'EnterRoom', 'RunItemDetail'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
     endpoints: (builder) => ({
         createRoom: builder.mutation<void, chatRoomInputType>({
@@ -83,16 +85,7 @@ export const api = createApi({
             },
             invalidatesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
         }),
-        /* sendChat: builder.mutation<void, sendChatType>({
-            query: ({ roomId, message, user }) => {
-                console.log('sendchat 쿼리 실행됨');
-                return {
-                    url: `chat/room/${roomId}/chat`,
-                    method: 'POST',
-                    body: { message, user }
-                };
-            }
-        }),*/
+
         enterRoom: builder.query<any, number>({
             query: (roomId) => `chat/room/${roomId}`,
             providesTags: (result, error, arg) => {
@@ -168,7 +161,7 @@ export const api = createApi({
         }),
         getRunItem: builder.query<LocationType, number>({
             query: (runItemId) => `/run/${runItemId}`,
-            providesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
+            providesTags: (result, error, arg) => [{ type: 'RunItemDetail', id: arg }]
         }),
         getUserInfo: builder.query<any, void>({
             query: () => 'auth/userinfo',
@@ -193,25 +186,31 @@ export const api = createApi({
             query: (page) => `/run/list/${page}`,
             providesTags: (result, error, arg) => {
                 console.log('쿼리즈에서 결과다', result);
+
                 return result
                     ? [
-                          ...result.map(({ runItemId }: { runItemId: number }) => ({
+                          ...result.ItemList.map(({ runItemId }: { runItemId: number }) => ({
                               type: 'RunItem',
                               id: runItemId
                           }))
                       ]
-                    : ['RunItemList'];
+                    : [];
             },
             serializeQueryArgs: ({ endpointName }) => {
                 return endpointName;
             },
             merge: (currentCache, newItems) => {
-                console.log('newItems다', newItems);
-                currentCache.push(...newItems);
+                console.log('newItems다아아아', newItems);
+                const mergedItemList = currentCache.ItemList.concat(newItems.ItemList);
+                const uniqueItemList = mergedItemList.filter((item: any, index: string, self: any) => {
+                    return self.findIndex((t: any) => t.runItemId === item.runItemId) === index;
+                });
+
+                currentCache.ItemList = uniqueItemList;
             },
             forceRefetch({ currentArg, previousArg }) {
                 console.log('forceRefetch다', currentArg, previousArg);
-                return currentArg !== (previousArg && 1);
+                return currentArg !== previousArg;
             }
         }),
         editCommunity: builder.mutation<resultWriteType, writeType>({
@@ -265,7 +264,6 @@ export const {
     useGetRunItemListQuery,
     useCreateRoomMutation,
     useDeleteRunItemMutation,
-    //  useSendChatMutation,
     useEnterRoomQuery,
     useKakaoLogoutMutation
 } = api;

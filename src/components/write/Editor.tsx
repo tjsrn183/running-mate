@@ -80,6 +80,7 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
                 const IMG_URL = result.url;
                 const editor = quillInstance?.current?.getEditor();
                 const range = editor.getSelection();
+
                 editor.insertEmbed(range.index, 'image', IMG_URL);
             } catch (error) {
                 console.log('에러');

@@ -5,6 +5,7 @@ import { useGetRunItemListQuery } from '../api/queries';
 import { LoadingSpin } from './common/LoadingSpin';
 import { LocationType } from '../redux/runSlice';
 import palette from '../lib/styles/palette';
+import { useAppSelector } from '../redux/hooks';
 
 const StyledItemBlock = styled.li`
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
@@ -93,19 +94,27 @@ const RunItemList = () => {
     const [page, setPage] = useState(1);
     const runItemList = useGetRunItemListQuery(page);
     const observeDiv = useRef(null);
-
+    const endRef = useRef(false);
     console.log('list에서 runItemList.data임', runItemList.data);
+    console.log('list에서 runItemList.data.totalPage임', runItemList.data?.totalPage);
     console.log('list에서 runItemList임', runItemList);
+    console.log('page다다다다', page);
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
         if (target.isIntersecting) {
             setPage(page + 1);
+            if (page === runItemList.data?.totalPage) {
+                endRef.current = true;
+            }
         }
     };
 
     useEffect(() => {
         const observer = new IntersectionObserver(handleObserver);
         if (observeDiv.current) observer.observe(observeDiv.current);
+        console.log('observeDiv임', observeDiv);
+        console.log('observeDiv.current임', observeDiv.current);
+
         return () => observer.disconnect();
     }, [runItemList.data]);
 
@@ -115,7 +124,7 @@ const RunItemList = () => {
                 <LoadingSpin />
             ) : (
                 <ItemList>
-                    {runItemList.data?.map((item: any) => (
+                    {runItemList.data.ItemList.map((item: any) => (
                         <RunItemClick
                             to={`/runItemDetail/${item.runItemId}`}
                             key={item.runItemId}
@@ -127,7 +136,7 @@ const RunItemList = () => {
                 </ItemList>
             )}
 
-            {runItemList.isLoading ? <LoadingSpin /> : <div ref={observeDiv}></div>}
+            {!runItemList.isLoading && endRef.current !== true && <div ref={observeDiv}></div>}
         </StyledListBlock>
     );
 };
