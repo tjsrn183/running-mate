@@ -70,7 +70,7 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
         input.click();
 
         input.addEventListener('change', async () => {
-            const file = input?.files?.[0];
+            const file = input.files?.[0];
             console.log('file은 무엇일까', file);
             const formData = new FormData();
             formData.append('img', file!);

@@ -36,6 +36,10 @@ const ClientWriting = styled.div`
     width: 100%;
     height: 500px;
     background-color: yellow;
+    & img {
+        max-width: 100%;
+        height: auto;
+    }
 `;
 const Main = styled.div`
     display: flex;

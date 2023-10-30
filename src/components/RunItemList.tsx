@@ -114,7 +114,6 @@ const RunItemList = () => {
         if (observeDiv.current) observer.observe(observeDiv.current);
         console.log('observeDiv임', observeDiv);
         console.log('observeDiv.current임', observeDiv.current);
-
         return () => observer.disconnect();
     }, [runItemList.data]);
 
