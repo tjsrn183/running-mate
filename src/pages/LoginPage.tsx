@@ -1,11 +1,13 @@
 import React, { ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/common/Header';
 import { CustomButton } from '../components/common/CustomButton';
 import palette from '../lib/styles/palette';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { changeAuthField, initializeForm, AuthFormKey } from '../redux/authSlice';
+import { useLocalLoginMutation } from '../api/queries';
+import { LoadingSpin } from '../components/common/LoadingSpin';
 
 const StyledBackground = styled.div`
     position: absolute;
@@ -57,6 +59,8 @@ const Footer = styled.div`
 `;
 
 const LoginPage = () => {
+    const localLogin = useLocalLoginMutation();
+    const navigate = useNavigate();
     const handleKakaoLogin = () => {
         window.location.href = 'http://localhost:8000/auth/kakao';
     };
@@ -76,8 +80,17 @@ const LoginPage = () => {
             })
         );
     };
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        try {
+            const localLoginRes = await localLogin[0]({ id: form.user_id, password: form.password }).unwrap();
+            if (localLogin[1].isLoading) {
+                <LoadingSpin />;
+            }
+            navigate('/');
+        } catch (error) {
+            console.log(error);
+        }
     };
     useEffect(() => {
         dispatch(initializeForm('login'));

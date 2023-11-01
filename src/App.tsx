@@ -5,7 +5,7 @@ import CommunityPostListPage from './pages/CommunityPage/PostListPage';
 import CommunityPostPage from './pages/CommunityPage/PostPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
-import MyInfoPage from './pages/MyInfoPage';
+
 import ItemPage from './pages/ItemPage';
 import RunItemDetailPage from './components/ItemDetail';
 import RegisterPage from './pages/RegisterPage';
@@ -29,7 +29,7 @@ const App = () => {
                     <Route path="write" element={<CommunityWritePage />} />
                 </Route>
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/myInfo" element={<MyInfoPage />} />
+
                 <Route path="/ItemPage" element={<ItemPage />} />
                 <Route path="/runItemDetail/:runItemId" element={<RunItemDetailPage />} />
                 <Route path="/RegisterPage" element={<RegisterPage />} />

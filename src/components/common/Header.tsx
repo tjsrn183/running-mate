@@ -123,9 +123,8 @@ const Header = () => {
 
                         {userInfo.data?.user?.user?.nick ? (
                             <UserBox>
-                                <Link to="/myInfo">
-                                    <UserName>{userInfo.data.user.user.nick}님!</UserName>
-                                </Link>
+                                <UserName>{userInfo.data.user.user.nick}님!</UserName>
+
                                 <LogoutIcon className="material-symbols-outlined" onClick={kakaoLogoutfunc}>
                                     logout
                                 </LogoutIcon>

@@ -58,12 +58,36 @@ interface sendChatType {
     message: string;
     user: string;
 }
+interface logintype {
+    id: string;
+    password: string;
+}
+interface jointype extends logintype {
+    nick: string;
+}
 
 export const api = createApi({
     reducerPath: 'api',
     tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'EnterRoom', 'RunItemDetail'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
     endpoints: (builder) => ({
+        localJoin: builder.mutation<{ message: string }, jointype>({
+            query: ({ id, password, nick }) => ({
+                url: '/auth/join',
+                method: 'POST',
+                body: { id, password, nick },
+                responseType: 'json'
+            })
+        }),
+        localLogin: builder.mutation<{ message: string }, logintype>({
+            query: ({ id, password }) => ({
+                url: '/auth/login',
+                method: 'POST',
+                body: { id, password },
+                responseType: 'json',
+                credentials: 'include'
+            })
+        }),
         createRoom: builder.mutation<void, chatRoomInputType>({
             query: ({ title, max, name, runItemId }) => {
                 console.log('크리에이트 룸 쿼리가 생성됨');
@@ -265,5 +289,7 @@ export const {
     useCreateRoomMutation,
     useDeleteRunItemMutation,
     useEnterRoomQuery,
-    useKakaoLogoutMutation
+    useKakaoLogoutMutation,
+    useLocalJoinMutation,
+    useLocalLoginMutation
 } = api;

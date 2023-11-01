@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type AuthFormKey = 'user_id' | 'password' | 'name' | 'phoneNumber' | 'nickname' | 'birthday' | 'sex';
+export type AuthFormKey = 'user_id' | 'password' | 'name';
 
 interface AuthState {
     register: {
@@ -22,11 +22,7 @@ const initialState: AuthState = {
     register: {
         user_id: '',
         password: '',
-        name: '',
-        phoneNumber: '',
-        nickname: '',
-        birthday: '',
-        sex: ''
+        name: ''
     },
     login: {
         user_id: '',

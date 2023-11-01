@@ -5,6 +5,9 @@ import { CustomButton } from '../components/common/CustomButton';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { changeAuthField, initializeForm, AuthFormKey } from '../redux/authSlice';
 import axios from 'axios';
+import { useLocalJoinMutation } from '../api/queries';
+import { LoadingSpin } from '../components/common/LoadingSpin';
+import { useNavigate } from 'react-router-dom';
 const EntireDiv = styled.div`
     position: absolute;
     top: 0;
@@ -45,6 +48,8 @@ const SubmitButton = styled(CustomButton)`
 `;
 const RegisterPage = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const userJoin = useLocalJoinMutation();
     const { form } = useAppSelector(({ auth }) => ({
         form: auth.register
     }));
@@ -61,17 +66,16 @@ const RegisterPage = () => {
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/auth/join', {
+            const joinResponse = await userJoin[0]({
                 id: form.user_id,
                 password: form.password,
-                name: form.name,
-                phoneNumber: form.phoneNumber,
-                nickname: form.nickname,
-                birthday: form.birthday,
-                sex: form.sex
-            });
-
-            console.log('서버 응답:', response.data);
+                nick: form.name
+            }).unwrap();
+            if (userJoin[1].isLoading) {
+                <LoadingSpin />;
+            }
+            navigate('/');
+            alert('회원가입이 완료되었습니다');
         } catch (error) {
             console.error('오류:', error);
         }
@@ -108,56 +112,7 @@ const RegisterPage = () => {
                     <br />
                     <StyledInput placeholder="이름" type="text" name="name" onChange={onChange} value={form.name} />
                 </label>
-                <p />
-                <label>
-                    전화번호
-                    <br />
-                    <StyledInput
-                        type="tel"
-                        placeholder="전화번호"
-                        name="phoneNumber"
-                        onChange={onChange}
-                        value={form.phoneNumber}
-                    />
-                </label>
-                <p />
-                <label>
-                    닉네임
-                    <br />
-                    <StyledInput
-                        placeholder="닉네임"
-                        type="text"
-                        name="nickname"
-                        onChange={onChange}
-                        value={form.nickname}
-                    />
-                </label>
-                <p />
-                <label>
-                    생년월일
-                    <br />
-                    <StyledInput
-                        placeholder="생년월일"
-                        type="date"
-                        name="birthday"
-                        onChange={onChange}
-                        value={form.birthday}
-                    />
-                </label>
-                <p />
 
-                <label>
-                    <p>성별</p>
-                </label>
-                <label>
-                    <input type="radio" name="sex" onChange={onChange} value="male" checked={form.sex === 'male'} />
-                    남자
-                </label>
-
-                <label>
-                    <input type="radio" name="sex" onChange={onChange} value="female" checked={form.sex === 'female'} />
-                    여자
-                </label>
                 <p />
                 <SubmitButton>가입하기</SubmitButton>
             </FormField>
