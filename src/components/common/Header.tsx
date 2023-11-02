@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { CustomButton } from './CustomButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGetUserInfoQuery, useKakaoLogoutMutation } from '../../api/queries';
+import { useGetUserInfoQuery, useLogoutMutation } from '../../api/queries';
 
 const HeaderBlock = styled.header`
     position: fixed;
@@ -86,7 +86,7 @@ const UserName = styled.span`
     padding: 0 10px;
 `;
 const Header = () => {
-    const kakaoLogout = useKakaoLogoutMutation();
+    const kakaoLogout = useLogoutMutation();
     const userInfo = useGetUserInfoQuery();
     const navigate = useNavigate();
     console.log('userinfo다', userInfo);

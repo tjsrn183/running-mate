@@ -8,14 +8,11 @@ import { setPost } from '../../redux/writeSlice';
 import { LoadingSpin } from '../common/LoadingSpin';
 
 const PostViewerBlock = styled.div`
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 `;
-const Main = styled.div`
-    margin-top: -400px;
-`;
+const Main = styled.div``;
 const PostTitle = styled.div`
     & > h1 {
         font-size: 3rem;
@@ -27,7 +24,12 @@ const PostTitle = styled.div`
         font-weight: 600;
     }
 `;
-const PostContent = styled.div``;
+const PostContent = styled.div`
+    & img {
+        max-width: auto;
+        max-height: 100%;
+    }
+`;
 
 const PostViewer = () => {
     const { postId } = useParams();

@@ -123,7 +123,7 @@ const RunItemList = () => {
                 <LoadingSpin />
             ) : (
                 <ItemList>
-                    {runItemList.data.ItemList.map((item: any) => (
+                    {runItemList.data?.ItemList.map((item: any) => (
                         <RunItemClick
                             to={`/runItemDetail/${item.runItemId}`}
                             key={item.runItemId}

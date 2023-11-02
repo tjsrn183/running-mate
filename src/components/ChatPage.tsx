@@ -133,12 +133,6 @@ const ChatPage = () => {
         socket.emit('join', roomId);
         console.log('enterRoomHook.data임', enterRoomHook.data);
 
-        if (enterRoomHook.data == 'full') {
-            alert('방이 꽉 찼습니다.');
-        }
-        if (enterRoomHook.data == 'notExist') {
-            alert('방이 존재하지 않습니다.');
-        }
         console.log(' socketInstances[roomId]임', socket);
         socket.emit('join', roomId);
 

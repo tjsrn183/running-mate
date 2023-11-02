@@ -53,7 +53,7 @@ const PostItemClick = styled(NavLink)`
         cursor: pointer;
     }
 `;
-interface postType {
+export interface postType {
     postId: number;
     title: string;
     name: string;

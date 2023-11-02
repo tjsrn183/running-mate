@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { type } from 'os';
 import { LocationType } from '../redux/runSlice';
+import { postType } from '../components/post/PostList';
 
 //사용자정보 패칭 타입
 interface userInfoType {
@@ -14,7 +15,7 @@ interface userInfoType {
 interface writeType {
     nick?: string;
     title: string;
-    body: string;
+    body: string | undefined;
     postId?: number | null;
 }
 //서버로부터 커뮤니티 글정보 패칭 타입
@@ -22,27 +23,17 @@ interface detailPostType {
     createdAt: string;
     name: string;
     title: string;
-    content: any;
+    content: string;
     postId: number;
     UserId: number;
-}
-//글 업로드후 해당 게시물로 이동하기위해 받는 정보의 타입
-interface resultWriteType {
-    data: any;
-    postId: number;
 }
 //포스트리스트 페이지에서 포스트를 배열로 받는 타입
 interface postListType {
     data: Array<detailPostType>;
-    slice: (arg1: number, arg2: number) => Array<any>;
+    slice: (arg1: number, arg2: number) => Array<postType>;
     length: number;
     postId: number;
-    map: any;
-}
-interface runItemListType {
-    data: Array<LocationType>;
-    map: any;
-    slice: (arg1: number, arg2: number) => Array<any>;
+    map<T>(callback: ({ postId }: { postId: number }) => T): ['PostItem'];
 }
 interface runRegisterResultType {
     runItemId: number;
@@ -53,11 +44,6 @@ interface chatRoomInputType {
     name: string;
     runItemId: number;
 }
-interface sendChatType {
-    roomId: number;
-    message: string;
-    user: string;
-}
 interface logintype {
     id: string;
     password: string;
@@ -65,7 +51,29 @@ interface logintype {
 interface jointype extends logintype {
     nick: string;
 }
-
+interface enterChatRoomType {
+    map<T>(callback: ({ chatId }: { chatId: number }) => T): ['EnterRoom'];
+}
+//홈화면의 아이템 리스트의 타입
+interface runItemListType {
+    totalPage: number;
+    ItemList: runItemType[];
+    countItem: number;
+}
+//홈화면에서 아이템각각의 데이터타입
+interface runItemType {
+    body?: string;
+    date: string;
+    distance: number;
+    durationTime: number;
+    end: { lat: number; lon: number };
+    endLocationNaturalLan: string;
+    name: string;
+    runItemId: number;
+    start: { lat: number; lon: number };
+    startLocationNaturalLan: string;
+    thumbnail: string;
+}
 export const api = createApi({
     reducerPath: 'api',
     tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'EnterRoom', 'RunItemDetail'],
@@ -110,13 +118,14 @@ export const api = createApi({
             invalidatesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
         }),
 
-        enterRoom: builder.query<any, number>({
+        enterRoom: builder.query<enterChatRoomType, number>({
             query: (roomId) => `chat/room/${roomId}`,
             providesTags: (result, error, arg) => {
                 console.log('enterRoom에 의 return', result, error, arg);
+
                 return result
                     ? [
-                          ...result.map(({ chatId }: { chatId: number }) => ({
+                          ...result.map(({ chatId }) => ({
                               type: 'EnterRoom',
                               id: chatId
                           }))
@@ -125,7 +134,7 @@ export const api = createApi({
             }
         }),
 
-        writeCommunity: builder.mutation<resultWriteType, writeType>({
+        writeCommunity: builder.mutation<{ postId: number }, writeType>({
             query: ({ nick, title, body }: writeType) => {
                 return {
                     url: '/post',
@@ -185,7 +194,7 @@ export const api = createApi({
         }),
         getRunItem: builder.query<LocationType, number>({
             query: (runItemId) => `/run/${runItemId}`,
-            providesTags: (result, error, arg) => [{ type: 'RunItemDetail', id: arg }]
+            providesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
         }),
         getUserInfo: builder.query<any, void>({
             query: () => 'auth/userinfo',
@@ -206,19 +215,19 @@ export const api = createApi({
                 return [{ type: 'UserInfo', id: arg }];
             }
         }),
-        getRunItemList: builder.query<any, number>({
+        getRunItemList: builder.query<runItemListType, number>({
             query: (page) => `/run/list/${page}`,
             providesTags: (result, error, arg) => {
                 console.log('쿼리즈에서 결과다', result);
 
                 return result
                     ? [
-                          ...result.ItemList.map(({ runItemId }: { runItemId: number }) => ({
-                              type: 'RunItem',
+                          ...result.ItemList.map(({ runItemId }) => ({
+                              type: 'RunItem' as const,
                               id: runItemId
                           }))
                       ]
-                    : [];
+                    : ['RunItem'];
             },
             serializeQueryArgs: ({ endpointName }) => {
                 return endpointName;
@@ -226,7 +235,7 @@ export const api = createApi({
             merge: (currentCache, newItems) => {
                 console.log('newItems다아아아', newItems);
                 const mergedItemList = currentCache.ItemList.concat(newItems.ItemList);
-                const uniqueItemList = mergedItemList.filter((item: any, index: string, self: any) => {
+                const uniqueItemList = mergedItemList.filter((item: runItemType, index: number, self: any) => {
                     return self.findIndex((t: any) => t.runItemId === item.runItemId) === index;
                 });
 
@@ -237,7 +246,7 @@ export const api = createApi({
                 return currentArg !== previousArg;
             }
         }),
-        editCommunity: builder.mutation<resultWriteType, writeType>({
+        editCommunity: builder.mutation<{ postId: number }, writeType>({
             query: ({ nick, title, body, postId }: writeType) => {
                 return {
                     url: `/post/edit/${postId}`,
@@ -264,12 +273,10 @@ export const api = createApi({
         getPostList: builder.query<postListType, number>({
             query: (page) => `/post/list/${page}`,
             providesTags: (result, error, arg) => {
-                {
-                    console.log('getPostList에 의 return', result, error, arg);
-                    return result
-                        ? [...result.map(({ postId }: { postId: number }) => ({ type: 'PostItem', id: postId }))]
-                        : ['PostList'];
-                }
+                console.log('getPostList에 의 return', result, error, arg);
+                return result
+                    ? [...result.map(({ postId }: { postId: number }) => ({ type: 'PostItem', id: postId }))]
+                    : ['PostList'];
             }
         })
     })

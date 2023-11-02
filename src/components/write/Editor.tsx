@@ -76,6 +76,7 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
             formData.append('img', file!);
             try {
                 const result = await imgUpload[0](formData).unwrap();
+                console.log('formdata임', formData);
                 console.log('성공 시, 백엔드가 보내주는 데이터', result.url);
                 const IMG_URL = result.url;
                 const editor = quillInstance?.current?.getEditor();
