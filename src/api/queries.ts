@@ -195,9 +195,9 @@ export const api = createApi({
                 return [{ type: 'UserInfo', id: result?.user.user.id }];
             }
         }),
-        kakaoLogout: builder.mutation<number, number>({
+        logout: builder.mutation<number, number>({
             query: () => ({
-                url: '/auth/kakao/logout',
+                url: '/auth/logout',
                 method: 'POST',
                 credentials: 'include'
             }),
@@ -289,7 +289,7 @@ export const {
     useCreateRoomMutation,
     useDeleteRunItemMutation,
     useEnterRoomQuery,
-    useKakaoLogoutMutation,
+    useLogoutMutation,
     useLocalJoinMutation,
     useLocalLoginMutation
 } = api;

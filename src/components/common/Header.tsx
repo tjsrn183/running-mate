@@ -89,7 +89,7 @@ const Header = () => {
     const kakaoLogout = useKakaoLogoutMutation();
     const userInfo = useGetUserInfoQuery();
     const navigate = useNavigate();
-
+    console.log('userinfo다', userInfo);
     const kakaoLogoutfunc = async () => {
         try {
             await kakaoLogout[0](userInfo.data.user.user.id);
