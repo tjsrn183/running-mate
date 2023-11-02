@@ -86,13 +86,13 @@ const UserName = styled.span`
     padding: 0 10px;
 `;
 const Header = () => {
-    const kakaoLogout = useLogoutMutation();
+    const logout = useLogoutMutation();
     const userInfo = useGetUserInfoQuery();
     const navigate = useNavigate();
     console.log('userinfo다', userInfo);
     const kakaoLogoutfunc = async () => {
         try {
-            await kakaoLogout[0](userInfo.data.user.user.id);
+            await logout[0](userInfo.data?.user.user.id as unknown as number);
 
             navigate('/');
             window.location.reload();

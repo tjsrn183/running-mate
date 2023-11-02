@@ -5,11 +5,14 @@ import { postType } from '../components/post/PostList';
 
 //사용자정보 패칭 타입
 interface userInfoType {
-    id: number;
-    name: string;
-    email: string;
-    created_at: string;
-    updated_at: string;
+    user: {
+        user: {
+            id: number;
+            nick: string;
+            createdAt: string;
+            updated_at: string;
+        };
+    };
 }
 //커뮤니티 글쓰기 타입
 interface writeType {
@@ -196,7 +199,7 @@ export const api = createApi({
             query: (runItemId) => `/run/${runItemId}`,
             providesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
         }),
-        getUserInfo: builder.query<any, void>({
+        getUserInfo: builder.query<userInfoType, void>({
             query: () => 'auth/userinfo',
             providesTags: (result, error, arg) => {
                 console.log('getUserInfo에 의 return', result, error, arg);
@@ -235,9 +238,11 @@ export const api = createApi({
             merge: (currentCache, newItems) => {
                 console.log('newItems다아아아', newItems);
                 const mergedItemList = currentCache.ItemList.concat(newItems.ItemList);
-                const uniqueItemList = mergedItemList.filter((item: runItemType, index: number, self: any) => {
-                    return self.findIndex((t: any) => t.runItemId === item.runItemId) === index;
-                });
+                const uniqueItemList = mergedItemList.filter(
+                    (item: runItemType, index: number, self: Array<runItemType>) => {
+                        return self.findIndex((t: runItemType) => t.runItemId === item.runItemId) === index;
+                    }
+                );
 
                 currentCache.ItemList = uniqueItemList;
             },

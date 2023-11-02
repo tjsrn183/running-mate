@@ -41,7 +41,7 @@ const SystemChat = styled.div`
 `;
 interface Chat {
     chat: { user: string; message: string };
-    serviceUser: string;
+    serviceUser?: string;
 }
 const ChatBlock = ({ chat, serviceUser }: Chat) => {
     if (chat.user === 'system') {

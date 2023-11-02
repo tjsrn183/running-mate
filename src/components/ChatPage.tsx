@@ -89,9 +89,8 @@ const ChatPage = () => {
     const [chatList, setChatList] = useState<any>([]); //채팅 리스트
     const userInfo = useGetUserInfoQuery();
 
-    const socket = socketFunc(userInfo.data?.user.user.nick);
+    const socket = socketFunc(userInfo.data?.user.user.nick as unknown as string);
 
-    // const sendChatHook = useSendChatMutation();
     const enterRoomHook = useEnterRoomQuery(roomIdNumber);
 
     //
@@ -117,14 +116,6 @@ const ChatPage = () => {
 
             setTempMessage({ ...tempMessage, message: '' });
         }
-
-        /* 
-        rtk-query를 이용한 채팅 전송
-        sendChatHook[0] ({
-            message: messageRef.current,
-            roomId: roomIdNumber,
-            user: userInfo.data.user.user.nick
-        })*/
 
         console.log('이게 실행이 되나?');
     };
@@ -175,7 +166,7 @@ const ChatPage = () => {
                     <StyledChatList ref={chatWindow}>
                         {chatList &&
                             chatList.map((chat: { message: string; user: string }, i: number) => {
-                                return <ChatBlock key={i} chat={chat} serviceUser={userInfo.data.user.user.nick} />;
+                                return <ChatBlock key={i} chat={chat} serviceUser={userInfo.data?.user.user.nick} />;
                             })}
                     </StyledChatList>
                     <StyledChatForm onSubmit={(e: FormEvent<HTMLFormElement>) => sendMessageFunc(e)}>
