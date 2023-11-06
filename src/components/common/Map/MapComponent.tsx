@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { MutableRefObject, RefObject, useEffect, useRef, useState } from 'react';
 import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
 import { CustomButton, CustomButton2 } from '../CustomButton';
 import styled from 'styled-components';
@@ -21,15 +21,27 @@ interface MapcomponentPropsType {
     changeLatLon: (payload: runActionType) => void;
     locationNutural: (payload: runNaturalLanType) => void;
 }
+interface latLng {
+    _lat: number;
+    _lng: number;
+}
+export interface resultData {
+    _responseData: {
+        addressInfo: {
+            fullAddress: string;
+            buildingName: string;
+        };
+    };
+}
 const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) => {
-    const [resultData, setResultData] = useState<any>([]);
+    const [resultData, setResultData] = useState<number[]>([]);
     const [locationNatural, setLocationNatural] = useState<string>('');
     const dispatch = useAppDispatch();
-    const currentMapRef = useRef<any>(null);
+    const currentMapRef = useRef(null);
     const startMakerRef = useRef([]);
     const endMakerRef = useRef([]);
-    const markerRef = useRef<any>([]);
     const tData = new window.Tmapv2.extension.TData();
+    const markerRef = useRef<any>([]);
     useFirstMountEffect(() => {
         const CURRENT_MAP = new window.Tmapv2.Map('map_div', {
             center: new window.Tmapv2.LatLng(37.5, 126.9), // 지도 초기 좌표
@@ -37,8 +49,9 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
             height: '100%',
             zoom: 14
         });
-
-        CURRENT_MAP.addListener('click', function onClick(evt: any) {
+        console.log('current맵이다', CURRENT_MAP);
+        CURRENT_MAP.addListener('click', function onClick(evt: { latLng: latLng }) {
+            console.log('evt이다', evt);
             const mapLatLng = evt.latLng;
             const lon = mapLatLng._lng;
             const lat = mapLatLng._lat;
@@ -54,26 +67,20 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
                 zIndex: 1
             });
             markerRef.current.push(marker1);
+            console.log('markerRef이다', markerRef.current);
+            console.log('markerRef 타입 이다', typeof markerRef.current);
             const optionObj = {
                 coordType: 'WGS84GEO', //응답좌표 타입 옵션 설정 입니다.
                 addressType: 'A10' //주소타입 옵션 설정 입니다.
             };
             const params = {
-                onComplete: function (result: any) {
+                onComplete: function (result: resultData) {
                     //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
+                    console.log('result다', result);
                     const arrResult = result._responseData.addressInfo;
                     const fullAddress = arrResult?.fullAddress.split(',');
                     const newRoadAddr = fullAddress[2];
-                    let jibunAddr = fullAddress[1];
-                    if (arrResult.buildingName != '') {
-                        //빌딩명만 존재하는 경우
-                        jibunAddr += ' ' + arrResult.buildingName;
-                    }
 
-                    result = '새주소 : ' + newRoadAddr;
-                    result += '지번주소 : ' + jibunAddr;
-                    result += '좌표(WSG84) : ' + lat + ', ' + lon;
-                    console.log(result);
                     setResultData([lat, lon]);
                     setLocationNatural(newRoadAddr);
                     currentMapRef.current = CURRENT_MAP;
@@ -98,11 +105,11 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
     }, [resultData]);
 
     const startEndMarker = (
-        currentMapRef: any,
+        currentMapRef: RefObject<any> | null,
         startOrEnd: 'start' | 'end',
         lat: number,
         lon: number,
-        markerArr: any,
+        markerArr: Array<any>,
         totalMarker: []
     ) => {
         if (startOrEnd === 'start') {

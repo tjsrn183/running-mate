@@ -148,7 +148,7 @@ export const api = createApi({
             },
             invalidatesTags: ['PostItem']
         }),
-        imgUploadCommunity: builder.mutation<{ url: string }, any>({
+        imgUploadCommunity: builder.mutation<{ url: string }, FormData>({
             query: (formData) => {
                 {
                     return {

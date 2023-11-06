@@ -1,6 +1,24 @@
 import { useDispatch } from 'react-redux';
 import { runInfo } from '../../../redux/runSlice';
-const routesPedestrian = (start: any, end: any, CURRENT_MAP: any, dispatch: any) => {
+import { resultData } from './MapComponent';
+interface routesPedestrianType {
+    _responseData: {
+        features: {
+            [index: number]: {
+                properties: {
+                    totalDistance: number;
+                    totalTime: number;
+                };
+            };
+        };
+    };
+}
+const routesPedestrian = (
+    start: { lat: number; lon: number },
+    end: { lat: number; lon: number },
+    CURRENT_MAP: any,
+    dispatch: any
+) => {
     const startx = start.lat;
     const starty = start.lon;
     const endx = end.lat;
@@ -17,11 +35,12 @@ const routesPedestrian = (start: any, end: any, CURRENT_MAP: any, dispatch: any)
     };
 
     const params = {
-        onComplete: function (result: any) {
+        onComplete: function (result: routesPedestrianType) {
             const resultData = result._responseData.features;
+            console.log('라우츠 파데스트리안', resultData[0]);
             // 결과 출력
             let appendHtml =
-                '보행자 경로안내: 총 거리 : ' + (resultData[0]?.properties.totalDistance / 1000).toFixed(1) + 'km,';
+                '보행자 경로안내: 총 거리 : ' + (resultData[0].properties.totalDistance / 1000).toFixed(1) + 'km,';
             appendHtml += ' 총 시간 : ' + (resultData[0]?.properties.totalTime / 60).toFixed(0) + '분';
             console.log('current맵임', CURRENT_MAP);
             console.log(appendHtml);

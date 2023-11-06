@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
+import { resultData } from './MapComponent';
 
 interface PedestrianViewMapPropsType {
     start: { lat: number; lon: number };
@@ -28,7 +29,7 @@ const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
             resCoordType: 'WGS84GEO'
         };
         const params = {
-            onComplete: function (result: any) {
+            onComplete: function (result: resultData) {
                 const marker_s = new window.Tmapv2.Marker({
                     position: new window.Tmapv2.LatLng(startx, starty),
                     icon: 'http://topopen.tmap.co.kr/imgs/start.png',

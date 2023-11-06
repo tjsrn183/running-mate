@@ -12,7 +12,9 @@ const PostViewerBlock = styled.div`
     justify-content: center;
     align-items: center;
 `;
-const Main = styled.div``;
+const Main = styled.div`
+    padding-top: 50px;
+`;
 const PostTitle = styled.div`
     & > h1 {
         font-size: 3rem;
