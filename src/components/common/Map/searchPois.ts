@@ -1,6 +1,6 @@
 /////////////////////////////// (장소API) 통합 검색 함수
 
-const searchPois = (CURRENT_MAP: any, searchLocation: any) => {
+const searchPois = (CURRENT_MAP: any, searchLocation: string) => {
     const markerArr = [];
     const searchKeyword = searchLocation;
     const tData = new window.Tmapv2.extension.TData();
@@ -28,8 +28,6 @@ const searchPois = (CURRENT_MAP: any, searchLocation: any) => {
                 const lon = Number(resultpoisData[k].noorLon);
 
                 const markerPosition = new window.Tmapv2.LatLng(lat, lon);
-
-                const fullAddressRoad = resultpoisData[k].newAddressList.newAddress[0].fullAddressRoad;
 
                 const marker2 = new window.Tmapv2.Marker({
                     position: markerPosition,

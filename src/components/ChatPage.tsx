@@ -81,11 +81,17 @@ const socketFunc = (name: string) => {
     });
     return socket;
 };
-
+export interface chatType {
+    chatId: number;
+    user: string;
+    message: string;
+    chatRoomRoomId: number;
+    chat?: string;
+}
 const ChatPage = () => {
     const { roomId } = useParams(); // 채팅 받고 보내고 관련한건 모두 이걸로
     const roomIdNumber = parseInt(roomId!); //훅으로 보낼때만 쓰기
-    const chatWindow = useRef<any>(null);
+    const chatWindow = useRef<HTMLDivElement>(null);
     const [chatList, setChatList] = useState<any>([]); //채팅 리스트
     const userInfo = useGetUserInfoQuery();
 
@@ -127,7 +133,8 @@ const ChatPage = () => {
         console.log(' socketInstances[roomId]임', socket);
         socket.emit('join', roomId);
 
-        setChatList(enterRoomHook?.data);
+        setChatList(enterRoomHook.data);
+
         receiveMessage();
         return () => {
             socket.disconnect();
@@ -136,17 +143,17 @@ const ChatPage = () => {
     }, [enterRoomHook.data]);
 
     useEffect(() => {
-        socket.on('chat', (data: any) => {
+        socket.on('chat', (data: chatType) => {
             console.log('data임', data);
             console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ');
 
-            setChatList((prevState: any) => [...prevState, data]);
+            setChatList((prevState: Array<chatType>) => [...prevState, data]);
         });
 
-        socket.on('join', ({ user, chat }: any) => {
+        socket.on('join', ({ user, chat }: chatType) => {
             console.log('join이벤트시 user,chat', user, chat);
 
-            setChatList((prevState: any) => [...prevState, { user, message: chat }]);
+            setChatList((prevState: Array<chatType>) => [...prevState, { user, message: chat }]);
         });
     }, [socket, chatList]);
 

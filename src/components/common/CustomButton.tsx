@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, MouseEventHandler } from 'react';
 import palette from '../../lib/styles/palette';
 
 const StyledButton = styled.button`
@@ -26,7 +26,7 @@ const StyledButton2 = styled(StyledButton)`
     }
 `;
 interface ButtonProps {
-    onClick?: any;
+    onClick?: MouseEventHandler<HTMLButtonElement | HTMLDivElement>;
     children?: React.ReactNode;
     style?: CSSProperties | undefined;
 }

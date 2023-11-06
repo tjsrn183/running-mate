@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { type } from 'os';
 import { LocationType } from '../redux/runSlice';
 import { postType } from '../components/post/PostList';
+import { chatType } from '../components/ChatPage';
 
 //사용자정보 패칭 타입
 interface userInfoType {
@@ -54,7 +55,7 @@ interface logintype {
 interface jointype extends logintype {
     nick: string;
 }
-interface enterChatRoomType {
+interface enterChatRoomType extends chatType {
     map<T>(callback: ({ chatId }: { chatId: number }) => T): ['EnterRoom'];
 }
 //홈화면의 아이템 리스트의 타입
