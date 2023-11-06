@@ -165,7 +165,7 @@ const Map = () => {
     const clickRegister = async () => {
         if (startLocationNaturalLan && endLocationNaturalLan) {
             const runRegisterFunc = await runRegister[0]({
-                name: userInfo.data.user.user.nick,
+                name: userInfo.data?.user.user.nick,
                 start,
                 end,
                 startLocationNaturalLan,
@@ -182,7 +182,7 @@ const Map = () => {
             const createRoomfunc = await createRoom[0]({
                 title,
                 max: people,
-                name: userInfo.data.user.user.nick,
+                name: userInfo.data?.user.user.nick as unknown as string,
                 runItemId: runRegisterFunc.runItemId
             });
             if (runRegister[1].isLoading || createRoom[1].isLoading) {

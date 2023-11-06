@@ -47,7 +47,7 @@ const CommunityWritePage = () => {
 
     const registerLetter = async () => {
         const resultSetLetter = await letterMutation[0]({
-            nick: userInfo.data.user.user.nick,
+            nick: userInfo.data?.user.user.nick,
             title,
             body
         }).unwrap();
