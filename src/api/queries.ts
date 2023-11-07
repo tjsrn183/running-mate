@@ -43,7 +43,7 @@ interface runRegisterResultType {
     runItemId: number;
 }
 interface chatRoomInputType {
-    title: string;
+    title?: string;
     max: number;
     name: string;
     runItemId: number;
@@ -65,8 +65,8 @@ interface runItemListType {
     countItem: number;
 }
 //홈화면에서 아이템각각의 데이터타입
-interface runItemType {
-    body?: string;
+export interface runItemType {
+    body: string;
     date: string;
     distance: number;
     durationTime: number;
@@ -77,6 +77,7 @@ interface runItemType {
     start: { lat: number; lon: number };
     startLocationNaturalLan: string;
     thumbnail: string;
+    numberOfPeople?: number;
 }
 export const api = createApi({
     reducerPath: 'api',

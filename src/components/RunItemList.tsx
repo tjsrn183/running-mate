@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useGetRunItemListQuery } from '../api/queries';
+import { runItemType, useGetRunItemListQuery } from '../api/queries';
 import { LoadingSpin } from './common/LoadingSpin';
 import { LocationType } from '../redux/runSlice';
 import palette from '../lib/styles/palette';
@@ -123,7 +123,7 @@ const RunItemList = () => {
                 <LoadingSpin />
             ) : (
                 <ItemList>
-                    {runItemList.data?.ItemList.map((item: any) => (
+                    {runItemList.data?.ItemList.map((item: runItemType) => (
                         <RunItemClick
                             to={`/runItemDetail/${item.runItemId}`}
                             key={item.runItemId}

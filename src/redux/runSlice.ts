@@ -20,9 +20,9 @@ export interface LocationType {
     currentMapState?: any;
     durationTime: number;
     distance: number;
-    title: string;
+    title?: string;
     body: string;
-    numberOfPeople: number;
+    numberOfPeople?: number;
     date: string;
     name?: string;
     createdAt?: string;
