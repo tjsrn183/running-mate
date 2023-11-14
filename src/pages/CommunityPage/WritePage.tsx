@@ -54,7 +54,6 @@ const CommunityWritePage = () => {
         if (letterMutation[1].isLoading) {
             return <LoadingSpin />;
         }
-        console.log('프론트 resultSetLetter', resultSetLetter);
 
         navigate(`/community/${resultSetLetter.postId}`);
     };
@@ -67,7 +66,7 @@ const CommunityWritePage = () => {
         if (editMutation[1].isLoading) {
             return <LoadingSpin />;
         }
-        console.log('editditMutation에 의  resultSetLetter', resultSetLetter);
+
         navigate(`/community/${postId}`);
     };
 

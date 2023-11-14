@@ -45,7 +45,7 @@ const searchPois = (CURRENT_MAP: any, searchLocation: string) => {
             CURRENT_MAP?.zoomOut();
         },
         onProgress: function () {
-            console.log('성공했습니다.');
+            console.log('진행중입니다.');
         },
         onError: function () {
             console.log('실패했습니다.');

@@ -103,7 +103,6 @@ export const api = createApi({
         }),
         createRoom: builder.mutation<void, chatRoomInputType>({
             query: ({ title, max, name, runItemId }) => {
-                console.log('크리에이트 룸 쿼리가 생성됨');
                 return {
                     url: '/chat/room',
                     method: 'POST',
@@ -126,8 +125,6 @@ export const api = createApi({
         enterRoom: builder.query<enterChatRoomType, number>({
             query: (roomId) => `chat/room/${roomId}`,
             providesTags: (result, error, arg) => {
-                console.log('enterRoom에 의 return', result, error, arg);
-
                 return result
                     ? [
                           ...result.map(({ chatId }) => ({
@@ -204,8 +201,6 @@ export const api = createApi({
         getUserInfo: builder.query<userInfoType, void>({
             query: () => 'auth/userinfo',
             providesTags: (result, error, arg) => {
-                console.log('getUserInfo에 의 return', result, error, arg);
-                console.log('result.user.user.id', result?.user.user.id);
                 return [{ type: 'UserInfo', id: result?.user.user.id }];
             }
         }),
@@ -216,15 +211,12 @@ export const api = createApi({
                 credentials: 'include'
             }),
             invalidatesTags: (result, error, arg) => {
-                console.log('kakao로그인에서 result찍어봄', result);
                 return [{ type: 'UserInfo', id: arg }];
             }
         }),
         getRunItemList: builder.query<runItemListType, number>({
             query: (page) => `/run/list/${page}`,
             providesTags: (result, error, arg) => {
-                console.log('쿼리즈에서 결과다', result);
-
                 return result
                     ? [
                           ...result.ItemList.map(({ runItemId }) => ({
@@ -238,7 +230,6 @@ export const api = createApi({
                 return endpointName;
             },
             merge: (currentCache, newItems) => {
-                console.log('newItems다아아아', newItems);
                 const mergedItemList = currentCache.ItemList.concat(newItems.ItemList);
                 const uniqueItemList = mergedItemList.filter(
                     (item: runItemType, index: number, self: Array<runItemType>) => {
@@ -249,7 +240,6 @@ export const api = createApi({
                 currentCache.ItemList = uniqueItemList;
             },
             forceRefetch({ currentArg, previousArg }) {
-                console.log('forceRefetch다', currentArg, previousArg);
                 return currentArg !== previousArg;
             }
         }),
@@ -280,7 +270,6 @@ export const api = createApi({
         getPostList: builder.query<postListType, number>({
             query: (page) => `/post/list/${page}`,
             providesTags: (result, error, arg) => {
-                console.log('getPostList에 의 return', result, error, arg);
                 return result
                     ? [...result.map(({ postId }: { postId: number }) => ({ type: 'PostItem', id: postId }))]
                     : ['PostList'];

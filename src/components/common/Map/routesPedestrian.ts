@@ -37,13 +37,12 @@ const routesPedestrian = (
     const params = {
         onComplete: function (result: routesPedestrianType) {
             const resultData = result._responseData.features;
-            console.log('라우츠 파데스트리안', resultData[0]);
+
             // 결과 출력
             let appendHtml =
                 '보행자 경로안내: 총 거리 : ' + (resultData[0].properties.totalDistance / 1000).toFixed(1) + 'km,';
             appendHtml += ' 총 시간 : ' + (resultData[0]?.properties.totalTime / 60).toFixed(0) + '분';
-            console.log('current맵임', CURRENT_MAP);
-            console.log(appendHtml);
+
             const distance = parseInt((resultData[0]?.properties.totalDistance / 1000).toFixed(1), 10);
             const durationTime = parseInt((resultData[0]?.properties.totalTime / 60).toFixed(0), 10);
 

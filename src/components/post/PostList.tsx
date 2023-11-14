@@ -82,8 +82,6 @@ const PostList = () => {
     const [page, setPage] = useState(1); //현재 페이지
     const offset = (page - 1) * limit; //페이지에 따라 게시물을 스킵할때 쓸 변수
     const postList = useGetPostListQuery(page);
-    console.log('postList임', postList.data);
-    console.log('page임', page);
 
     return (
         <PostListBlock>

@@ -95,10 +95,7 @@ const RunItemList = () => {
     const runItemList = useGetRunItemListQuery(page);
     const observeDiv = useRef(null);
     const endRef = useRef(false);
-    console.log('list에서 runItemList.data임', runItemList.data);
-    console.log('list에서 runItemList.data.totalPage임', runItemList.data?.totalPage);
-    console.log('list에서 runItemList임', runItemList);
-    console.log('page다다다다', page);
+
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
         if (target.isIntersecting) {
@@ -112,8 +109,7 @@ const RunItemList = () => {
     useEffect(() => {
         const observer = new IntersectionObserver(handleObserver);
         if (observeDiv.current) observer.observe(observeDiv.current);
-        console.log('observeDiv임', observeDiv);
-        console.log('observeDiv.current임', observeDiv.current);
+
         return () => observer.disconnect();
     }, [runItemList.data]);
 

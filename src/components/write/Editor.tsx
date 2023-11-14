@@ -55,14 +55,12 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
         };
     }, []);
     useFirstMountEffect(() => {
-        console.log('customHook에서 body찍어봄', body);
         const editor = quillInstance?.current?.getEditor();
         if (editor) {
             editor.root.innerHTML = body;
         }
     }, [body]);
     const imageHandler = async () => {
-        console.log('imageHandler 함수 실행됨');
         const input = document.createElement('input');
 
         input.setAttribute('type', 'file');
@@ -71,20 +69,19 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
 
         input.addEventListener('change', async () => {
             const file = input.files?.[0];
-            console.log('file은 무엇일까', file);
+
             const formData = new FormData();
             formData.append('img', file!);
             try {
                 const result = await imgUpload[0](formData).unwrap();
-                console.log('formdata임', formData);
-                console.log('성공 시, 백엔드가 보내주는 데이터', result.url);
+
                 const IMG_URL = result.url;
                 const editor = quillInstance?.current?.getEditor();
                 const range = editor.getSelection();
 
                 editor.insertEmbed(range.index, 'image', IMG_URL);
             } catch (error) {
-                console.log('에러');
+                console.log('에러', error);
             }
         });
     };

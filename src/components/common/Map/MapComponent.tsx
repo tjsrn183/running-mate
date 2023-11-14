@@ -49,9 +49,8 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
             height: '100%',
             zoom: 14
         });
-        console.log('current맵이다', CURRENT_MAP);
+
         CURRENT_MAP.addListener('click', function onClick(evt: { latLng: latLng }) {
-            console.log('evt이다', evt);
             const mapLatLng = evt.latLng;
             const lon = mapLatLng._lng;
             const lat = mapLatLng._lat;
@@ -67,8 +66,7 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
                 zIndex: 1
             });
             markerRef.current.push(marker1);
-            console.log('markerRef이다', markerRef.current);
-            console.log('markerRef 타입 이다', typeof markerRef.current);
+
             const optionObj = {
                 coordType: 'WGS84GEO', //응답좌표 타입 옵션 설정 입니다.
                 addressType: 'A10' //주소타입 옵션 설정 입니다.
@@ -76,7 +74,7 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
             const params = {
                 onComplete: function (result: resultData) {
                     //데이터 로드가 성공적으로 완료 되었을때 실행하는 함수 입니다.
-                    console.log('result다', result);
+
                     const arrResult = result._responseData.addressInfo;
                     const fullAddress = arrResult?.fullAddress.split(',');
                     const newRoadAddr = fullAddress[2];
@@ -85,8 +83,6 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
                     setLocationNatural(newRoadAddr);
                     currentMapRef.current = CURRENT_MAP;
                     dispatch(currentMap({ currentMapState: CURRENT_MAP }));
-                    console.log('currentMapRef.current랑 current맵이랑 같은가', currentMapRef.current == CURRENT_MAP);
-                    console.log('CURRENTMAP', CURRENT_MAP);
                 },
                 onProgress: function () {
                     console.log('onProgress');
@@ -99,10 +95,6 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
             tData.getAddressFromGeoJson(lat, lon, optionObj, params);
         });
     }, []);
-
-    useEffect(() => {
-        console.log('과이연 이번에는요?', resultData);
-    }, [resultData]);
 
     const startEndMarker = (
         currentMapRef: RefObject<any> | null,
@@ -132,14 +124,11 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
                         return;
                     }
                     element.setMap(null);
-                    console.log('element사라져야하는데?');
                 });
                 totalMarker.forEach((element: any) => {
                     element.setMap(null);
                 });
             }
-
-            console.log('markerArr', markerArr);
         }
         if (startOrEnd === 'end') {
             const marker = new window.Tmapv2.Marker({
@@ -150,7 +139,7 @@ const MapComponent = ({ changeLatLon, locationNutural }: MapcomponentPropsType) 
                 zIndex: 2
             });
             markerArr.push(marker);
-            console.log('도착지 마커가 올라왔니?', marker.isLoaded());
+
             locationNutural({ key: 'endLocationNaturalLan', value: locationNatural });
             changeLatLon({ key: 'end', value: { lat: lat, lon: lon } });
             if (markerArr.length >= 2) {

@@ -8,7 +8,6 @@ interface PedestrianViewMapPropsType {
 }
 const PedestrianViewMap = ({ start, end }: PedestrianViewMapPropsType) => {
     useFirstMountEffect(() => {
-        console.log('홈화면에서 실행됨');
         const startx = start.lat;
         const starty = start.lon;
         const endx = end.lat;

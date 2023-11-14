@@ -112,7 +112,7 @@ const ChatPage = () => {
     };
     const sendMessageFunc = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('샌드챗  실행됨');
+
         if (tempMessage.message !== '') {
             socket.emit('message', {
                 message: tempMessage.message,
@@ -122,15 +122,11 @@ const ChatPage = () => {
 
             setTempMessage({ ...tempMessage, message: '' });
         }
-
-        console.log('이게 실행이 되나?');
     };
 
     useEffect(() => {
         socket.emit('join', roomId);
-        console.log('enterRoomHook.data임', enterRoomHook.data);
 
-        console.log(' socketInstances[roomId]임', socket);
         socket.emit('join', roomId);
 
         setChatList(enterRoomHook.data);
@@ -138,21 +134,15 @@ const ChatPage = () => {
         receiveMessage();
         return () => {
             socket.disconnect();
-            console.log('끊겼다아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ');
         };
     }, [enterRoomHook.data]);
 
     useEffect(() => {
         socket.on('chat', (data: chatType) => {
-            console.log('data임', data);
-            console.log('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ');
-
             setChatList((prevState: Array<chatType>) => [...prevState, data]);
         });
 
         socket.on('join', ({ user, chat }: chatType) => {
-            console.log('join이벤트시 user,chat', user, chat);
-
             setChatList((prevState: Array<chatType>) => [...prevState, { user, message: chat }]);
         });
     }, [socket, chatList]);

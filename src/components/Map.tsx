@@ -146,7 +146,7 @@ const Map = () => {
     }));
     const onChangeRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
         const RegisterNumber = Number(e.target.value);
-        console.log('RegisterNumber임', RegisterNumber);
+
         setPeople(RegisterNumber);
     };
     const calDistance = () => {
@@ -177,8 +177,7 @@ const Map = () => {
                 body,
                 numberOfPeople: people
             }).unwrap();
-            console.log('runRegisterFunc.runItemId 반환값임', runRegisterFunc.runItemId);
-            console.log('runRegisterFunc.runItemId 의 타입임', typeof runRegisterFunc.runItemId);
+
             const createRoomfunc = await createRoom[0]({
                 title,
                 max: people,
