@@ -1,16 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import palette from '../lib/styles/palette';
 import { CustomButton } from './common/CustomButton';
 import Header from './common/Header';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useGetUserInfoQuery, useGetRunItemQuery, useDeleteRunItemMutation } from '../api/queries';
 import { LoadingSpin } from './common/LoadingSpin';
 import PedestrianViewMap from './common/Map/PedestrianViewMap';
-import ChatPage from './ChatPage';
-import { io } from 'socket.io-client';
-import { useAppDispatch } from '../redux/hooks';
-import { userInfo } from 'os';
+
 import { Space } from './common/Space';
 
 const Container = styled.div``;
@@ -35,7 +32,7 @@ const AsideBlock = styled.aside`
 const ClientWriting = styled.div`
     width: 100%;
     height: 500px;
-    background-color: yellow;
+
     & img {
         max-width: 100%;
         height: auto;
@@ -50,7 +47,6 @@ const Main = styled.div`
     transform: translate(-200px);
 `;
 const BigMap = styled.div`
-    background-color: yellow;
     width: 100%;
     height: 50vh;
 `;
@@ -62,16 +58,17 @@ const UserInfo = styled.div`
     display: flex;
     flex-direction: row;
     margin-bottom: 15px;
-    #picture {
-        margin-right: 10px;
-        width: 50px;
-        height: 50px;
 
-        background-color: yellow;
-        border-radius: 50%;
-    }
     .nameTime {
         flex-direction: column;
+        #name {
+            font-weight: bold;
+            font-size: 25px;
+        }
+        #time {
+            color: gray;
+            font-size: 20px;
+        }
     }
 `;
 const StartEndLocation = styled.div``;
@@ -120,7 +117,6 @@ const ItemDetail = () => {
                             <h1>{runItem.data.title}</h1>
                         </Title>
                         <UserInfo>
-                            <div id="picture" />
                             <div className="nameTime">
                                 <div id="name">{runItem.data.name}</div>
                                 <div id="time">{runItem.data.createdAt?.slice(0, 10)}</div>
