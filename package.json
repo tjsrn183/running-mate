@@ -2,7 +2,8 @@
   "name": "running-mate",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "http://43.202.245.111/",
+  "proxy": "http://43.202.245.111/",
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
@@ -35,6 +36,7 @@
     "express": "^4.18.2",
     "fs-extra": "^10.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "http-proxy-middleware": "^2.0.6",
     "identity-obj-proxy": "^3.0.0",
     "immer": "^10.0.2",
     "jest": "^27.4.3",

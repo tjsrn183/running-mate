@@ -82,7 +82,7 @@ export interface runItemType {
 export const api = createApi({
     reducerPath: 'api',
     tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'EnterRoom', 'RunItemDetail'],
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8001/api', credentials: 'include' }),
     endpoints: (builder) => ({
         localJoin: builder.mutation<{ message: string }, jointype>({
             query: ({ id, password, nick }) => ({
