@@ -1,6 +1,5 @@
-import { useDispatch } from 'react-redux';
 import { runInfo } from '../../../redux/runSlice';
-import { resultData } from './MapComponent';
+
 interface routesPedestrianType {
     _responseData: {
         features: {

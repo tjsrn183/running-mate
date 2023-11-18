@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import useFirstMountEffect from '../../../hooks/useFirstMountEffect';
 import { resultData } from './MapComponent';
 
