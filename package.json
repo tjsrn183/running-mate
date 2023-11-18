@@ -2,7 +2,7 @@
   "name": "running-mate",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://43.202.245.111/",
+  "homepage": "https://beamish-sundae-9ab162.netlify.app/",
   "proxy": "http://43.202.245.111/",
   "dependencies": {
     "@babel/core": "^7.16.0",
