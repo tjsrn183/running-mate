@@ -83,7 +83,7 @@ const host = window.location.hostname === 'localhost' ? 'http://localhost:8001/a
 export const api = createApi({
     reducerPath: 'api',
     tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'EnterRoom', 'RunItemDetail'],
-    baseQuery: fetchBaseQuery({ baseUrl: host, credentials: 'include' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8001/api', credentials: 'include' }),
     endpoints: (builder) => ({
         localJoin: builder.mutation<{ message: string }, jointype>({
             query: ({ id, password, nick }) => ({
