@@ -79,7 +79,7 @@ export interface runItemType {
     thumbnail: string;
     numberOfPeople?: number;
 }
-const host = window.location.hostname === 'localhost' ? 'http://localhost:8000/api' : 'api';
+const host = window.location.hostname === 'localhost' ? 'http://localhost:8080/api' : 'api';
 export const api = createApi({
     reducerPath: 'api',
     tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'EnterRoom', 'RunItemDetail'],
