@@ -87,7 +87,7 @@ export const api = createApi({
     endpoints: (builder) => ({
         localJoin: builder.mutation<{ message: string }, jointype>({
             query: ({ id, password, nick }) => ({
-                url: '/auth/join',
+                url: '/api/auth/join',
                 method: 'POST',
                 body: { id, password, nick },
                 responseType: 'json'
@@ -95,7 +95,7 @@ export const api = createApi({
         }),
         localLogin: builder.mutation<{ message: string }, logintype>({
             query: ({ id, password }) => ({
-                url: '/auth/login',
+                url: '/api/auth/login',
                 method: 'POST',
                 body: { id, password },
                 responseType: 'json',
@@ -105,7 +105,7 @@ export const api = createApi({
         createRoom: builder.mutation<void, chatRoomInputType>({
             query: ({ title, max, name, runItemId }) => {
                 return {
-                    url: '/chat/room',
+                    url: '/api/chat/room',
                     method: 'POST',
                     body: { title, max, name, runItemId },
                     responseType: 'json'
@@ -115,7 +115,7 @@ export const api = createApi({
         deleteRunItem: builder.mutation<void, number>({
             query: (runItemId) => {
                 return {
-                    url: `/run/delete/${runItemId}`,
+                    url: `/api/run/delete/${runItemId}`,
                     method: 'DELETE',
                     responseType: 'json'
                 };
@@ -124,7 +124,7 @@ export const api = createApi({
         }),
 
         enterRoom: builder.query<enterChatRoomType, number>({
-            query: (roomId) => `chat/room/${roomId}`,
+            query: (roomId) => `/api/chat/room/${roomId}`,
             providesTags: (result, error, arg) => {
                 return result
                     ? [
@@ -140,7 +140,7 @@ export const api = createApi({
         writeCommunity: builder.mutation<{ postId: number }, writeType>({
             query: ({ nick, title, body }: writeType) => {
                 return {
-                    url: '/post',
+                    url: '/api/post',
                     method: 'POST',
                     body: { nick, title, body },
                     responseType: 'json'
@@ -152,7 +152,7 @@ export const api = createApi({
             query: (formData) => {
                 {
                     return {
-                        url: '/post/img',
+                        url: '/api/post/img',
                         method: 'POST',
                         body: formData,
                         responseType: 'json'
@@ -175,7 +175,7 @@ export const api = createApi({
                 name
             }) => {
                 return {
-                    url: '/run/register',
+                    url: '/api/run/register',
                     method: 'POST',
                     body: {
                         start,
@@ -196,18 +196,18 @@ export const api = createApi({
             invalidatesTags: ['RunItem']
         }),
         getRunItem: builder.query<LocationType, number>({
-            query: (runItemId) => `/run/${runItemId}`,
+            query: (runItemId) => `/api/run/${runItemId}`,
             providesTags: (result, error, arg) => [{ type: 'RunItem', id: arg }]
         }),
         getUserInfo: builder.query<userInfoType, void>({
-            query: () => 'auth/userinfo',
+            query: () => '/api/auth/userinfo',
             providesTags: (result, error, arg) => {
                 return [{ type: 'UserInfo', id: result?.user.user.id }];
             }
         }),
         logout: builder.mutation<number, number>({
             query: () => ({
-                url: '/auth/logout',
+                url: '/api/auth/logout',
                 method: 'POST',
                 credentials: 'include'
             }),
@@ -216,7 +216,7 @@ export const api = createApi({
             }
         }),
         getRunItemList: builder.query<runItemListType, number>({
-            query: (page) => `/run/list/${page}`,
+            query: (page) => `/api/run/list/${page}`,
             providesTags: (result, error, arg) => {
                 return result
                     ? [
@@ -247,7 +247,7 @@ export const api = createApi({
         editCommunity: builder.mutation<{ postId: number }, writeType>({
             query: ({ nick, title, body, postId }: writeType) => {
                 return {
-                    url: `/post/edit/${postId}`,
+                    url: `/api/post/edit/${postId}`,
                     method: 'PUT',
                     body: { title, body, postId },
                     responseType: 'json'
@@ -258,18 +258,18 @@ export const api = createApi({
         deleteCommunity: builder.mutation<void, number>({
             query: (postId) => {
                 return {
-                    url: `/post/delete/${postId}`,
+                    url: `/api/post/delete/${postId}`,
                     method: 'DELETE'
                 };
             },
             invalidatesTags: (result, error, arg) => [{ type: 'PostItem', id: arg }]
         }),
         getPostItem: builder.query<detailPostType, number>({
-            query: (postId) => `/post/${postId}`,
+            query: (postId) => `/api/post/${postId}`,
             providesTags: (result, error, arg) => [{ type: 'PostItem', id: arg }]
         }),
         getPostList: builder.query<postListType, number>({
-            query: (page) => `/post/list/${page}`,
+            query: (page) => `/api/post/list/${page}`,
             providesTags: (result, error, arg) => {
                 return result
                     ? [...result.map(({ postId }: { postId: number }) => ({ type: 'PostItem', id: postId }))]
