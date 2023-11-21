@@ -79,11 +79,11 @@ export interface runItemType {
     thumbnail: string;
     numberOfPeople?: number;
 }
-const host = window.location.hostname === 'localhost' ? 'http://localhost:8080/api' : 'api';
+
 export const api = createApi({
     reducerPath: 'api',
     tagTypes: ['UserInfo', 'PostItem', 'PostList', 'RunItem', 'EnterRoom', 'RunItemDetail'],
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://13.209.92.222:80', credentials: 'include' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://api.runningmate.shop', credentials: 'include' }),
     endpoints: (builder) => ({
         localJoin: builder.mutation<{ message: string }, jointype>({
             query: ({ id, password, nick }) => ({
