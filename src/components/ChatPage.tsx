@@ -72,7 +72,7 @@ const StyledChatForm = styled.form`
     }
 `;
 const socketFunc = (name: string) => {
-    const socket = io('http://localhost:8000/chat', {
+    const socket = io('https://api.runningmate.shop/chat', {
         query: {
             username: name
         },
