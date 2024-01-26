@@ -1,4 +1,5 @@
-![2024-01-19201606-ezgif com-video-to-gif-converter](https://github.com/tjsrn183/Running-mate/assets/70099728/486865d1-db38-46ee-8298-d15312f96d9f)
+![ezgif com-video-to-gif-converter](https://github.com/tjsrn183/Running-mate/assets/70099728/aec3a603-d5da-425f-a981-9f00ac5f0eda)
+
 
 위와같이 러닝등록을 진행해주시면 감사하겠습니다.
 
