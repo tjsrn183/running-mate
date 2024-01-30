@@ -1,6 +1,6 @@
 ![ezgif com-video-to-gif-converter](https://github.com/tjsrn183/Running-mate/assets/70099728/aec3a603-d5da-425f-a981-9f00ac5f0eda)
 
-# 🏃대구런
+# 🏃대구런 프론트엔드 README 입니다
 
 
 **로그인 => 러닝등록 버튼 클릭 => 출발지 지도위에 클릭 => 도착지 지도위에 클릭 => 우측에 거리보기 버튼 클릭 => (Quill에 내용입력) => 등록하기**
