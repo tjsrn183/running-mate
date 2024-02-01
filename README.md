@@ -34,7 +34,27 @@ PASSWORD :1234
 
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"><img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/><img src="https://img.shields.io/badge/socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"><img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> 
 
+
 ## 📂프로젝트 아키텍쳐 구조
 
 ![image](https://github.com/tjsrn183/Running-mate/assets/70099728/a5839ca8-8d66-4d69-b7c9-68321d80bd6c)
+
+## 프론트엔드 프로젝트 폴더 구조
+
+크게 
+ 1. rtk-query를 사용하여 외부api와 통신할 코드가 들어있는 api폴더
+    
+ 2. 재사용가능한 컴포넌트 및 지도관련 컴포넌트가 모여있는 components폴더
+    
+ 3. 첫 렌더링시에만 동작하도록하는 훅이 들어있는 hooks폴더
+    
+ 4. 재사용 가능한 색 팔레트가 틀어있는 lib폴더
+    
+ 5. 컴포넌트를 이용하여 만들 page가 들어있는 pages폴더
+     
+ 6. 전역상태관리를 위해 redux-toolkit이 들어있는 redux폴더
+     
+ 이렇게 구성되어있습니다.
+
+![프론트 구조](https://github.com/tjsrn183/Running-mate/assets/70099728/df3c5268-da34-4f8a-ae60-f857cbd186a0)
 
