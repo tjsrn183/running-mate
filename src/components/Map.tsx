@@ -1,112 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { CustomButton } from './common/CustomButton';
-import palette from '../lib/styles/palette';
-import Editor from './write/Editor';
-import MapComponent from './common/Map/MapComponent';
 import { useDispatch } from 'react-redux';
-import { startEndLocation, subInfoType } from '../redux/runSlice';
-import { useAppSelector } from '../redux/hooks';
-import routesPedestrian from './common/Map/routesPedestrian';
-import { runActionType, runNaturalLanType, locationNaturalLan, subInfo, initialize } from '../redux/runSlice';
-import searchPois from './common/Map/searchPois';
-import { useCreateRoomMutation, useRunRegisterItemMutation } from '../api/queries';
-import { useGetUserInfoQuery } from '../api/queries';
 import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+//
+import Editor from './write/Editor';
+import { useAppSelector } from '../redux/hooks';
+import searchPois from './common/Map/searchPois';
 import { LoadingSpin } from './common/LoadingSpin';
-const StyledMapBlock = styled.div`
-    position: relative;
-    top: 100px;
-    width: 100%;
-    height: 700px;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(7, 1fr);
-`;
-const MapBlock = styled.div`
-    background-color: black;
-    grid-column: 2/5;
-    grid-row: 1/7;
-`;
-const EditorBlock = styled.div`
-    grid-column: 5/8;
-    grid-row: 1/7;
-`;
+import MapComponent from './common/Map/MapComponent';
+import { useGetUserInfoQuery } from '../api/queries';
+import routesPedestrian from './common/Map/routesPedestrian';
+import { startEndLocation, subInfoType } from '../redux/runSlice';
+import { useCreateRoomMutation, useRunRegisterItemMutation } from '../api/queries';
+import { runActionType, runNaturalLanType, locationNaturalLan, subInfo, initialize } from '../redux/runSlice';
+import * as S from '../styles/Map.style';
 
-const CourseBlock = styled.div`
-    border-radius: 4px;
-    margin-left: 10px;
-    grid-column: 8/10;
-    grid-row: 1/6;
-    display: grid;
-    grid-template-rows: repeat(5, 1fr);
-`;
-const Course = styled.div`
-    grid-row: 1/2;
-    padding: 0px 16px 0px 9px;
-    & .material-symbols-outlined {
-        position: absolute;
-    }
-`;
-const StartBlock = styled.div`
-    margin: 0 0 0 10px;
-`;
-const StartDateTime = styled.input`
-    border-radius: 4px;
-    height: 30px;
-
-    grid-row: 2/3;
-`;
-const CourseInput = styled.input`
-    width: 100%;
-    height: 30px;
-    padding-left: 30px;
-`;
-const AttendNumber = styled.input`
-    width: 100%;
-    height: 30px;
-`;
-const DistanceItem = styled(CustomButton)`
-    color: ${palette.orange};
-    background-color: ${palette.back_ground_orange};
-    padding: 10px 100px;
-    margin: 10px 10px 3px 10px;
-    grid-row: 3/4;
-    &:hover {
-        background-color: ${palette.hover_gray};
-    }
-`;
-const ResearchIcon = styled.span`
-    padding: 6px 3px;
-    cursor: pointer;
-`;
-const RunInfo = styled.div`
-    margin: 20px 10px;
-    color: gray;
-    background-color: ${palette.back_ground_orange};
-    padding: 20px;
-    border-radius: 10px;
-    grid-row: 4/5;
-    h3 {
-        color: black;
-    }
-`;
-const InputBlock = styled.div`
-    display: flex;
-    width: 100%;
-    height: 30px;
-`;
-const RegisterItem = styled(CustomButton)`
-    border-radius: 20px;
-    margin: 1px 10px;
-    padding: 10px 100px;
-    grid-row: 5/6;
-`;
-const SubRunInfo = styled.div`
-    font-weight: bold;
-    color: black;
-    font-size: xx-large;
-`;
 const Map = () => {
     const dispatch = useDispatch();
     const createRoom = useCreateRoomMutation();
@@ -191,67 +98,67 @@ const Map = () => {
         }
     };
     return (
-        <StyledMapBlock>
-            <MapBlock>
+        <S.StyledMapBlock>
+            <S.MapBlock>
                 <MapComponent changeLatLon={changeLatLon} locationNutural={locationNutural} />
-            </MapBlock>
-            <EditorBlock>
+            </S.MapBlock>
+            <S.EditorBlock>
                 <Editor height="480px" onChangeField={onChangeLetter} title={title} body={body} />
-            </EditorBlock>
-            <CourseBlock>
-                <Course>
-                    <InputBlock>
-                        <CourseInput
+            </S.EditorBlock>
+            <S.CourseBlock>
+                <S.Course>
+                    <S.InputBlock>
+                        <S.CourseInput
                             placeholder="출발지를 입력하세요"
                             value={startLocationNaturalLan}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 dispatch(locationNaturalLan({ key: 'startLocationNaturalLan', value: e.target.value }));
                             }}
                         />
-                        <ResearchIcon
+                        <S.ResearchIcon
                             className="material-symbols-outlined"
                             onClick={() => searchAddress(startLocationNaturalLan)}
                         >
                             search
-                        </ResearchIcon>
-                    </InputBlock>
+                        </S.ResearchIcon>
+                    </S.InputBlock>
                     <br />
-                    <InputBlock>
-                        <CourseInput
+                    <S.InputBlock>
+                        <S.CourseInput
                             placeholder="도착지를 입력하세요"
                             value={endLocationNaturalLan}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 dispatch(locationNaturalLan({ key: 'endLocationNaturalLan', value: e.target.value }));
                             }}
                         />
-                        <ResearchIcon
+                        <S.ResearchIcon
                             className="material-symbols-outlined"
                             onClick={() => searchAddress(endLocationNaturalLan)}
                         >
                             search
-                        </ResearchIcon>
-                    </InputBlock>
+                        </S.ResearchIcon>
+                    </S.InputBlock>
                     <br />
                     <p>참여인원</p>
-                    <AttendNumber type="number" min="0" max="20" value={people} onChange={onChangeRegister} />
-                </Course>
-                <StartBlock>
+                    <S.AttendNumber type="number" min="0" max="20" value={people} onChange={onChangeRegister} />
+                </S.Course>
+                <S.StartBlock>
                     <p>출발시간</p>
-                    <StartDateTime type="datetime-local" value={startDateTime} onChange={onChangeDate} />
-                </StartBlock>
-                <DistanceItem onClick={calDistance}>거리보기</DistanceItem>
+                    <S.StartDateTime type="datetime-local" value={startDateTime} onChange={onChangeDate} />
+                </S.StartBlock>
+                <S.DistanceItem onClick={calDistance}>거리보기</S.DistanceItem>
                 <br />
-                <RunInfo>
+                <S.RunInfo>
                     <div>
-                        거리 <SubRunInfo>{distance}km</SubRunInfo>
+                        거리 <S.SubRunInfo>{distance}km</S.SubRunInfo>
                     </div>
                     <div>
-                        예상소요시간 <SubRunInfo>{durationTime}분</SubRunInfo>
+                        예상소요시간 <S.SubRunInfo>{durationTime}분</S.SubRunInfo>
                     </div>
-                </RunInfo>
-                <RegisterItem onClick={clickRegister}>등록하기</RegisterItem>
-            </CourseBlock>
-        </StyledMapBlock>
+                </S.RunInfo>
+                <S.RegisterItem onClick={clickRegister}>등록하기</S.RegisterItem>
+            </S.CourseBlock>
+        </S.StyledMapBlock>
     );
 };
 export default Map;
