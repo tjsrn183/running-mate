@@ -62,7 +62,7 @@ const LoginPage = () => {
     const localLogin = useLocalLoginMutation();
     const navigate = useNavigate();
     const handleKakaoLogin = () => {
-        window.location.href = 'https://api.runningmate.shop/auth/kakao';
+        window.location.href = 'https://api.runningmate.shop/api/auth/kakao';
     };
 
     const dispatch = useAppDispatch();
