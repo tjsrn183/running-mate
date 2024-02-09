@@ -48,11 +48,11 @@ interface chatRoomInputType {
     name: string;
     runItemId: number;
 }
-interface logintype {
+export interface logintype {
     id: string;
     password: string;
 }
-interface jointype extends logintype {
+export interface jointype extends logintype {
     nick: string;
 }
 interface enterChatRoomType extends chatType {

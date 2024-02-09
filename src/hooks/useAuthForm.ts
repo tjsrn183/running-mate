@@ -1,38 +1,51 @@
-import { changeAuthField, initializeForm, AuthFormKey } from '../redux/authSlice';
+import { changeAuthField, initializeForm, AuthFormKey, AuthState } from '../redux/authSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useLocalJoinMutation } from '../api/queries';
-export const useAuthForm = () => {
+
+export const useAuthForm = (form: AuthState['login' | 'register'], func: any, auth: string) => {
     const [load, setLoad] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const userJoin = useLocalJoinMutation();
-    const { form } = useAppSelector(({ auth }) => ({
-        form: auth.register
-    }));
+
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
-        dispatch(
-            changeAuthField({
-                form: 'register',
-                key: name as AuthFormKey,
-                value
-            })
-        );
+        if (auth === 'register') {
+            dispatch(
+                changeAuthField({
+                    form: 'register',
+                    key: name as AuthFormKey,
+                    value
+                })
+            );
+        } else if (auth === 'login') {
+            dispatch(
+                changeAuthField({
+                    form: 'login',
+                    key: name as AuthFormKey,
+                    value
+                })
+            );
+        }
     };
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoad(true);
         try {
-            await userJoin[0]({
-                id: form.user_id,
-                password: form.password,
-                nick: form.name
-            }).unwrap();
+            if (auth === 'register') {
+                await func[0]({
+                    id: form.user_id,
+                    password: form.password,
+                    nick: (form as AuthState['register']).name
+                }).unwrap();
+            } else if (auth === 'login') {
+                await func[0]({ id: form.user_id, password: form.password }).unwrap();
+            }
 
             navigate('/');
-            alert('회원가입이 완료되었습니다');
+            if (auth === 'register') {
+                alert('회원가입이 완료되었습니다');
+            }
         } catch (error) {
             console.error('오류:', error);
         } finally {
@@ -40,7 +53,8 @@ export const useAuthForm = () => {
         }
     };
     useEffect(() => {
-        dispatch(initializeForm('register'));
+        if (auth === 'register') dispatch(initializeForm('register'));
+        else if (auth === 'login') dispatch(initializeForm('login'));
     }, [dispatch]);
-    return { form, onChange, onSubmit, load };
+    return { onChange, onSubmit, load };
 };

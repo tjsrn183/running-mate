@@ -1,14 +1,14 @@
-import React, { ChangeEvent, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from '../components/common/Header';
 import { CustomButton } from '../components/common/CustomButton';
 import palette from '../lib/styles/palette';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { changeAuthField, initializeForm, AuthFormKey } from '../redux/authSlice';
+import { useAppSelector } from '../redux/hooks';
+
 import { useLocalLoginMutation } from '../api/queries';
 import { LoadingSpin } from '../components/common/LoadingSpin';
-
+import { useAuthForm } from '../hooks/useAuthForm';
 const StyledBackground = styled.div`
     position: absolute;
     top: 0;
@@ -60,41 +60,15 @@ const Footer = styled.div`
 
 const LoginPage = () => {
     const localLogin = useLocalLoginMutation();
-    const navigate = useNavigate();
+
     const handleKakaoLogin = () => {
         window.location.href = 'https://api.runningmate.shop/api/auth/kakao';
     };
 
-    const dispatch = useAppDispatch();
     const { form } = useAppSelector(({ auth }) => ({
         form: auth.login
     }));
-
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { value, name } = e.target;
-        dispatch(
-            changeAuthField({
-                form: 'login',
-                key: name as AuthFormKey,
-                value
-            })
-        );
-    };
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            const localLoginRes = await localLogin[0]({ id: form.user_id, password: form.password }).unwrap();
-            if (localLogin[1].isLoading) {
-                <LoadingSpin />;
-            }
-            navigate('/');
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    useEffect(() => {
-        dispatch(initializeForm('login'));
-    }, [dispatch]);
+    const { onChange, onSubmit, load } = useAuthForm(form, localLogin, 'login');
 
     return (
         <div>
@@ -119,6 +93,7 @@ const LoginPage = () => {
                     />
                     <p />
                     <StyledButton>로그인</StyledButton>
+                    {load && <LoadingSpin />}
                     <p />
                     <StyledNoBorderButton>
                         <img

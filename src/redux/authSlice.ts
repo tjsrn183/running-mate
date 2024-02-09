@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type AuthFormKey = 'user_id' | 'password' | 'name';
 
-interface AuthState {
+export interface AuthState {
     register: {
         [key in AuthFormKey]: string;
     };

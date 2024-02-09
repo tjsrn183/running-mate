@@ -1,9 +1,12 @@
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Header from '../components/common/Header';
 import { CustomButton } from '../components/common/CustomButton';
 import { useAuthForm } from '../hooks/useAuthForm';
 import { LoadingSpin } from '../components/common/LoadingSpin';
+import { useAppSelector } from '../redux/hooks';
+import { jointype, useLocalJoinMutation } from '../api/queries';
+
 const EntireDiv = styled.div`
     position: absolute;
     top: 0;
@@ -43,7 +46,11 @@ const SubmitButton = styled(CustomButton)`
     height: 50px;
 `;
 const RegisterPage = () => {
-    const { form, onChange, onSubmit, load } = useAuthForm();
+    const userJoin = useLocalJoinMutation();
+    const { form } = useAppSelector(({ auth }) => ({
+        form: auth.register
+    }));
+    const { onChange, onSubmit, load } = useAuthForm(form, userJoin, 'register');
     return (
         <EntireDiv>
             <Header />
