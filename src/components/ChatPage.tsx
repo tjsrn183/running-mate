@@ -94,10 +94,10 @@ export interface chatType {
     chat?: string;
 }
 const ChatPage = () => {
-    const { roomId } = useParams(); // 채팅 받고 보내고 관련한건 모두 이걸로
-    const roomIdNumber = parseInt(roomId!); //훅으로 보낼때만 쓰기
+    const { roomId } = useParams();
+    const roomIdNumber = parseInt(roomId!);
     const chatWindow = useRef<HTMLDivElement>(null);
-    const [chatList, setChatList] = useState<any>([]); //채팅 리스트
+    const [chatList, setChatList] = useState<any>([]);
     const userInfo = useGetUserInfoQuery();
 
     const socket = socketFunc(userInfo.data?.user.user.nick as unknown as string);

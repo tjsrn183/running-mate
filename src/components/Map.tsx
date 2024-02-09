@@ -16,8 +16,8 @@ import * as S from '../styles/Map.style';
 
 const Map = () => {
     const dispatch = useDispatch();
-    const createRoom = useCreateRoomMutation();
-    const runRegister = useRunRegisterItemMutation();
+    const newRoom = useCreateRoomMutation();
+    const newRunItem = useRunRegisterItemMutation();
     const navigate = useNavigate();
     const [people, setPeople] = useState(2);
     const dateNow = new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 16);
@@ -71,7 +71,7 @@ const Map = () => {
     };
     const clickRegister = async () => {
         if (startLocationNaturalLan && endLocationNaturalLan) {
-            const runRegisterFunc = await runRegister[0]({
+            const runRegisterFunc = await newRunItem[0]({
                 name: userInfo.data?.user.user.nick,
                 start,
                 end,
@@ -85,13 +85,13 @@ const Map = () => {
                 numberOfPeople: people
             }).unwrap();
 
-            const createRoomfunc = await createRoom[0]({
+            const createRoomfunc = await newRoom[0]({
                 title,
                 max: people,
                 name: userInfo.data?.user.user.nick as unknown as string,
                 runItemId: runRegisterFunc.runItemId
             });
-            if (runRegister[1].isLoading || createRoom[1].isLoading) {
+            if (newRunItem[1].isLoading || newRoom[1].isLoading) {
                 return <LoadingSpin />;
             }
             navigate(`/runItemDetail/${runRegisterFunc.runItemId}`);

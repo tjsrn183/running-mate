@@ -80,17 +80,13 @@ const DeleteSpan = styled.i`
 `;
 
 const ItemDetail = () => {
-    const { runItemId } = useParams();
     const navigate = useNavigate();
-    const userInfo = useGetUserInfoQuery();
+    const { runItemId } = useParams();
     const runItemIdNum: number = parseInt(runItemId!);
     const runItem = useGetRunItemQuery(runItemIdNum);
-    const deleteRunItem = useDeleteRunItemMutation();
-
     const startTime = runItem.data?.date.split('T').join(' ');
-
-    const ownPost = userInfo.data?.user?.user?.id === runItem.data?.UserId;
-
+    const ownPost = useGetUserInfoQuery().data?.user?.user?.id === runItem.data?.UserId;
+    const deleteRunItem = useDeleteRunItemMutation();
     const deleteRunItemFunc = async () => {
         await deleteRunItem[0](runItemIdNum);
         if (deleteRunItem[1].isLoading) {
