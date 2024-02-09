@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDeleteCommunityMutation, useGetPostItemQuery, useGetUserInfoQuery } from '../../api/queries';
@@ -6,6 +6,7 @@ import PostEditDeleteButton from '../common/PostEditDeleteButton';
 import { useAppDispatch } from '../../redux/hooks';
 import { setPost } from '../../redux/writeSlice';
 import { LoadingSpin } from '../common/LoadingSpin';
+import { initialize } from '../../redux/writeSlice';
 
 const PostViewerBlock = styled.div`
     display: flex;
@@ -54,7 +55,8 @@ const PostViewer = () => {
                 postId: postItem.data?.postId
             })
         );
-        navigate(`/community/write/`);
+
+        navigate(`/community/write`);
     };
 
     const onDelete = async () => {
@@ -64,6 +66,7 @@ const PostViewer = () => {
         }
         navigate('/');
     };
+
     return (
         <PostViewerBlock>
             {!postItem.data ? (

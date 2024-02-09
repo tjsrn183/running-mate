@@ -49,17 +49,14 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
     const editor = quillInstance?.current?.getEditor();
     const dispatch = useDispatch();
     const imgUpload = useImgUploadCommunityMutation();
-    useEffect(() => {
-        return () => {
-            dispatch(initialize());
-        };
-    }, []);
+
     useFirstMountEffect(() => {
         const editor = quillInstance?.current?.getEditor();
         if (editor) {
             editor.root.innerHTML = body;
         }
     }, [body]);
+
     const imageHandler = async () => {
         const input = document.createElement('input');
 
@@ -104,7 +101,7 @@ const Editor: React.FC<EditorProps> = ({ height, width, title, body, onChangeFie
     const setValue = () => {
         onChangeField?.({
             key: 'body',
-            value: editor.root.innerHTML
+            value: editor?.root?.innerHTML
         });
     };
     const formats = ['header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'image'];

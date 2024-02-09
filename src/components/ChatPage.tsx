@@ -75,9 +75,9 @@ const ChatFiledSet = styled.fieldset`
         }
     }
 `;
-
+//'https://api.runningmate.shop/chat'
 const socketFunc = (name: string) => {
-    const socket = io('https://api.runningmate.shop/chat', {
+    const socket = io('http://localhost:8000/chat', {
         query: {
             username: name
         },

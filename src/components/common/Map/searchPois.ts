@@ -12,7 +12,7 @@ const searchPois = (CURRENT_MAP: any, searchLocation: string) => {
 
     const params = {
         onComplete: function (result: any) {
-            // 데이터 로드가 성공적으로 완료되었을 때 발생하는 이벤트입니다.
+            // 데이터 로드가 성공적으로 완료되었을 때 발생하는 이벤트
             const resultpoisData = result._responseData.searchPoiInfo?.pois.poi;
 
             // Search Reulsts 결과값 노출 위한 변수
@@ -41,7 +41,7 @@ const searchPois = (CURRENT_MAP: any, searchLocation: string) => {
                 positionBounds.extend(markerPosition); // LatLngBounds의 객체 확장
             }
 
-            CURRENT_MAP?.panToBounds(positionBounds); // 확장된 bounds의 중심으로 이동시키기
+            CURRENT_MAP?.panToBounds(positionBounds); // 확장된 bounds의 중심으로 이동
             CURRENT_MAP?.zoomOut();
         },
         onProgress: function () {

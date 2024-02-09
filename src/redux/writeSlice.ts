@@ -25,6 +25,7 @@ const writeSlice = createSlice({
             state[key] = value;
         },
         setPost: (state: WriteState, action: PayloadAction<WriteState>) => {
+            // console.log('값들이다아앙', action.payload.title, action.payload.body);
             state.title = action.payload.title;
             state.body = action.payload.body;
             state.postId = action.payload.postId;
